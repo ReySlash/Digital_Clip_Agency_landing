@@ -1,4 +1,5 @@
 import { siteData } from "@/lib/site-data";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
 
 export function HeroSection() {
   return (
@@ -10,7 +11,7 @@ export function HeroSection() {
       <div className="pointer-events-none absolute left-0 top-24 -z-10 h-72 w-72 rounded-full bg-[#3255ff]/12 blur-3xl" />
 
       <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-14 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
-        <div className="space-y-8">
+        <ScrollReveal className="space-y-8">
           <div className="space-y-5">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff]">
               {siteData.hero.eyebrow}
@@ -48,11 +49,14 @@ export function HeroSection() {
               </li>
             ))}
           </ul>
-        </div>
+        </ScrollReveal>
 
-        <div className="rounded-4xl border border-white/10 bg-white/6 p-6  backdrop-blur shadow-xl shadow-cyan-500/50">
-          <div className="rounded-3xl border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] p-6 sm:p-8 ">
-            <div className="flex items-center gap-3 text-sm text-slate-300 ">
+        <ScrollReveal
+          delay={150}
+          className="rounded-4xl border border-white/10 bg-white/6 p-6 backdrop-blur shadow-xl shadow-cyan-500/50"
+        >
+          <div className="flex h-full flex-col justify-center rounded-3xl border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] p-6 sm:p-8">
+            <div className="flex items-center gap-3 text-sm text-slate-300">
               {siteData.agency.platforms.map((platform) => (
                 <span
                   key={platform}
@@ -75,7 +79,7 @@ export function HeroSection() {
               </p>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
