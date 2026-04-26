@@ -24,11 +24,11 @@ export function Navbar() {
         </a>
 
         <nav aria-label="Secciones principales" className="hidden md:block">
-          <ul className="flex items-center gap-8 text-sm text-slate-300 lg:gap-10">
+          <ul className="flex items-center gap-8 text-sm text-slate-300 lg:gap-18">
             {siteNavigation.map((item) => (
               <li key={item.href}>
                 <a
-                  className="text-base font-medium transition hover:text-[#57d9ff]"
+                  className="text-lg font-bold transition hover:text-[#57d9ff]"
                   href={item.href}
                 >
                   {item.label}

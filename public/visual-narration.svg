@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 18C18 14 24 12 32 12C40 12 46 14 52 18" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <path d="M12 46C18 50 24 52 32 52C40 52 46 50 52 46" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <path d="M12 18V46" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <path d="M52 18V46" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <path d="M26 24L40 32L26 40V24Z" stroke="white" stroke-width="3" stroke-linejoin="round"/>
+</svg>

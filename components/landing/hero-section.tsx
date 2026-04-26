@@ -9,7 +9,7 @@ export function HeroSection() {
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle_at_top_right,rgba(87,217,255,0.14),transparent_45%)]" />
       <div className="pointer-events-none absolute left-0 top-24 -z-10 h-72 w-72 rounded-full bg-[#3255ff]/12 blur-3xl" />
 
-      <div className="mx-auto grid w-full max-w-7xl gap-14 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-14 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
         <div className="space-y-8">
           <div className="space-y-5">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff]">
@@ -38,7 +38,7 @@ export function HeroSection() {
             </a>
           </div>
 
-          <ul className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
+          <ul className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3 ">
             {siteData.hero.stats.map((stat) => (
               <li
                 key={stat}
@@ -50,8 +50,8 @@ export function HeroSection() {
           </ul>
         </div>
 
-        <div className="rounded-4xl border border-white/10 bg-white/6 p-6 shadow-2xl shadow-[#3255ff]/10 backdrop-blur">
-          <div className="rounded-3xl border border-white/10 bg-[#101841] p-6 sm:p-8">
+        <div className="rounded-4xl border border-white/10 bg-white/6 p-6 shadow-2xl shadow-[#3255ff]/10 backdrop-blur ">
+          <div className="rounded-3xl border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] p-6 sm:p-8">
             <div className="flex items-center gap-3 text-sm text-slate-300">
               {siteData.agency.platforms.map((platform) => (
                 <span

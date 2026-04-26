@@ -32,21 +32,25 @@ export const siteData = {
     items: [
       {
         title: "Producción de video",
+        icon: "/video-production.svg",
         description:
           "Edición profesional para piezas que se ven sólidas, claras y listas para publicar.",
       },
       {
         title: "Creación de contenido",
+        icon: "/content-creation.svg",
         description:
           "Soporte visual para mantener un flujo constante de contenido en tus plataformas.",
       },
       {
         title: "Narración visual",
+        icon: "/visual-narration.svg",
         description:
           "Estructura, ritmo y enfoque para que cada video comunique mejor tu mensaje.",
       },
       {
         title: "Optimización para redes",
+        icon: "/social-optimization.svg",
         description:
           "Contenido adaptado para crecer en YouTube, Instagram y TikTok sin perder identidad.",
       },
