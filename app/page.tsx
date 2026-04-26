@@ -1,7 +1,23 @@
+import { AboutSection } from "@/components/landing/about-section";
+import { ContactSection } from "@/components/landing/contact-section";
+import { HeroSection } from "@/components/landing/hero-section";
+import { PortfolioSection } from "@/components/landing/portfolio-section";
+import { ServicesSection } from "@/components/landing/services-section";
+import { Footer } from "@/components/shared/footer";
+import { Navbar } from "@/components/shared/navbar";
+
 export default function Home() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </>
+    <div className="min-h-screen bg-[#101841] text-white">
+      <Navbar />
+      <main>
+        <HeroSection />
+        <ServicesSection />
+        <PortfolioSection />
+        <AboutSection />
+        <ContactSection />
+      </main>
+      <Footer />
+    </div>
   );
 }
