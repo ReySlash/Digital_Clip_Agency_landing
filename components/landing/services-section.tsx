@@ -16,7 +16,7 @@ export function ServicesSection() {
           {siteData.services.items.map((service) => (
             <article
               key={service.title}
-              className="rounded-[1.75rem] border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] px-6 py-8 shadow-xl shadow-[#13215a]/35"
+              className="rounded-[1.75rem] border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] px-6 py-8 shadow-xl shadow-cyan-500/50"
             >
               <div className="flex justify-center">
                 <Image

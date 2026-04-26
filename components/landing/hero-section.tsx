@@ -50,9 +50,9 @@ export function HeroSection() {
           </ul>
         </div>
 
-        <div className="rounded-4xl border border-white/10 bg-white/6 p-6 shadow-2xl shadow-[#3255ff]/10 backdrop-blur ">
-          <div className="rounded-3xl border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] p-6 sm:p-8">
-            <div className="flex items-center gap-3 text-sm text-slate-300">
+        <div className="rounded-4xl border border-white/10 bg-white/6 p-6  backdrop-blur shadow-xl shadow-cyan-500/50">
+          <div className="rounded-3xl border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] p-6 sm:p-8 ">
+            <div className="flex items-center gap-3 text-sm text-slate-300 ">
               {siteData.agency.platforms.map((platform) => (
                 <span
                   key={platform}
