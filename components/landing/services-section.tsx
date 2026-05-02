@@ -5,7 +5,7 @@ import { siteData } from "@/lib/site-data";
 
 export function ServicesSection() {
   return (
-    <section id="servicios" className="px-6 py-20 lg:px-8 lg:py-24">
+    <section id="servicios">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-12">
         <ScrollReveal>
           <SectionHeading

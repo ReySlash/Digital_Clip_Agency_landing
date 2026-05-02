@@ -13,7 +13,7 @@ export function Navbar() {
             width={58}
             height={58}
             priority
-            className="h-12 w-auto object-contain sm:h-14 sm:w-auto"
+            className="h-12 w-auto object-contain"
           />
           <p className="text-5xl">|</p>
           <div className="leading-none">

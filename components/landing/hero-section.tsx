@@ -5,14 +5,14 @@ export function HeroSection() {
   return (
     <section
       id="inicio"
-      className="relative overflow-hidden border-b border-white/10 bg-transparent px-6 py-20 sm:py-24 lg:px-8 lg:py-32"
+      className="flex flex-col justify-center items-center relative overflow-hidden bg-transparent py-auto px-auto min-h-[calc(100vh-50px)]"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle_at_top_right,rgba(87,217,255,0.14),transparent_45%)]" />
       <div className="pointer-events-none absolute left-0 top-24 -z-10 h-72 w-72 rounded-full bg-[#3255ff]/12 blur-3xl" />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-14 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] lg:items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 md:flex-row relative z-10 px-auto w-full gap-5 lg:gap-14 items-center">
         <ScrollReveal className="space-y-8">
-          <div className="space-y-5">
+          <div className="space-y-2 lg:space-y-5 flex flex-col items-center lg:items-start">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff]">
               {siteData.hero.eyebrow}
             </p>
@@ -22,21 +22,20 @@ export function HeroSection() {
             <p className="max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
               {siteData.hero.description}
             </p>
-          </div>
-
-          <div className="grid gap-4 sm:max-w-md sm:grid-cols-2">
-            <a
-              href={siteData.hero.primaryCta.href}
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#57d9ff] px-6 text-sm font-semibold text-[#101841] transition hover:bg-white"
-            >
-              {siteData.hero.primaryCta.label}
-            </a>
-            <a
-              href={siteData.hero.secondaryCta.href}
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white transition hover:border-[#57d9ff]/60 hover:bg-[#57d9ff]/10"
-            >
-              {siteData.hero.secondaryCta.label}
-            </a>
+            <div className="grid gap-4 sm:max-w-md grid-cols-2">
+              <a
+                href={siteData.hero.primaryCta.href}
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#57d9ff] px-6 text-sm font-semibold text-[#101841] transition hover:bg-white"
+              >
+                {siteData.hero.primaryCta.label}
+              </a>
+              <a
+                href={siteData.hero.secondaryCta.href}
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white transition hover:border-[#57d9ff]/60 hover:bg-[#57d9ff]/10"
+              >
+                {siteData.hero.secondaryCta.label}
+              </a>
+            </div>
           </div>
         </ScrollReveal>
 
@@ -55,7 +54,7 @@ export function HeroSection() {
                 </span>
               ))}
             </div>
-            <div className="mt-8 space-y-5">
+            <div className="mt-8 space-y-2 lg:space-y-5">
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#57d9ff]">
                 Digital Clip Agency
               </p>
