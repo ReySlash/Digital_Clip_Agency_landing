@@ -39,11 +39,11 @@ export function HeroSection() {
             </a>
           </div>
 
-          <ul className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3 ">
+          <ul className="grid gap-3 text-sm text-slate-300 sm:grid-cols-3">
             {siteData.hero.stats.map((stat) => (
               <li
                 key={stat}
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-4"
+                className="text-center rounded-2xl border border-white/10 bg-white/5 px-4 py-4"
               >
                 {stat}
               </li>

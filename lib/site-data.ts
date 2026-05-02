@@ -59,25 +59,31 @@ export const siteData = {
   portfolio: {
     title: "Proyectos pensados para crecer en cada plataforma",
     description:
-      "Una selección inicial de formatos y piezas que representan el tipo de contenido que la agencia puede producir.",
+      "Una muestra de videos producidos por la agencia para que puedas ver el tipo de edición, ritmo y presentación que desarrollan.",
     items: [
       {
-        title: "Canal de crecimiento personal",
+        title: "¿Cómo logré salir de Cuba? (sin pagar nada)",
         platform: "YouTube",
+        thumbnail: "https://i.ytimg.com/vi/D8u3r_vhjJk/hqdefault.jpg",
+        href: "https://www.youtube.com/watch?v=D8u3r_vhjJk",
         description:
-          "Edición de formato largo con narrativa clara, cortes precisos y retención visual.",
+          "Historia personal contada con edición enfocada en claridad narrativa, ritmo visual y retención en formato largo.",
       },
       {
-        title: "Contenido vertical para marca personal",
-        platform: "Instagram",
+        title: "Mi trabajo en Qatar: salario, realidad y lo difícil.",
+        platform: "YouTube",
+        thumbnail: "https://i.ytimg.com/vi/3GLKHEpMtpE/hqdefault.jpg",
+        href: "https://www.youtube.com/watch?v=3GLKHEpMtpE",
         description:
-          "Piezas breves pensadas para mantener consistencia visual y acelerar la publicación.",
+          "Video testimonial con estructura directa, cortes limpios y edición pensada para sostener interés durante toda la historia.",
       },
       {
-        title: "Serie de clips para alcance orgánico",
-        platform: "TikTok",
+        title: "Mi historia: por qué decidí irme de Cuba",
+        platform: "YouTube",
+        thumbnail: "https://i.ytimg.com/vi/GW6iqJYiv0Y/hqdefault.jpg",
+        href: "https://www.youtube.com/watch?v=GW6iqJYiv0Y&t=117s",
         description:
-          "Short-form con ritmo rápido, subtítulos y enfoque en retención durante los primeros segundos.",
+          "Relato personal editado para reforzar emoción, continuidad visual y conexión con la audiencia desde el inicio.",
       },
     ],
   },
