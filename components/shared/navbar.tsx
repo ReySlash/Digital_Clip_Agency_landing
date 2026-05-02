@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { siteNavigation } from "@/lib/navigation";
+import { MobileNav } from "./mobile-nav";
 
 export function Navbar() {
   return (
@@ -37,6 +38,7 @@ export function Navbar() {
             ))}
           </ul>
         </nav>
+        <MobileNav />
       </div>
     </header>
   );
