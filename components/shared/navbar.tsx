@@ -3,18 +3,18 @@ import { siteNavigation } from "@/lib/navigation";
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#101841]/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#101841]/80 backdrop-blur-sm">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 lg:px-8">
-        <a href="#inicio" className="flex items-center gap-3 text-white">
+        <a href="#inicio" className="flex items-center text-white">
           <Image
             src="/brand/brand-logo.png"
             alt="Digital Clip Agency Logo"
             width={58}
             height={58}
             priority
-            className="h-12 w-12 object-contain sm:h-14.5 sm:w-14.5"
+            className="h-12 w-auto object-contain sm:h-14 sm:w-auto"
           />
-
+          <p className="text-5xl">|</p>
           <div className="leading-none">
             <p className="text-lg font-semibold tracking-tight">Digital Clip</p>
             <p className="mt-1 text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff] sm:text-sm">

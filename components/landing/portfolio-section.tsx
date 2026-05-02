@@ -31,6 +31,7 @@ export function PortfolioSection() {
                       alt={project.title}
                       fill
                       className="object-cover transition duration-500 group-hover:scale-105"
+                      sizes="(min-width: 1024px) 33vw, 100vw"
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,10,28,0.05),rgba(5,10,28,0.78))]" />
                   </div>

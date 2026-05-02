@@ -19,11 +19,6 @@ export const siteData = {
       label: "Contactar",
       href: "#contacto",
     },
-    stats: [
-      "Entrega rápida y consistente",
-      "Edición enfocada en crecimiento",
-      "Calendario de contenido activo",
-    ],
   },
   services: {
     title: "Qué ofrecemos",
