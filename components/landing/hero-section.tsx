@@ -1,5 +1,6 @@
 import { siteData } from "@/lib/site-data";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
@@ -12,7 +13,7 @@ export function HeroSection() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 md:flex-row relative z-10 px-auto w-full gap-5 lg:gap-14 items-center">
         <ScrollReveal className="space-y-8">
-          <div className="order-2 lg:order-1 space-y-2 lg:space-y-5 flex flex-col items-center lg:items-start">
+          <div className="order-2 lg:order-1 space-y-2 lg:space-y-5 flex flex-col items-center lg:items-start text-center lg:text-start">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff]">
               {siteData.hero.eyebrow}
             </p>
@@ -23,25 +24,25 @@ export function HeroSection() {
               {siteData.hero.description}
             </p>
             <div className="grid gap-4 sm:max-w-md grid-cols-2">
-              <a
+              <Link
                 href={siteData.hero.primaryCta.href}
                 className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#57d9ff] px-6 text-sm font-semibold text-[#101841] transition hover:bg-white"
               >
                 {siteData.hero.primaryCta.label}
-              </a>
-              <a
+              </Link>
+              <Link
                 href={siteData.hero.secondaryCta.href}
                 className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white transition hover:border-[#57d9ff]/60 hover:bg-[#57d9ff]/10"
               >
                 {siteData.hero.secondaryCta.label}
-              </a>
+              </Link>
             </div>
           </div>
         </ScrollReveal>
 
         <ScrollReveal
           delay={150}
-          className="rounded-4xl border border-white/10 bg-white/6 p-6 backdrop-blur shadow-xl shadow-cyan-500/50"
+          className="hidden md:block rounded-4xl border border-white/10 bg-white/6 p-6 backdrop-blur shadow-xl shadow-cyan-500/50 md:mx-5"
         >
           <div className="order-1 lg:order-2 flex h-full flex-col justify-center rounded-3xl border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] p-6 sm:p-8">
             <div className="flex items-center gap-3 text-sm text-slate-300">
