@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | Digital Clip Agency",
   },
   description:
-    "Agencia de edición de video para creadores en YouTube, Instagram y TikTok.",
+    "Agencia de edición de video para creadores de contenido en YouTube, Instagram y TikTok.",
   applicationName: "Digital Clip Agency",
   keywords: [
     "edición de video",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "YouTube",
     "Instagram",
     "TikTok",
-    "creadores",
+    "creadores de contenido",
   ],
 };
 

@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#101841] text-white">
       <Navbar />
-      <main className="flex flex-col bg-[#101841] text-white px-2 md:px-10 lg:px-20">
+      <main className="flex flex-col  px-2 md:px-10 lg:px-20">
         <HeroSection />
         <ServicesSection />
         <PortfolioSection />

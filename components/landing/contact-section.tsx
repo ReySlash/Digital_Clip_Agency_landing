@@ -5,7 +5,7 @@ import { siteData } from "@/lib/site-data";
 
 export function ContactSection() {
   return (
-    <section id="contacto">
+    <section id="contacto" className="py-10">
       <ScrollReveal>
         <div className="mx-auto grid w-full max-w-7xl gap-10 rounded-4xl border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] p-8 shadow-xl shadow-[#13215a]/35 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:p-10">
           <div className="space-y-8">
