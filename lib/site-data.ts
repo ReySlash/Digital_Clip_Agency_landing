@@ -10,13 +10,13 @@ export const siteData = {
     eyebrow: "Edición estratégica para creadores",
     title: "Edita menos, crea más.",
     description:
-      "Tú grabas, nosotros hacemos que funcione con edición profesional y optimización de contenido para YouTube, Instagram y TikTok.",
+      "Convertimos tus grabaciones en contenido optimizado para crecer en YouTube, Instagram y TikTok.",
     primaryCta: {
-      label: "Ver proyectos",
+      label: "Ver nuestro trabajo",
       href: "#portafolio",
     },
     secondaryCta: {
-      label: "Contactar",
+      label: "Envíanos un mensaje",
       href: "#contacto",
     },
   },
