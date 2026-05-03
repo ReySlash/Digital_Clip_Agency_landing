@@ -1,6 +1,5 @@
 import { siteData } from "@/lib/site-data";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
-import Link from "next/link";
 import Image from "next/image";
 
 export function HeroSection() {
@@ -25,18 +24,18 @@ export function HeroSection() {
               {siteData.hero.description}
             </p>
             <div className="grid gap-4 sm:max-w-md grid-cols-2">
-              <Link
+              <a
                 href={siteData.hero.primaryCta.href}
                 className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#57d9ff] px-6 text-sm font-semibold text-[#101841] transition hover:bg-white"
               >
                 {siteData.hero.primaryCta.label}
-              </Link>
-              <Link
+              </a>
+              <a
                 href={siteData.hero.secondaryCta.href}
                 className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white transition hover:border-[#57d9ff]/60 hover:bg-[#57d9ff]/10"
               >
                 {siteData.hero.secondaryCta.label}
-              </Link>
+              </a>
             </div>
           </div>
         </ScrollReveal>
