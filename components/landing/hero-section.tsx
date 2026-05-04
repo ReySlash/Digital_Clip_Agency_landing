@@ -47,7 +47,7 @@ export function HeroSection() {
           <div className="flex w-full gap-2 max-w-3xl items-center justify-center overflow-visible">
             <div className="relative z-20 -ml-10 w-[36%] max-w-41.25 rotate-2 sm:-ml-12 sm:max-w-48.75 lg:max-w-53.75">
               <Image
-                src="/videoProof2.png"
+                src="/videoProof2.jpg"
                 alt="Video Proof 2"
                 width={400}
                 height={711}
@@ -56,7 +56,7 @@ export function HeroSection() {
             </div>
             <div className="relative z-30 w-[36%] max-w-45 sm:max-w-52.5 lg:max-w-57.5">
               <Image
-                src="/videoProof1.png"
+                src="/videoProof1.jpg"
                 alt="Video Proof 1"
                 width={400}
                 height={711}
@@ -65,7 +65,7 @@ export function HeroSection() {
             </div>
             <div className="relative z-10 -ml-8 w-[36%] max-w-41.25 -rotate-1 sm:-ml-1 sm:max-w-48.75 lg:max-w-53.75 ">
               <Image
-                src="/videoProof3.png"
+                src="/videoProof3.jpg"
                 alt="Video Proof 3"
                 width={400}
                 height={711}
