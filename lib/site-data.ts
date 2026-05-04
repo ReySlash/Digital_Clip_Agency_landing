@@ -46,7 +46,7 @@ export const siteData = {
     ],
   },
   portfolio: {
-    title: "Proyectos pensados para crecer en cada plataforma",
+    title: "Ejemplos reales de edición para creadores",
     description:
       "Una muestra de videos producidos por la agencia para que puedas ver el tipo de edición, ritmo y presentación que desarrollan.",
     items: [
