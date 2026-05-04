@@ -5,7 +5,7 @@ import { siteData } from "@/lib/site-data";
 
 export function PortfolioSection() {
   return (
-    <section id="portafolio" className="mb-15 lg:mb-10">
+    <section id="portafolio" className="mb-16 lg:mb-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 ">
         <ScrollReveal>
           <SectionHeading

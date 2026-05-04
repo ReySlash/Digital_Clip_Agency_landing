@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Digital Clip Agency
 
-## Getting Started
+Single-page portfolio site for a video editing agency built with Next.js 16, React 19, TypeScript, App Router, and Tailwind CSS 4.
 
-First, run the development server:
+## Current Scope
+
+- Public landing page at `/`
+- Sections: Hero, Services, Portfolio, About, Contact
+- Content is hardcoded in `lib/site-data.ts`
+- Smooth-scrolling sticky navigation
+- Contact area includes email, `mailto:` CTA, copy-to-clipboard button, and Instagram link
+
+## Tech Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- App Router
+
+## Project Structure
+
+```txt
+app/
+  layout.tsx
+  page.tsx
+  globals.css
+  admin/
+    page.tsx
+
+components/
+  landing/
+  shared/
+
+lib/
+  site-data.ts
+  navigation.ts
+```
+
+## Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Verification
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Lint:
 
-## Learn More
+```bash
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+Type check:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run typecheck
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Production build:
 
-## Deploy on Vercel
+```bash
+npm run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Content
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Landing page content lives in `lib/site-data.ts`
+- Navigation links live in `lib/navigation.ts`
+- Brand/reference assets live in `public/`
+
+## Environment Variables
+
+No environment variables are required yet for the public site.
+
+An empty `.env.example` is included to reserve the shape for future admin/auth work.
+
+## Notes
+
+- Use plain `<a href="#section-id">` links for same-page section navigation
+- Use `next/link` for route-to-route navigation
+- `ScrollReveal` is used for entrance motion; above-the-fold hero content is configured to render visible immediately
