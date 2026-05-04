@@ -8,7 +8,7 @@ export function Navbar() {
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 lg:px-8">
         <a href="#inicio" className="flex items-center text-white">
           <Image
-            src="/brand/brand-logo.png"
+            src="/brand/brand-logo.avif"
             alt="Digital Clip Agency Logo"
             width={58}
             height={58}

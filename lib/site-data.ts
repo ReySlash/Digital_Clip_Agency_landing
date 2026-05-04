@@ -51,6 +51,7 @@ export const siteData = {
       "Una muestra de videos producidos por la agencia para que puedas ver el tipo de edición, ritmo y presentación que desarrollan.",
     items: [
       {
+        id: "1",
         title: "¿Cómo logré salir de Cuba? (sin pagar nada)",
         platform: "YouTube",
         thumbnail: "https://i.ytimg.com/vi/D8u3r_vhjJk/hqdefault.jpg",
@@ -59,6 +60,7 @@ export const siteData = {
           "Historia personal contada con edición enfocada en claridad narrativa, ritmo visual y retención en formato largo.",
       },
       {
+        id: "2",
         title: "Mi trabajo en Qatar: salario, realidad y lo difícil.",
         platform: "YouTube",
         thumbnail: "https://i.ytimg.com/vi/3GLKHEpMtpE/hqdefault.jpg",
@@ -67,6 +69,7 @@ export const siteData = {
           "Video testimonial con estructura directa, cortes limpios y edición pensada para sostener interés durante toda la historia.",
       },
       {
+        id: "3",
         title: "Mi historia: por qué decidí irme de Cuba",
         platform: "YouTube",
         thumbnail: "https://i.ytimg.com/vi/GW6iqJYiv0Y/hqdefault.jpg",
@@ -92,4 +95,4 @@ export const siteData = {
       "Si quieres delegar la edición y mantener tu contenido activo, escríbenos por correo y te responderemos con el siguiente paso.",
     ctaLabel: "Enviar email",
   },
-} as const;
+};
