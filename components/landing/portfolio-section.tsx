@@ -24,7 +24,7 @@ export function PortfolioSection() {
                 rel="noreferrer"
                 className="group block h-full"
               >
-                <article className="flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] transition group-hover:shadow-xl group-hover:shadow-cyan-500/50 group-hover:ring-1 group-hover:ring-cyan-400/60">
+                <article className="flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)]">
                   <div className="relative h-52 overflow-hidden border-b border-white/10">
                     <Image
                       src={project.thumbnail}

@@ -15,10 +15,10 @@ export function ServicesSection() {
           />
         </ScrollReveal>
 
-        <div className="grid auto-rows-fr gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid auto-rows-fr gap-6 grid-cols-1 md:grid-cols-3">
           {siteData.services.items.map((service, index) => (
             <ScrollReveal key={service.title} delay={index * 100}>
-              <article className="flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] px-6 py-8 shadow-xl shadow-cyan-500/50 ">
+              <article className="flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] px-6 py-8 shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)]">
                 <div className="flex justify-center">
                   <Image
                     src={service.icon}
@@ -27,10 +27,10 @@ export function ServicesSection() {
                     height={100}
                   />
                 </div>
-                <h3 className="mt-8 text-2xl font-semibold tracking-tight text-white text-center md:text-start">
+                <h3 className="mt-8 text-2xl font-bold tracking-tight text-white text-center md:text-start">
                   {service.title}
                 </h3>
-                <p className="mt-4 flex-1 text-base leading-7 text-slate-300 text-center md:text-start">
+                <p className="mt-4 flex-1 text-base leading-7 text-slate-300 sm:text-lg text-center md:text-start">
                   {service.description}
                 </p>
               </article>

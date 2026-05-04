@@ -51,7 +51,7 @@ export function HeroSection() {
                 alt="Video Proof 2"
                 width={400}
                 height={711}
-                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-2xl shadow-black/35 brightness-200  scale-95 backdrop-blur-xs"
+                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-95 backdrop-blur-xs"
               />
             </div>
             <div className="relative z-30 w-[36%] max-w-45 sm:max-w-52.5 lg:max-w-57.5">
@@ -60,7 +60,7 @@ export function HeroSection() {
                 alt="Video Proof 1"
                 width={400}
                 height={711}
-                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-2xl shadow-black/40 brightness-200 scale-120"
+                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-120"
               />
             </div>
             <div className="relative z-10 -ml-8 w-[36%] max-w-41.25 -rotate-1 sm:-ml-1 sm:max-w-48.75 lg:max-w-53.75 ">
@@ -69,7 +69,7 @@ export function HeroSection() {
                 alt="Video Proof 3"
                 width={400}
                 height={711}
-                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-2xl shadow-black/30 brightness-200 scale-95 backdrop-blur-xs"
+                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-95 backdrop-blur-xs"
               />
             </div>
           </div>

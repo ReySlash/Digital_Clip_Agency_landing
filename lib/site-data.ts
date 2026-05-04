@@ -21,33 +21,27 @@ export const siteData = {
     },
   },
   services: {
-    title: "Qué ofrecemos",
+    title: "Lo que hacemos por tu contenido",
     description:
       "Tu tiempo vale más creando que editando. Déjalo en manos profesionales para publicar con claridad, ritmo y consistencia.",
     items: [
       {
-        title: "Producción de video",
+        title: "Edición para contenido corto",
         icon: "/video-production.svg",
         description:
-          "Edición profesional para piezas que se ven sólidas, claras y listas para publicar.",
+          "Videos optimizados para captar atención y aumentar retención en TikTok, Reels y Shorts.",
       },
       {
-        title: "Creación de contenido",
-        icon: "/content-creation.svg",
-        description:
-          "Soporte visual para mantener un flujo constante de contenido en tus plataformas.",
-      },
-      {
-        title: "Narración visual",
-        icon: "/visual-narration.svg",
-        description:
-          "Estructura, ritmo y enfoque para que cada video comunique mejor tu mensaje.",
-      },
-      {
-        title: "Optimización para redes",
+        title: "Optimización para crecer",
         icon: "/social-optimization.svg",
         description:
-          "Contenido adaptado para crecer en YouTube, Instagram y TikTok sin perder identidad.",
+          "Ajustamos ritmo, subtítulos y estructura para mejorar views y engagement.",
+      },
+      {
+        title: "Flujo de contenido constante",
+        icon: "/visual-narration.svg",
+        description:
+          "Te ayudamos a publicar de forma consistente sin perder calidad ni tiempo.",
       },
     ],
   },
