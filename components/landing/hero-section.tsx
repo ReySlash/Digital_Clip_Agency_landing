@@ -51,6 +51,7 @@ export function HeroSection() {
                 alt="Video Proof 2"
                 width={400}
                 height={711}
+                loading="eager"
                 className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-95 backdrop-blur-xs"
               />
             </div>
@@ -60,6 +61,7 @@ export function HeroSection() {
                 alt="Video Proof 1"
                 width={400}
                 height={711}
+                loading="eager"
                 className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-120"
               />
             </div>
@@ -69,6 +71,7 @@ export function HeroSection() {
                 alt="Video Proof 3"
                 width={400}
                 height={711}
+                loading="eager"
                 className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-95 backdrop-blur-xs"
               />
             </div>
