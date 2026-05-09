@@ -1,13 +1,11 @@
 "use client";
-import { siteData } from "@/lib/site-data";
+import type { PortfolioItem } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-type PortfolioItem = (typeof siteData.portfolio.items)[number];
-
 type Props = {
-  initialItems: PortfolioItem[];
+  initialPortfolioItems: PortfolioItem[];
 };
 
 const portfolioHeaders = [
@@ -18,8 +16,8 @@ const portfolioHeaders = [
   { key: "url", label: "URL" },
 ];
 
-function PortfolioTable({ initialItems }: Props) {
-  const [items, setItems] = useState(initialItems);
+function PortfolioTable({ initialPortfolioItems }: Props) {
+  const [items, setItems] = useState(initialPortfolioItems);
 
   const handleRemoveItem = (itemId: string) => {
     setItems((currentItems) =>
@@ -50,17 +48,17 @@ function PortfolioTable({ initialItems }: Props) {
             key={item.id}
             className="odd:bg-[#57d9ff]/20 even:bg-[#57d9ff]/30 border-b text-left hover:bg-[#57d9ff]/50 transition-colors duration-150"
           >
-            <td className="px-4 py-2 text-sm text-gray-300">{item.title}</td>
-            <td className="px-4 py-2 text-sm text-gray-300">{item.platform}</td>
-            <td className="px-4 py-2 text-sm text-gray-300">
-              {item.description}
-            </td>
-            <td className="px-4 py-2 text-sm text-gray-300">
-              {item.thumbnail}
-            </td>
-            <td className="px-4 py-2 text-sm text-gray-300">
-              <a
-                href={item.href}
+              <td className="px-4 py-2 text-sm text-gray-300">{item.title}</td>
+              <td className="px-4 py-2 text-sm text-gray-300">{item.platform}</td>
+              <td className="px-4 py-2 text-sm text-gray-300">
+                {item.description}
+              </td>
+              <td className="px-4 py-2 text-sm text-gray-300">
+                {item.thumbnail}
+              </td>
+              <td className="px-4 py-2 text-sm text-gray-300">
+                <a
+                  href={item.href}
                 target="_blank"
                 rel="noreferrer"
                 className="text-blue-400 hover:underline"

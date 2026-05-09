@@ -22,16 +22,19 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
-model PortfolioProject {
-  id               String   @id @default(cuid())
-  title            String
-  slug             String   @unique
-  shortDescription String
-  thumbnailUrl     String?
-  videoUrl         String?
-  published        Boolean  @default(false)
-  featured         Boolean  @default(false)
-  sortOrder        Int      @default(0)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+model PortfolioItem {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  platform    String
+  thumbnail   String
+  href        String
+  description String
+  published   Boolean  @default(false)
+  featured    Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("Projects")
 }

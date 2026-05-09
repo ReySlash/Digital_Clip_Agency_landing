@@ -49,35 +49,6 @@ export const siteData = {
     title: "Ejemplos reales de edición para creadores",
     description:
       "Una muestra de videos producidos por la agencia para que puedas ver el tipo de edición, ritmo y presentación que desarrollan.",
-    items: [
-      {
-        id: "1",
-        title: "¿Cómo logré salir de Cuba? (sin pagar nada)",
-        platform: "YouTube",
-        thumbnail: "https://i.ytimg.com/vi/D8u3r_vhjJk/hqdefault.jpg",
-        href: "https://www.youtube.com/watch?v=D8u3r_vhjJk",
-        description:
-          "Historia personal contada con edición enfocada en claridad narrativa, ritmo visual y retención en formato largo.",
-      },
-      {
-        id: "2",
-        title: "Mi trabajo en Qatar: salario, realidad y lo difícil.",
-        platform: "YouTube",
-        thumbnail: "https://i.ytimg.com/vi/3GLKHEpMtpE/hqdefault.jpg",
-        href: "https://www.youtube.com/watch?v=3GLKHEpMtpE",
-        description:
-          "Video testimonial con estructura directa, cortes limpios y edición pensada para sostener interés durante toda la historia.",
-      },
-      {
-        id: "3",
-        title: "Mi historia: por qué decidí irme de Cuba",
-        platform: "YouTube",
-        thumbnail: "https://i.ytimg.com/vi/GW6iqJYiv0Y/hqdefault.jpg",
-        href: "https://www.youtube.com/watch?v=GW6iqJYiv0Y&t=117s",
-        description:
-          "Relato personal editado para reforzar emoción, continuidad visual y conexión con la audiencia desde el inicio.",
-      },
-    ],
   },
   about: {
     title: "Editamos para que puedas enfocarte en crear",
