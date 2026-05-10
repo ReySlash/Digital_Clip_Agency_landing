@@ -172,12 +172,12 @@ Current test coverage includes:
 
 ## Environment Variables
 
-The app currently requires a PostgreSQL connection string plus auth configuration:
+The app runtime requires a PostgreSQL connection string plus auth configuration. The local seed script also needs explicit admin credentials:
 
 ```bash
 DATABASE_URL="postgresql://user:password@localhost:5432/digital_clip_agency?schema=public"
-AUTH_SECRET="generated-secret"
-AUTH_TRUST_HOST=true
+AUTH_SECRET="replace-with-output-from-npx-auth-secret"
+AUTH_TRUST_HOST="true"
 SEED_ADMIN_EMAIL="owner@example.com"
 SEED_ADMIN_PASSWORD="replace-with-a-strong-password"
 SEED_ADMIN_NAME="Digital Clip Admin"
