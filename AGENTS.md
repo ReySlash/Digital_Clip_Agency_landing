@@ -193,8 +193,8 @@ auth.ts
 - `PortfolioItem` is mapped to the `Projects` table
 - The app requires `DATABASE_URL`
 - Admin auth also requires `AUTH_SECRET` and `AUTH_TRUST_HOST`
-- The seed script creates local bootstrap users and sample portfolio items
-- The seeded users are now used by the credentials-based admin login
+- The seed script creates sample portfolio items and one admin user from explicit local env variables
+- Do not add default bootstrap credentials to the repo; local admin login should come from developer-provided env values during seeding
 - Cache invalidation for portfolio mutations is handled with `updateTag`
 - Vitest + Testing Library are configured for local automated testing
 

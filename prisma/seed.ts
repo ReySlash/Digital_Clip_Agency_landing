@@ -5,45 +5,41 @@ import { PrismaClient, UserRole } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const connectionString = process.env.DATABASE_URL;
+const seedAdminEmail = process.env.SEED_ADMIN_EMAIL;
+const seedAdminPassword = process.env.SEED_ADMIN_PASSWORD;
+const seedAdminName = process.env.SEED_ADMIN_NAME ?? "Digital Clip Admin";
 
 if (!connectionString) {
   throw new Error("DATABASE_URL is required to run the Prisma seed.");
 }
 
+if (!seedAdminEmail || !seedAdminPassword) {
+  throw new Error(
+    "SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD are required to seed the admin user.",
+  );
+}
+
+const adminEmail = seedAdminEmail;
+const adminPassword = seedAdminPassword;
+
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  const adminPasswordHash = await bcrypt.hash("ChangeMe_Admin_123!", 12);
-  const devPasswordHash = await bcrypt.hash("ChangeMe_Dev_123!", 12);
+  const adminPasswordHash = await bcrypt.hash(adminPassword, 12);
 
   await prisma.user.upsert({
-    where: { email: "admin@digitalclipagency.com" },
+    where: { email: adminEmail },
     update: {
-      name: "Digital Clip Admin",
+      name: seedAdminName,
       passwordHash: adminPasswordHash,
       role: UserRole.ADMIN,
     },
     create: {
-      name: "Digital Clip Admin",
-      email: "admin@digitalclipagency.com",
+      name: seedAdminName,
+      email: adminEmail,
       passwordHash: adminPasswordHash,
       role: UserRole.ADMIN,
-    },
-  });
-
-  await prisma.user.upsert({
-    where: { email: "dev@digitalclipagency.com" },
-    update: {
-      name: "Digital Clip Dev",
-      passwordHash: devPasswordHash,
-      role: UserRole.DEV,
-    },
-    create: {
-      name: "Digital Clip Dev",
-      email: "dev@digitalclipagency.com",
-      passwordHash: devPasswordHash,
-      role: UserRole.DEV,
     },
   });
 

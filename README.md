@@ -49,7 +49,7 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 - Admin access is currently enforced on the main `/admin` page, while `/admin/login` stays public
 - Portfolio data for both `/` and `/admin` is cached with tags and refreshed on-demand through admin mutations
 - Request-bound auth and login query state are rendered behind Suspense boundaries to satisfy Next.js 16 cache rules
-- Seed data includes bootstrap users and sample portfolio items for local development
+- Seed data includes sample portfolio items plus one admin user sourced from local env variables
 
 ## Tech Stack
 
@@ -178,6 +178,9 @@ The app currently requires a PostgreSQL connection string plus auth configuratio
 DATABASE_URL="postgresql://user:password@localhost:5432/digital_clip_agency?schema=public"
 AUTH_SECRET="generated-secret"
 AUTH_TRUST_HOST=true
+SEED_ADMIN_EMAIL="owner@example.com"
+SEED_ADMIN_PASSWORD="replace-with-a-strong-password"
+SEED_ADMIN_NAME="Digital Clip Admin"
 ```
 
 Copy `.env.example` to `.env` and update it for your local database.
@@ -207,6 +210,8 @@ Seed the database:
 ```bash
 npx tsx prisma/seed.ts
 ```
+
+The seed script will stop unless `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` are set. This avoids shipping reusable default admin credentials in the repository.
 
 Run the dev server:
 
@@ -250,14 +255,9 @@ Production build:
 npm run build
 ```
 
-## Seeded Local Accounts
+## Seeded Admin Account
 
-The seed script creates these users:
-
-- `admin@digitalclipagency.com` / `ChangeMe_Admin_123!`
-- `dev@digitalclipagency.com` / `ChangeMe_Dev_123!`
-
-These are local bootstrap credentials defined in `prisma/seed.ts`. Treat them as development-only and replace them before using the project beyond local setup.
+The seed script creates one admin user using `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, and optional `SEED_ADMIN_NAME` from your local environment. No default login credentials are committed to the repo.
 
 ## Notes
 
