@@ -21,16 +21,7 @@ describe("PortfolioModal", () => {
     HTMLDialogElement.prototype.showModal = vi.fn();
   });
 
-  it("opens the dialog on mount and creates an item in create mode", async () => {
-    const onClose = vi.fn();
-    const onSuccess = vi.fn();
-
-    render(
-      <PortfolioModal mode="create" onClose={onClose} onSuccess={onSuccess} />
-    );
-
-    expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
-
+  function fillCreateForm() {
     fireEvent.change(screen.getByLabelText("Título"), {
       target: { value: "Proyecto nuevo" },
     });
@@ -43,6 +34,20 @@ describe("PortfolioModal", () => {
     fireEvent.change(screen.getByLabelText("Descripción"), {
       target: { value: "Descripcion valida" },
     });
+  }
+
+  it("opens the dialog on mount and creates an item in create mode", async () => {
+    const onClose = vi.fn();
+    const onSuccess = vi.fn();
+    createMock.mockResolvedValue({ success: true });
+
+    render(
+      <PortfolioModal mode="create" onClose={onClose} onSuccess={onSuccess} />
+    );
+
+    expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
+
+    fillCreateForm();
 
     fireEvent.submit(
       screen
@@ -53,6 +58,16 @@ describe("PortfolioModal", () => {
     await waitFor(() => {
       expect(createMock).toHaveBeenCalledTimes(1);
       expect(onSuccess).toHaveBeenCalledTimes(1);
+      expect(
+        screen.getByText("Proyecto creado correctamente.")
+      ).toBeInTheDocument();
+    });
+
+    expect(onClose).not.toHaveBeenCalled();
+
+    await new Promise((resolve) => setTimeout(resolve, 1300));
+
+    await waitFor(() => {
       expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
@@ -60,6 +75,7 @@ describe("PortfolioModal", () => {
   it("submits update mode with the hidden id field", async () => {
     const onClose = vi.fn();
     const onSuccess = vi.fn();
+    updateMock.mockResolvedValue({ success: true });
 
     render(
       <PortfolioModal
@@ -91,6 +107,17 @@ describe("PortfolioModal", () => {
     await waitFor(() => {
       expect(updateMock).toHaveBeenCalledTimes(1);
       expect(onSuccess).toHaveBeenCalledTimes(1);
+      expect(
+        screen.getByText("Proyecto actualizado correctamente.")
+      ).toBeInTheDocument();
+    });
+
+    expect(updateMock.mock.calls[0]?.[0].get("id")).toBe("item-1");
+    expect(onClose).not.toHaveBeenCalled();
+
+    await new Promise((resolve) => setTimeout(resolve, 1300));
+
+    await waitFor(() => {
       expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
@@ -105,5 +132,57 @@ describe("PortfolioModal", () => {
     fireEvent.click(screen.getByRole("button", { name: "Cerrar", hidden: true }));
 
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows validation errors returned by the action", async () => {
+    createMock.mockResolvedValue({
+      success: false,
+      errors: {
+        title: ["El titulo es obligatorio."],
+        thumbnail: ["Debes ingresar una URL valida."],
+      },
+    });
+
+    render(
+      <PortfolioModal mode="create" onClose={vi.fn()} onSuccess={vi.fn()} />
+    );
+
+    fillCreateForm();
+
+    fireEvent.submit(
+      screen
+        .getByRole("button", { name: "Crear", hidden: true })
+        .closest("form")!
+    );
+
+    expect(
+      await screen.findByText("Revisa los campos marcados e inténtalo de nuevo.")
+    ).toBeInTheDocument();
+    expect(screen.getByText("El titulo es obligatorio.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Debes ingresar una URL valida.")
+    ).toBeInTheDocument();
+  });
+
+  it("shows a generic form error when the action throws", async () => {
+    createMock.mockRejectedValue(new Error("network"));
+
+    render(
+      <PortfolioModal mode="create" onClose={vi.fn()} onSuccess={vi.fn()} />
+    );
+
+    fillCreateForm();
+
+    fireEvent.submit(
+      screen
+        .getByRole("button", { name: "Crear", hidden: true })
+        .closest("form")!
+    );
+
+    expect(
+      await screen.findByText(
+        "Ocurrió un error inesperado. Intenta nuevamente en unos segundos."
+      )
+    ).toBeInTheDocument();
   });
 });

@@ -1,11 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PortfolioItem } from "@prisma/client";
 import {
   handleCreateItem,
   handleUpdateItem,
 } from "@/actions/admin/portfolio-items-actions";
+
+type ActionResult =
+  | { success: true }
+  | { success: false; errors?: Record<string, string[]> };
 
 type Props = {
   mode: "edit" | "create";
@@ -18,23 +22,71 @@ const PLATFORMS = ["YouTube", "Instagram", "TikTok"];
 
 function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+  const [formError, setFormError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     dialogRef.current?.showModal();
+
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
   }, []);
 
   const title = mode === "edit" ? "Editar elemento" : "Crear nuevo elemento";
+  const submitLabel = mode === "edit" ? "Actualizar" : "Crear";
+  const successLabel =
+    mode === "edit"
+      ? "Proyecto actualizado correctamente."
+      : "Proyecto creado correctamente.";
+
+  function getFieldError(fieldName: string) {
+    return fieldErrors[fieldName]?.[0] ?? null;
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setIsSubmitting(true);
+    setFieldErrors({});
+    setFormError(null);
+    setSuccessMessage(null);
+
     const formData = new FormData(e.currentTarget);
-    if (mode === "edit") {
-      await handleUpdateItem(formData);
-    } else {
-      await handleCreateItem(formData);
+
+    try {
+      const result: ActionResult =
+        mode === "edit"
+          ? await handleUpdateItem(formData)
+          : await handleCreateItem(formData);
+
+      if (!result.success) {
+        setFieldErrors(result.errors ?? {});
+        setFormError(
+          "Revisa los campos marcados e inténtalo de nuevo.",
+        );
+        return;
+      }
+
+      setSuccessMessage(successLabel);
+      onSuccess();
+
+      closeTimeoutRef.current = setTimeout(() => {
+        onClose();
+      }, 1200);
+    } catch (error) {
+      console.error("Error submitting portfolio modal:", error);
+      setFormError(
+        "Ocurrió un error inesperado. Intenta nuevamente en unos segundos.",
+      );
+    } finally {
+      setIsSubmitting(false);
     }
-    onSuccess();
-    onClose();
   };
 
   return (
@@ -42,7 +94,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
       ref={dialogRef}
       onClose={onClose}
       className="fixed inset-0 z-50 m-auto max-h-[90vh] w-[90vw] max-w-xl overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] text-white p-4 rounded-lg backdrop:bg-black/70 backdrop:backdrop-blur-sm"
-    >
+      >
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-[#57d9ff]">{title}</h2>
         <button
@@ -67,6 +119,27 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           </svg>
         </button>
       </div>
+
+      {formError ? (
+        <p
+          role="alert"
+          aria-live="polite"
+          className="mt-4 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+        >
+          {formError}
+        </p>
+      ) : null}
+
+      {successMessage ? (
+        <p
+          role="status"
+          aria-live="polite"
+          className="mt-4 rounded-xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100"
+        >
+          {successMessage}
+        </p>
+      ) : null}
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         {mode === "edit" && item && (
           <input type="hidden" name="id" value={item.id} />
@@ -76,15 +149,22 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           <input
             type="text"
             name="title"
+            required
             defaultValue={item?.title || ""}
+            aria-invalid={Boolean(getFieldError("title"))}
             className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           />
+          {getFieldError("title") ? (
+            <span className="text-xs text-red-200">{getFieldError("title")}</span>
+          ) : null}
         </label>
         <label className="flex flex-col gap-1">
           <span className="text-sm font-medium text-gray-300">Plataforma</span>
           <select
             name="platform"
+            required
             defaultValue={item?.platform || "YouTube"}
+            aria-invalid={Boolean(getFieldError("platform"))}
             className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           >
             {PLATFORMS.map((p) => (
@@ -93,6 +173,9 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
               </option>
             ))}
           </select>
+          {getFieldError("platform") ? (
+            <span className="text-xs text-red-200">{getFieldError("platform")}</span>
+          ) : null}
         </label>
 
         <label className="flex flex-col gap-1">
@@ -100,9 +183,14 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           <input
             type="url"
             name="thumbnail"
+            required
             defaultValue={item?.thumbnail || ""}
+            aria-invalid={Boolean(getFieldError("thumbnail"))}
             className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           />
+          {getFieldError("thumbnail") ? (
+            <span className="text-xs text-red-200">{getFieldError("thumbnail")}</span>
+          ) : null}
         </label>
 
         <label className="flex flex-col gap-1">
@@ -110,27 +198,42 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           <input
             type="url"
             name="href"
+            required
             defaultValue={item?.href || ""}
+            aria-invalid={Boolean(getFieldError("href"))}
             className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           />
+          {getFieldError("href") ? (
+            <span className="text-xs text-red-200">{getFieldError("href")}</span>
+          ) : null}
         </label>
         <label className="flex flex-col gap-1">
           <span className="text-sm font-medium text-gray-300">Descripción</span>
           <textarea
             name="description"
+            required
             defaultValue={item?.description || ""}
             rows={4}
+            aria-invalid={Boolean(getFieldError("description"))}
             className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff] resize-none"
           />
+          {getFieldError("description") ? (
+            <span className="text-xs text-red-200">{getFieldError("description")}</span>
+          ) : null}
         </label>
         <label className="flex flex-col gap-1">
           <span className="text-sm font-medium text-gray-300">Orden</span>
           <input
             type="number"
             name="sortOrder"
+            min={0}
             defaultValue={item?.sortOrder || 0}
+            aria-invalid={Boolean(getFieldError("sortOrder"))}
             className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           />
+          {getFieldError("sortOrder") ? (
+            <span className="text-xs text-red-200">{getFieldError("sortOrder")}</span>
+          ) : null}
         </label>
         <div className="flex items-center gap-6">
           <label className="flex items-center gap-2">
@@ -158,9 +261,10 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
         </div>
         <button
           type="submit"
-          className="self-end mt-4 px-6 py-2 bg-[#57d9ff] text-[#101841] rounded-full hover:bg-white transition-colors duration-150"
+          disabled={isSubmitting}
+          className="self-end mt-4 px-6 py-2 bg-[#57d9ff] text-[#101841] rounded-full hover:bg-white transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {mode === "edit" ? "Actualizar" : "Crear"}
+          {isSubmitting ? "Guardando..." : submitLabel}
         </button>
       </form>
     </dialog>

@@ -40,8 +40,8 @@ async function AdminContent() {
   return (
     <div className="min-h-screen bg-[#101841] text-white">
       <header className="sticky top-0 z-10 border-b border-white/10 bg-[#101841]/85 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 py-4 lg:px-10">
-          <div className="space-y-2">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-6 py-2 lg:px-10">
+          <div className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff]">
               Digital Clip Agency
             </p>
@@ -90,8 +90,8 @@ async function AdminContent() {
         </section>
 
         <section className="rounded-3xl border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] p-6 shadow-2xl shadow-black/20">
-          <div className="mb-6 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
-            <div className="flex justify-between">
+          <div className="mb-6 flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff]">
                   Portafolio
@@ -100,9 +100,9 @@ async function AdminContent() {
                   Biblioteca de proyectos
                 </h2>
               </div>
-              <div>
-                <CreateItemButton />
-              </div>
+            </div>
+            <div className="flex justify-start sm:justify-end">
+              <CreateItemButton />
             </div>
           </div>
 

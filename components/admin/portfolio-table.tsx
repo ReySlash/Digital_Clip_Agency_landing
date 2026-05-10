@@ -27,7 +27,7 @@ async function PortfolioTable(props: Props) {
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 ">
+    <div className="overflow-hidden rounded-2xl border border-white/10">
       <div className="overflow-x-auto">
         <table className="min-w-full table-fixed">
           <thead>
@@ -67,20 +67,20 @@ async function PortfolioTable(props: Props) {
                 <td className="px-5 py-5 align-top">
                   <div className="flex flex-wrap gap-2">
                     <span
-                      className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${
-                        item.published
-                          ? "border border-emerald-400/25 bg-emerald-400/10 text-emerald-200"
-                          : "border border-white/10 bg-white/5 text-white/45"
-                      }`}
+                       className={`inline-flex min-w-28 items-center justify-center rounded-full px-3 py-1 text-center text-[11px] font-semibold uppercase tracking-[0.2em] ${
+                         item.published
+                           ? "border border-emerald-400/25 bg-emerald-400/30 text-emerald-100"
+                           : "border border-white/20 bg-white/10 text-white/70"
+                       }`}
                     >
                       {item.published ? "Publicado" : "Borrador"}
                     </span>
                     <span
-                      className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${
-                        item.featured
-                          ? "border border-[#57d9ff]/30 bg-[#57d9ff]/10 text-[#57d9ff]"
-                          : "border border-white/10 bg-white/5 text-white/45"
-                      }`}
+                       className={`inline-flex min-w-28 items-center justify-center rounded-full px-3 py-1 text-center text-[11px] font-semibold uppercase tracking-[0.2em] ${
+                         item.featured
+                           ? "border border-[#57d9ff]/30 bg-[#57d9ff]/10 text-[#57d9ff]"
+                           : "border border-white/10 bg-white/10 text-white/70"
+                       }`}
                     >
                       {item.featured ? "Destacado" : "Normal"}
                     </span>
@@ -94,7 +94,7 @@ async function PortfolioTable(props: Props) {
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex max-w-55 break-all text-[#57d9ff] transition hover:text-[#7be3ff] hover:underline"
+                     className="inline-flex max-w-56 break-all text-[#57d9ff] transition hover:text-[#7be3ff] hover:underline"
                   >
                     {item.href}
                   </a>
