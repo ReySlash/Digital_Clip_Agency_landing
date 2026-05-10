@@ -4,6 +4,10 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, UserRole } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
+if (process.env.NODE_ENV === "production") {
+  throw new Error("Seeding is disabled in production.");
+}
+
 const connectionString = process.env.DATABASE_URL;
 const seedAdminEmail = process.env.SEED_ADMIN_EMAIL;
 const seedAdminPassword = process.env.SEED_ADMIN_PASSWORD;

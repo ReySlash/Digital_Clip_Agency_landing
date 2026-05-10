@@ -200,6 +200,7 @@ auth.ts
 - The app requires `DATABASE_URL`
 - Admin auth also requires `AUTH_SECRET`, `AUTH_TRUST_HOST`, and a correct `AUTH_URL`
 - The seed script creates sample portfolio items and one admin user from explicit local env variables
+- Seeding is blocked in production (`NODE_ENV` check in `prisma/seed.ts`)
 - Do not add default bootstrap credentials to the repo; local admin login should come from developer-provided env values during seeding
 - Cache invalidation for portfolio mutations is handled with `updateTag`
 - Login abuse protection is intentionally in-memory and scoped to a single app instance

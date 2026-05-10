@@ -272,7 +272,7 @@ npm run build
 
 ## Seeded Admin Account
 
-The seed script creates one admin user using `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, and optional `SEED_ADMIN_NAME` from your local environment. No default login credentials are committed to the repo.
+The seed script creates one admin user using `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, and optional `SEED_ADMIN_NAME` from your local environment. No default login credentials are committed to the repo. Seeding is blocked in production via `NODE_ENV` so it cannot be triggered accidentally on a deployed environment.
 
 `AUTH_URL` should match the app origin so login redirects resolve correctly in local and deployed environments.
 
