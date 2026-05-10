@@ -1,8 +1,6 @@
 import { Suspense } from "react";
-import { AuthError } from "next-auth";
-import { redirect } from "next/navigation";
 
-import { signIn } from "@/auth";
+import { adminLoginAction } from "@/actions/admin/login-action";
 import { LoginPageShell } from "@/components/admin/login-page-shell";
 
 type LoginPageProps = {
@@ -34,29 +32,14 @@ async function LoginPageContent({ searchParams }: LoginPageProps) {
   const params = await searchParams;
   const callbackUrl = params.callbackUrl ?? "/admin";
   const showError = params.error === "CredentialsSignin";
+  const showRateLimited = params.error === "RateLimited";
 
   return (
     <LoginPageShell>
         <form
           action={async (formData) => {
             "use server";
-
-            try {
-              await signIn("credentials", {
-                email: formData.get("email"),
-                password: formData.get("password"),
-                redirectTo: callbackUrl,
-              });
-            } catch (error) {
-              if (error instanceof AuthError) {
-                const loginUrl = new URL("/admin/login", process.env.AUTH_URL ?? "http://localhost:3000");
-                loginUrl.searchParams.set("callbackUrl", callbackUrl);
-                loginUrl.searchParams.set("error", error.type);
-                redirect(`${loginUrl.pathname}${loginUrl.search}`);
-              }
-
-              throw error;
-            }
+            await adminLoginAction(formData, callbackUrl);
           }}
           className="space-y-5"
         >
@@ -93,6 +76,12 @@ async function LoginPageContent({ searchParams }: LoginPageProps) {
           {showError ? (
             <p className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
               Credenciales inválidas. Verifica tu email y contraseña.
+            </p>
+          ) : null}
+
+          {showRateLimited ? (
+            <p className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+              Demasiados intentos fallidos. Espera unos minutos antes de volver a intentar.
             </p>
           ) : null}
 
