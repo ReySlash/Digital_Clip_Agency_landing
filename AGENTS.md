@@ -47,6 +47,7 @@ This version has breaking changes - APIs, conventions, and file structure may al
   - set sort order
 - Admin UI currently uses server actions plus a client modal context
 - Admin/auth protection is implemented with NextAuth/Auth.js credentials login
+- Only `ADMIN` role users should be able to access `/admin` and admin server actions
 - Failed admin logins are rate limited in memory by IP and email key
 - The admin dashboard includes a logout action and refreshed premium dark UI
 - Admin mutations show inline success/error feedback instead of browser alerts
@@ -186,6 +187,7 @@ auth.ts
 - Admin pages can query full portfolio data sets
 - Admin authentication validates credentials against the Prisma `User` table
 - Admin server actions should enforce access through `requireAdminSession()`
+- Protected admin pages should use `requireAdminSession()` too so page and action auth rules stay aligned
 - Portfolio reads should go through the cached helpers in `lib/portfolio-data.ts`
 - Modal open/edit/create state is currently handled with `PortfolioModalProvider`
 - Validation for admin portfolio mutations should continue to live next to the actions workflow
@@ -198,7 +200,8 @@ auth.ts
   - `PortfolioItem`
 - `PortfolioItem` is mapped to the `Projects` table
 - The app requires `DATABASE_URL`
-- Admin auth also requires `AUTH_SECRET`, `AUTH_TRUST_HOST`, and a correct `AUTH_URL`
+- Admin auth requires `AUTH_SECRET` and a correct `AUTH_URL`
+- `auth.ts` currently enables `trustHost: true` directly, so `AUTH_TRUST_HOST` is not a required env var right now
 - The seed script creates sample portfolio items and one admin user from explicit local env variables
 - Seeding is blocked in production (`NODE_ENV` check in `prisma/seed.ts`)
 - Do not add default bootstrap credentials to the repo; local admin login should come from developer-provided env values during seeding
@@ -221,6 +224,9 @@ auth.ts
 - Preserve the established visual language already present in the implemented landing sections
 - Be careful when changing the portfolio section because it affects both homepage rendering and admin-managed content
 - If touching setup docs or local workflow, remember the repo currently uses `npx tsx prisma/seed.ts` for seeding and not a package script
+- If touching deployment docs or config, document `npx prisma migrate deploy` as the production migration path
+- Do not document or automate production seeding; production should use committed migrations only
+- `AUTH_URL` must match the deployed origin exactly or login redirects can break
 - For auth protection, prefer app runtime checks on protected admin routes instead of the deprecated `middleware.ts` path in Next.js 16
 - With `cacheComponents: true`, do not await request-time APIs like auth, cookies, headers, or `searchParams` directly at the route root without a Suspense boundary
 - Auth.js sign-in success and failure redirects rely on thrown redirect control flow, so route-level wrappers must not swallow those errors

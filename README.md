@@ -47,7 +47,7 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 ## Current Status
 
 - Portfolio content is no longer placeholder-only; it comes from PostgreSQL through Prisma
-- The admin area is protected with credentials-based authentication
+- The admin area is protected with `ADMIN`-only credentials-based authentication
 - Admin access is currently enforced on the main `/admin` page, while `/admin/login` stays public
 - Failed admin login attempts are rate limited per IP and email combination
 - Portfolio data for both `/` and `/admin` is cached with tags and refreshed on-demand through admin mutations
@@ -189,7 +189,6 @@ The app runtime requires a PostgreSQL connection string plus auth configuration.
 ```bash
 DATABASE_URL="postgresql://user:password@localhost:5432/digital_clip_agency?schema=public"
 AUTH_SECRET="replace-with-output-from-npx-auth-secret"
-AUTH_TRUST_HOST="true"
 AUTH_URL="http://localhost:3000"
 SEED_ADMIN_EMAIL="owner@example.com"
 SEED_ADMIN_PASSWORD="replace-with-a-strong-password"
@@ -197,6 +196,8 @@ SEED_ADMIN_NAME="Digital Clip Admin"
 ```
 
 Copy `.env.example` to `.env` and update it for your local database.
+
+`AUTH_URL` must match the exact app origin in each environment so login redirects resolve correctly.
 
 ## Local Development
 
@@ -237,6 +238,67 @@ Open `http://localhost:3000` for the public site and `http://localhost:3000/admi
 If you are not authenticated, `/admin` redirects to `/admin/login`.
 
 Failed logins are rate limited in memory after repeated attempts from the same IP and email pair. This is lightweight single-instance protection, not a distributed production-grade throttle.
+
+## Deployment
+
+This project is deployment-ready for any platform that can run a Next.js Node server and provide a PostgreSQL database.
+
+### Production Environment Variables
+
+Set these in your deployment platform:
+
+```bash
+DATABASE_URL="postgresql://user:password@host:5432/digital_clip_agency?schema=public"
+AUTH_SECRET="replace-with-output-from-npx-auth-secret"
+AUTH_URL="https://your-domain.com"
+```
+
+Do not set local-only seed variables in production unless you explicitly need them for a one-off local workflow.
+
+### Production Database Setup
+
+Apply committed Prisma migrations in production:
+
+```bash
+npx prisma migrate deploy
+```
+
+Do not run `npx tsx prisma/seed.ts` in production. The seed script is intentionally blocked when `NODE_ENV === "production"`.
+
+### Build And Start
+
+Build the application:
+
+```bash
+npm run build
+```
+
+Start the production server:
+
+```bash
+npm run start
+```
+
+On managed platforms, use their standard Next.js build and start flow while still ensuring migrations run before the app serves traffic.
+
+### Pre-Deploy Checklist
+
+- `npm run typecheck`
+- `npm run test`
+- `npm run build`
+- Confirm `DATABASE_URL`, `AUTH_SECRET`, and `AUTH_URL` are set in the target environment
+- Confirm all Prisma migrations are committed
+- Confirm production deployment will run `npx prisma migrate deploy`
+- Confirm no deployment step runs `prisma/seed.ts`
+
+### Post-Deploy Checklist
+
+- Homepage loads successfully
+- Portfolio items render on `/`
+- `/admin/login` loads successfully
+- Valid admin credentials redirect into `/admin`
+- Portfolio create, edit, and delete flows work
+- Logout returns the user to the login flow
 
 ## Verification
 
@@ -283,6 +345,7 @@ The seed script creates one admin user using `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PAS
 - `PortfolioModalProvider` is mounted only in the admin layout
 - `lib/prisma.ts` throws if `DATABASE_URL` is missing
 - Because the homepage imports the Prisma-backed portfolio section, the app also needs database access when rendering `/`
+- The project currently trusts the host directly in `auth.ts`, so `AUTH_TRUST_HOST` is not required in the environment at this time
 - Next.js 16 deprecates `middleware.ts` in favor of `proxy.ts`, but this project currently avoids proxy-based auth and protects the admin route inside app runtime code instead
 - With `cacheComponents: true`, request-time APIs like auth cookies and `searchParams` must live behind `<Suspense>` unless fully cached
 
