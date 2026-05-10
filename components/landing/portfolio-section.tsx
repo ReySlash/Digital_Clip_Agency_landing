@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { getPublishedPortfolioItems } from "@/lib/portfolio-data";
+import { getPublishedPortfolioItemsSafe } from "@/lib/portfolio-data";
 import { siteData } from "@/lib/site-data";
 
 export async function PortfolioSection() {
-  const portfolioItems = await getPublishedPortfolioItems();
+  const portfolioItems = await getPublishedPortfolioItemsSafe();
 
   return (
     <section id="portafolio" className="mb-16 lg:mb-10">

@@ -11,7 +11,6 @@ const portfolioOrder = [
 export async function getPublishedPortfolioItems() {
   "use cache";
 
-  // Keep landing data prerenderable and reuse it until an admin mutation expires the tag.
   cacheLife("max");
   cacheTag("portfolio", "portfolio-public");
 
@@ -21,6 +20,15 @@ export async function getPublishedPortfolioItems() {
     },
     orderBy: portfolioOrder,
   });
+}
+
+export async function getPublishedPortfolioItemsSafe() {
+  try {
+    return await getPublishedPortfolioItems();
+  } catch (error) {
+    console.error("Failed to load published portfolio items:", error);
+    return [];
+  }
 }
 
 export async function getAdminPortfolioItems() {
