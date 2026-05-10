@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import { updateTag } from "next/cache";
 import { z } from "zod";
+import { requireAdminSession } from "@/lib/admin-auth";
 import { handleZodError } from "@/lib/zod-utils";
 import {
   validateCreateFormData,
@@ -10,6 +11,8 @@ import {
 
 async function handleCreateItem(formData: FormData) {
   try {
+    await requireAdminSession();
+
     const validatedData = await validateCreateFormData(formData);
     await prisma.portfolioItem.create({ data: validatedData });
 
@@ -30,6 +33,8 @@ async function handleCreateItem(formData: FormData) {
 
 async function handleUpdateItem(formData: FormData) {
   try {
+    await requireAdminSession();
+
     const validatedData = await validateUpdateFormData(formData);
     const { id, ...data } = validatedData;
 
@@ -55,6 +60,8 @@ async function handleUpdateItem(formData: FormData) {
 
 async function handleRemoveItem(itemId: string) {
   try {
+    await requireAdminSession();
+
     await prisma.portfolioItem.delete({
       where: {
         id: itemId,

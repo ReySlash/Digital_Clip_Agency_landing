@@ -6,6 +6,7 @@ const {
   updateMock,
   deleteMock,
   updateTagMock,
+  requireAdminSessionMock,
   validateCreateFormDataMock,
   validateUpdateFormDataMock,
   handleZodErrorMock,
@@ -14,6 +15,7 @@ const {
   updateMock: vi.fn(),
   deleteMock: vi.fn(),
   updateTagMock: vi.fn(),
+  requireAdminSessionMock: vi.fn(),
   validateCreateFormDataMock: vi.fn(),
   validateUpdateFormDataMock: vi.fn(),
   handleZodErrorMock: vi.fn(),
@@ -31,6 +33,10 @@ vi.mock("@/lib/prisma", () => ({
 
 vi.mock("next/cache", () => ({
   updateTag: updateTagMock,
+}));
+
+vi.mock("@/lib/admin-auth", () => ({
+  requireAdminSession: requireAdminSessionMock,
 }));
 
 vi.mock("@/actions/admin/portfolio-items-validation", () => ({
@@ -54,9 +60,39 @@ describe("portfolio item actions", () => {
     updateMock.mockReset();
     deleteMock.mockReset();
     updateTagMock.mockReset();
+    requireAdminSessionMock.mockReset();
     validateCreateFormDataMock.mockReset();
     validateUpdateFormDataMock.mockReset();
     handleZodErrorMock.mockReset();
+
+    requireAdminSessionMock.mockResolvedValue({
+      user: { id: "admin-1", role: "ADMIN" },
+    });
+  });
+
+  it("rejects create when the caller is not authorized", async () => {
+    const formData = new FormData();
+    requireAdminSessionMock.mockRejectedValue(new Error("Unauthorized"));
+
+    await expect(handleCreateItem(formData)).rejects.toThrow("Unauthorized");
+    expect(validateCreateFormDataMock).not.toHaveBeenCalled();
+    expect(createMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects update when the caller is not authorized", async () => {
+    const formData = new FormData();
+    requireAdminSessionMock.mockRejectedValue(new Error("Unauthorized"));
+
+    await expect(handleUpdateItem(formData)).rejects.toThrow("Unauthorized");
+    expect(validateUpdateFormDataMock).not.toHaveBeenCalled();
+    expect(updateMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects delete when the caller is not authorized", async () => {
+    requireAdminSessionMock.mockRejectedValue(new Error("Unauthorized"));
+
+    await expect(handleRemoveItem("item-1")).rejects.toThrow("Unauthorized");
+    expect(deleteMock).not.toHaveBeenCalled();
   });
 
   it("creates an item and expires all portfolio tags", async () => {
