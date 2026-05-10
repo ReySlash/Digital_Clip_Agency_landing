@@ -36,6 +36,12 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 - Refreshed admin UI with premium dark gradients and status badges
 - Portfolio management data is cached and invalidated immediately after admin writes
 
+### Testing
+
+- Vitest is configured for unit and component tests
+- Testing Library is used for React component coverage
+- Current automated coverage focuses on validation, auth logic, admin actions, cache helpers, and key admin UI interactions
+
 ## Current Status
 
 - Portfolio content is no longer placeholder-only; it comes from PostgreSQL through Prisma
@@ -126,6 +132,23 @@ types/
 auth.ts
 ```
 
+## Test Setup
+
+- `vitest.config.ts` configures jsdom, coverage, and the `@/*` alias
+- `test/setup.ts` loads `@testing-library/jest-dom` and resets mocks between tests
+- Auth decision logic is extracted into `lib/auth-logic.ts` to keep NextAuth wiring thin and testable
+
+Current test coverage includes:
+
+- portfolio schemas
+- FormData validation helpers
+- zod error formatting
+- credentials auth logic and callbacks
+- portfolio mutation actions and cache invalidation
+- cached portfolio data helpers
+- logout button interaction
+- portfolio table rendering states
+
 ## Data Flow
 
 - `lib/site-data.ts` stores hardcoded marketing content for most landing sections
@@ -207,6 +230,18 @@ Type check:
 
 ```bash
 npm run typecheck
+```
+
+Tests:
+
+```bash
+npm run test
+```
+
+Watch mode:
+
+```bash
+npm run test:watch
 ```
 
 Production build:

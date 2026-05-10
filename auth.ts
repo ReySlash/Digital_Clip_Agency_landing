@@ -1,13 +1,10 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
-import { z } from "zod";
-
-const signInSchema = z.object({
-  email: z.email({ message: "Email inválido" }),
-  password: z.string().min(1, "Contraseña requerida"),
-});
+import {
+  authorizeCredentials,
+  jwtCallback,
+  sessionCallback,
+} from "@/lib/auth-logic";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -18,28 +15,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
 
       async authorize(credentials) {
-        const parsed = signInSchema.safeParse(credentials);
-
-        if (!parsed.success) return null;
-
-        const { email, password } = parsed.data;
-
-        const user = await prisma.user.findUnique({
-          where: { email },
-        });
-
-        if (!user) return null;
-
-        const isValid = await bcrypt.compare(password, user.passwordHash);
-
-        if (!isValid) return null;
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        };
+        return authorizeCredentials(credentials);
       },
     }),
   ],
@@ -52,21 +28,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.role = user.role;
-      }
-      return token;
+      return jwtCallback({
+        token,
+        user: user
+          ? {
+              id: user.id,
+              role: user.role,
+            }
+          : null,
+      });
     },
 
     async session({ session, token }) {
-      if (token) {
-        (session.user as unknown as { id: string; role: string }).id =
-          token.id as string;
-        (session.user as unknown as { id: string; role: string }).role =
-          token.role as string;
-      }
-      return session;
+      return sessionCallback({ session, token });
     },
   },
 

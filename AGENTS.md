@@ -91,6 +91,7 @@ This version has breaking changes - APIs, conventions, and file structure may al
 - Do not add `"use client"` unnecessarily
 - Prefer server actions for simple admin mutations already following the current pattern
 - Keep Prisma access centralized through `lib/prisma.ts`
+- Prefer testing pure logic in isolated helpers instead of coupling tests directly to framework wrappers when a small extraction keeps behavior unchanged
 
 ## Current Structure
 
@@ -144,6 +145,7 @@ contexts/
 
 lib/
   navigation.ts
+  auth-logic.ts
   portfolio-data.ts
   prisma.ts
   site-data.ts
@@ -161,6 +163,13 @@ schemas/
 types/
   next-auth.d.ts
 
+test/
+  setup.ts
+
+tests/
+  unit/
+  components/
+
 auth.ts
 ```
 
@@ -174,6 +183,7 @@ auth.ts
 - Portfolio reads should go through the cached helpers in `lib/portfolio-data.ts`
 - Modal open/edit/create state is currently handled with `PortfolioModalProvider`
 - Validation for admin portfolio mutations should continue to live next to the actions workflow
+- Tests currently focus on validation, auth logic, mutation actions, cached data helpers, and critical admin UI behavior
 
 ## Database Notes
 
@@ -186,6 +196,7 @@ auth.ts
 - The seed script creates local bootstrap users and sample portfolio items
 - The seeded users are now used by the credentials-based admin login
 - Cache invalidation for portfolio mutations is handled with `updateTag`
+- Vitest + Testing Library are configured for local automated testing
 
 ## Near-Term Priorities
 
@@ -204,3 +215,4 @@ auth.ts
 - If touching setup docs or local workflow, remember the repo currently uses `npx tsx prisma/seed.ts` for seeding and not a package script
 - For auth protection, prefer app runtime checks on protected admin routes instead of the deprecated `middleware.ts` path in Next.js 16
 - With `cacheComponents: true`, do not await request-time APIs like auth, cookies, headers, or `searchParams` directly at the route root without a Suspense boundary
+- `npm run test`, `npm run test:watch`, and `npm run test:coverage` are available for the current test suite
