@@ -1,7 +1,9 @@
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import PortfolioTable from "@/components/admin/portfolio-table";
 import CreateItemButton from "@/components/admin/create-item-button";
 import PortfolioModalWrapper from "@/components/admin/portfolio-modal-wrapper";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Admin Panel - Digital Clip Agency",
@@ -25,6 +27,13 @@ async function getPortfolioItems() {
 }
 
 async function AdminPage() {
+  const session = await auth();
+
+  // Protect the actual admin screen while leaving /admin/login accessible.
+  if (!session?.user) {
+    redirect("/admin/login?callbackUrl=/admin");
+  }
+
   const portfolioItems = await getPortfolioItems();
 
   return (
