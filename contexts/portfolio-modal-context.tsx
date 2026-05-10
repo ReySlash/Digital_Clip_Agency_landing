@@ -1,18 +1,26 @@
 "use client";
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, ReactNode } from "react";
 import { PortfolioItem } from "@prisma/client";
 
 type ModalMode = "create" | "edit";
+type FeedbackTone = "success" | "error";
 type ModalState = {
   isOpen: boolean;
   mode: ModalMode;
   item: PortfolioItem | null;
 };
+type AdminFeedback = {
+  message: string;
+  tone: FeedbackTone;
+} | null;
 type ModalContextType = {
   modalState: ModalState;
+  adminFeedback: AdminFeedback;
   openCreate: () => void;
   openEdit: (item: PortfolioItem) => void;
   closeModal: () => void;
+  setAdminFeedback: (feedback: Exclude<AdminFeedback, null>) => void;
+  clearAdminFeedback: () => void;
 };
 const ModalContext = createContext<ModalContextType | null>(null);
 
@@ -22,6 +30,38 @@ export function PortfolioModalProvider({ children }: { children: ReactNode }) {
     mode: "create",
     item: null,
   });
+  const [adminFeedback, setAdminFeedbackState] = useState<AdminFeedback>(null);
+  const feedbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (feedbackTimeoutRef.current) {
+        clearTimeout(feedbackTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const clearAdminFeedback = () => {
+    if (feedbackTimeoutRef.current) {
+      clearTimeout(feedbackTimeoutRef.current);
+      feedbackTimeoutRef.current = null;
+    }
+
+    setAdminFeedbackState(null);
+  };
+
+  const setAdminFeedback = (feedback: Exclude<AdminFeedback, null>) => {
+    if (feedbackTimeoutRef.current) {
+      clearTimeout(feedbackTimeoutRef.current);
+    }
+
+    setAdminFeedbackState(feedback);
+    feedbackTimeoutRef.current = setTimeout(() => {
+      setAdminFeedbackState(null);
+      feedbackTimeoutRef.current = null;
+    }, 4000);
+  };
+
   const openCreate = () => {
     setModalState({ isOpen: true, mode: "create", item: null });
   };
@@ -33,7 +73,15 @@ export function PortfolioModalProvider({ children }: { children: ReactNode }) {
   };
   return (
     <ModalContext.Provider
-      value={{ modalState, openCreate, openEdit, closeModal }}
+      value={{
+        modalState,
+        adminFeedback,
+        openCreate,
+        openEdit,
+        closeModal,
+        setAdminFeedback,
+        clearAdminFeedback,
+      }}
     >
       {children}
     </ModalContext.Provider>

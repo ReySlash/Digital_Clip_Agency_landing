@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { getAdminPortfolioItems } from "@/lib/portfolio-data";
 import PortfolioTable from "@/components/admin/portfolio-table";
 import CreateItemButton from "@/components/admin/create-item-button";
+import AdminFeedbackBanner from "@/components/admin/admin-feedback-banner";
 import PortfolioModalWrapper from "@/components/admin/portfolio-modal-wrapper";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -106,6 +107,7 @@ async function AdminContent() {
             </div>
           </div>
 
+          <AdminFeedbackBanner />
           <PortfolioTable portfolioItems={portfolioItems} />
         </section>
       </main>

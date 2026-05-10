@@ -1,6 +1,7 @@
 "use client";
 
 import { handleRemoveItem } from "@/actions/admin/portfolio-items-actions";
+import { usePortfolioModal } from "@/contexts/portfolio-modal-context";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
@@ -11,6 +12,7 @@ type Props = {
 
 function RemoveItemButton({ itemId }: Props) {
   const router = useRouter();
+  const { setAdminFeedback } = usePortfolioModal();
   const [isPending, setIsPending] = useState(false);
 
   const handleClick = async () => {
@@ -19,12 +21,18 @@ function RemoveItemButton({ itemId }: Props) {
 
       try {
         await handleRemoveItem(itemId);
+        setAdminFeedback({
+          message: "Proyecto eliminado correctamente.",
+          tone: "success",
+        });
         router.refresh();
       } catch (error) {
         console.error("Error removing portfolio item:", error);
-        window.alert(
-          "No se pudo eliminar el proyecto. Intenta nuevamente en unos segundos.",
-        );
+        setAdminFeedback({
+          message:
+            "No se pudo eliminar el proyecto. Intenta nuevamente en unos segundos.",
+          tone: "error",
+        });
       } finally {
         setIsPending(false);
       }
