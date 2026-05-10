@@ -32,21 +32,24 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 - Modal state handled with a client context provider
 - Credentials-based admin authentication with NextAuth/Auth.js
 - Dedicated login screen at `/admin/login`
+- In-memory login abuse protection for failed admin sign-ins
 - Logout flow from the admin dashboard
 - Refreshed admin UI with premium dark gradients and status badges
 - Portfolio management data is cached and invalidated immediately after admin writes
+- Inline success and error feedback for admin mutations
 
 ### Testing
 
 - Vitest is configured for unit and component tests
 - Testing Library is used for React component coverage
-- Current automated coverage focuses on validation, auth logic, admin actions, cache helpers, and key admin UI interactions
+- Current automated coverage focuses on validation, auth logic, admin auth guards, login abuse protection, cache helpers, admin actions, and key admin UI interactions
 
 ## Current Status
 
 - Portfolio content is no longer placeholder-only; it comes from PostgreSQL through Prisma
 - The admin area is protected with credentials-based authentication
 - Admin access is currently enforced on the main `/admin` page, while `/admin/login` stays public
+- Failed admin login attempts are rate limited per IP and email combination
 - Portfolio data for both `/` and `/admin` is cached with tags and refreshed on-demand through admin mutations
 - Request-bound auth and login query state are rendered behind Suspense boundaries to satisfy Next.js 16 cache rules
 - Seed data includes sample portfolio items plus one admin user sourced from local env variables
@@ -81,6 +84,7 @@ app/
 
 actions/
   admin/
+    login-action.ts
     portfolio-items-actions.ts
     portfolio-items-validation.ts
 
@@ -111,6 +115,9 @@ contexts/
   portfolio-modal-context.tsx
 
 lib/
+  admin-auth.ts
+  auth-logic.ts
+  login-abuse-protection.ts
   navigation.ts
   portfolio-data.ts
   prisma.ts
@@ -144,8 +151,11 @@ Current test coverage includes:
 - FormData validation helpers
 - zod error formatting
 - credentials auth logic and callbacks
+- admin auth guard helpers
+- login abuse protection logic
 - portfolio mutation actions and cache invalidation
 - cached portfolio data helpers
+- admin login shell and feedback UI
 - logout button interaction
 - portfolio table rendering states
 
@@ -157,8 +167,10 @@ Current test coverage includes:
 - `components/landing/portfolio-section.tsx` reads published portfolio items through the cached data layer
 - `app/admin/page.tsx` reads admin portfolio data through the cached data layer
 - `actions/admin/portfolio-items-actions.ts` handles create, update, and delete server actions, then expires cache tags with `updateTag`
+- `actions/admin/login-action.ts` centralizes admin login submission, redirect handling, and failed-attempt rate limiting
 - `auth.ts` configures NextAuth/Auth.js credentials authentication against Prisma users
-- `app/admin/login/page.tsx` submits login credentials through `signIn()` and redirects back to `/admin`
+- `app/admin/login/page.tsx` submits login credentials through a server action wrapper so Auth.js redirects can propagate correctly
+- `lib/login-abuse-protection.ts` tracks failed login attempts in memory using an IP-plus-email key
 - `/admin` and `/admin/login` wrap request-time auth/searchParams access in `<Suspense>` so the route shell can still prerender
 
 ## Caching Strategy
@@ -178,6 +190,7 @@ The app runtime requires a PostgreSQL connection string plus auth configuration.
 DATABASE_URL="postgresql://user:password@localhost:5432/digital_clip_agency?schema=public"
 AUTH_SECRET="replace-with-output-from-npx-auth-secret"
 AUTH_TRUST_HOST="true"
+AUTH_URL="http://localhost:3000"
 SEED_ADMIN_EMAIL="owner@example.com"
 SEED_ADMIN_PASSWORD="replace-with-a-strong-password"
 SEED_ADMIN_NAME="Digital Clip Admin"
@@ -223,6 +236,8 @@ Open `http://localhost:3000` for the public site and `http://localhost:3000/admi
 
 If you are not authenticated, `/admin` redirects to `/admin/login`.
 
+Failed logins are rate limited in memory after repeated attempts from the same IP and email pair. This is lightweight single-instance protection, not a distributed production-grade throttle.
+
 ## Verification
 
 Lint:
@@ -258,6 +273,8 @@ npm run build
 ## Seeded Admin Account
 
 The seed script creates one admin user using `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, and optional `SEED_ADMIN_NAME` from your local environment. No default login credentials are committed to the repo.
+
+`AUTH_URL` should match the app origin so login redirects resolve correctly in local and deployed environments.
 
 ## Notes
 

@@ -47,7 +47,9 @@ This version has breaking changes - APIs, conventions, and file structure may al
   - set sort order
 - Admin UI currently uses server actions plus a client modal context
 - Admin/auth protection is implemented with NextAuth/Auth.js credentials login
+- Failed admin logins are rate limited in memory by IP and email key
 - The admin dashboard includes a logout action and refreshed premium dark UI
+- Admin mutations show inline success/error feedback instead of browser alerts
 - The admin page and login page use Suspense boundaries around request-time auth/searchParams access to satisfy Next.js 16 cache requirements
 
 ## Brand Direction
@@ -114,6 +116,7 @@ app/
 
 actions/
   admin/
+    login-action.ts
     portfolio-items-actions.ts
     portfolio-items-validation.ts
 
@@ -145,7 +148,9 @@ contexts/
 
 lib/
   navigation.ts
+  admin-auth.ts
   auth-logic.ts
+  login-abuse-protection.ts
   portfolio-data.ts
   prisma.ts
   site-data.ts
@@ -180,10 +185,11 @@ auth.ts
 - Published filtering for the public portfolio should remain enforced at the query level
 - Admin pages can query full portfolio data sets
 - Admin authentication validates credentials against the Prisma `User` table
+- Admin server actions should enforce access through `requireAdminSession()`
 - Portfolio reads should go through the cached helpers in `lib/portfolio-data.ts`
 - Modal open/edit/create state is currently handled with `PortfolioModalProvider`
 - Validation for admin portfolio mutations should continue to live next to the actions workflow
-- Tests currently focus on validation, auth logic, mutation actions, cached data helpers, and critical admin UI behavior
+- Tests currently focus on validation, auth logic, admin auth guards, login abuse protection, mutation actions, cached data helpers, and critical admin UI behavior
 
 ## Database Notes
 
@@ -192,10 +198,11 @@ auth.ts
   - `PortfolioItem`
 - `PortfolioItem` is mapped to the `Projects` table
 - The app requires `DATABASE_URL`
-- Admin auth also requires `AUTH_SECRET` and `AUTH_TRUST_HOST`
+- Admin auth also requires `AUTH_SECRET`, `AUTH_TRUST_HOST`, and a correct `AUTH_URL`
 - The seed script creates sample portfolio items and one admin user from explicit local env variables
 - Do not add default bootstrap credentials to the repo; local admin login should come from developer-provided env values during seeding
 - Cache invalidation for portfolio mutations is handled with `updateTag`
+- Login abuse protection is intentionally in-memory and scoped to a single app instance
 - Vitest + Testing Library are configured for local automated testing
 
 ## Near-Term Priorities
@@ -215,4 +222,5 @@ auth.ts
 - If touching setup docs or local workflow, remember the repo currently uses `npx tsx prisma/seed.ts` for seeding and not a package script
 - For auth protection, prefer app runtime checks on protected admin routes instead of the deprecated `middleware.ts` path in Next.js 16
 - With `cacheComponents: true`, do not await request-time APIs like auth, cookies, headers, or `searchParams` directly at the route root without a Suspense boundary
+- Auth.js sign-in success and failure redirects rely on thrown redirect control flow, so route-level wrappers must not swallow those errors
 - `npm run test`, `npm run test:watch`, and `npm run test:coverage` are available for the current test suite
