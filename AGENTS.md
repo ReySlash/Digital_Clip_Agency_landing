@@ -28,9 +28,10 @@ This version has breaking changes - APIs, conventions, and file structure may al
 ### Portfolio Data
 
 - The portfolio section is not placeholder-only anymore
-- `components/landing/portfolio-section.tsx` reads published portfolio items from Prisma
+- `components/landing/portfolio-section.tsx` reads published portfolio items through a cached data layer in `lib/portfolio-data.ts`
 - Homepage rendering depends on database access because portfolio content comes from PostgreSQL
 - Ordering is currently based on `featured`, `sortOrder`, then `createdAt`
+- Public and admin portfolio reads are cached with Next.js 16 Cache Components and invalidated by admin mutations
 
 ### Admin Area
 
@@ -47,6 +48,7 @@ This version has breaking changes - APIs, conventions, and file structure may al
 - Admin UI currently uses server actions plus a client modal context
 - Admin/auth protection is implemented with NextAuth/Auth.js credentials login
 - The admin dashboard includes a logout action and refreshed premium dark UI
+- The admin page and login page use Suspense boundaries around request-time auth/searchParams access to satisfy Next.js 16 cache requirements
 
 ## Brand Direction
 
@@ -142,6 +144,7 @@ contexts/
 
 lib/
   navigation.ts
+  portfolio-data.ts
   prisma.ts
   site-data.ts
   zod-utils.ts
@@ -168,6 +171,7 @@ auth.ts
 - Published filtering for the public portfolio should remain enforced at the query level
 - Admin pages can query full portfolio data sets
 - Admin authentication validates credentials against the Prisma `User` table
+- Portfolio reads should go through the cached helpers in `lib/portfolio-data.ts`
 - Modal open/edit/create state is currently handled with `PortfolioModalProvider`
 - Validation for admin portfolio mutations should continue to live next to the actions workflow
 
@@ -181,6 +185,7 @@ auth.ts
 - Admin auth also requires `AUTH_SECRET` and `AUTH_TRUST_HOST`
 - The seed script creates local bootstrap users and sample portfolio items
 - The seeded users are now used by the credentials-based admin login
+- Cache invalidation for portfolio mutations is handled with `updateTag`
 
 ## Near-Term Priorities
 
@@ -198,3 +203,4 @@ auth.ts
 - Be careful when changing the portfolio section because it affects both homepage rendering and admin-managed content
 - If touching setup docs or local workflow, remember the repo currently uses `npx tsx prisma/seed.ts` for seeding and not a package script
 - For auth protection, prefer app runtime checks on protected admin routes instead of the deprecated `middleware.ts` path in Next.js 16
+- With `cacheComponents: true`, do not await request-time APIs like auth, cookies, headers, or `searchParams` directly at the route root without a Suspense boundary

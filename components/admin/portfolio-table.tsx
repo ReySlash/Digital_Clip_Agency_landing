@@ -94,7 +94,7 @@ async function PortfolioTable(props: Props) {
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex max-w-[220px] break-all text-[#57d9ff] transition hover:text-[#7be3ff] hover:underline"
+                    className="inline-flex max-w-55 break-all text-[#57d9ff] transition hover:text-[#7be3ff] hover:underline"
                   >
                     {item.href}
                   </a>

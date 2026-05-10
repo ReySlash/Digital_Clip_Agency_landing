@@ -1,6 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
 import { z } from "zod";
 import { handleZodError } from "@/lib/zod-utils";
 import {
@@ -12,7 +12,12 @@ async function handleCreateItem(formData: FormData) {
   try {
     const validatedData = await validateCreateFormData(formData);
     await prisma.portfolioItem.create({ data: validatedData });
-    revalidatePath("/admin");
+
+    // Expire both public and admin portfolio caches immediately after a write.
+    updateTag("portfolio");
+    updateTag("portfolio-public");
+    updateTag("portfolio-admin");
+
     return { success: true };
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -33,7 +38,10 @@ async function handleUpdateItem(formData: FormData) {
       data,
     });
 
-    revalidatePath("/admin");
+    updateTag("portfolio");
+    updateTag("portfolio-public");
+    updateTag("portfolio-admin");
+
     return { success: true };
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -52,7 +60,10 @@ async function handleRemoveItem(itemId: string) {
         id: itemId,
       },
     });
-    revalidatePath("/admin");
+
+    updateTag("portfolio");
+    updateTag("portfolio-public");
+    updateTag("portfolio-admin");
   } catch (error) {
     console.error("Error removing portfolio item:", error);
     throw error;

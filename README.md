@@ -21,6 +21,7 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 - Instagram and `mailto:` contact CTAs
 - Cinematic dark visual direction with cyan accents
 - Scroll reveal motion for section content
+- Portfolio grid data is cached and prerendered with Next.js 16 Cache Components
 
 ### Admin
 
@@ -33,12 +34,15 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 - Dedicated login screen at `/admin/login`
 - Logout flow from the admin dashboard
 - Refreshed admin UI with premium dark gradients and status badges
+- Portfolio management data is cached and invalidated immediately after admin writes
 
 ## Current Status
 
 - Portfolio content is no longer placeholder-only; it comes from PostgreSQL through Prisma
 - The admin area is protected with credentials-based authentication
 - Admin access is currently enforced on the main `/admin` page, while `/admin/login` stays public
+- Portfolio data for both `/` and `/admin` is cached with tags and refreshed on-demand through admin mutations
+- Request-bound auth and login query state are rendered behind Suspense boundaries to satisfy Next.js 16 cache rules
 - Seed data includes bootstrap users and sample portfolio items for local development
 
 ## Tech Stack
@@ -102,6 +106,7 @@ contexts/
 
 lib/
   navigation.ts
+  portfolio-data.ts
   prisma.ts
   site-data.ts
   zod-utils.ts
@@ -125,11 +130,22 @@ auth.ts
 
 - `lib/site-data.ts` stores hardcoded marketing content for most landing sections
 - `lib/navigation.ts` stores same-page navigation links
-- `components/landing/portfolio-section.tsx` reads published portfolio items from Prisma
-- `app/admin/page.tsx` reads all portfolio items from Prisma for management
-- `actions/admin/portfolio-items-actions.ts` handles create, update, and delete server actions
+- `lib/portfolio-data.ts` contains cached Prisma reads for public and admin portfolio data
+- `components/landing/portfolio-section.tsx` reads published portfolio items through the cached data layer
+- `app/admin/page.tsx` reads admin portfolio data through the cached data layer
+- `actions/admin/portfolio-items-actions.ts` handles create, update, and delete server actions, then expires cache tags with `updateTag`
 - `auth.ts` configures NextAuth/Auth.js credentials authentication against Prisma users
 - `app/admin/login/page.tsx` submits login credentials through `signIn()` and redirects back to `/admin`
+- `/admin` and `/admin/login` wrap request-time auth/searchParams access in `<Suspense>` so the route shell can still prerender
+
+## Caching Strategy
+
+- `next.config.ts` enables `cacheComponents: true`
+- `lib/portfolio-data.ts` uses `"use cache"` with `cacheLife("max")`
+- Public portfolio data is tagged with `portfolio` and `portfolio-public`
+- Admin portfolio data is tagged with `portfolio` and `portfolio-admin`
+- Admin mutations call `updateTag("portfolio")`, `updateTag("portfolio-public")`, and `updateTag("portfolio-admin")`
+- Result: landing and admin data stay cached until an admin changes the portfolio, then the next request gets fresh data immediately
 
 ## Environment Variables
 
@@ -216,10 +232,12 @@ These are local bootstrap credentials defined in `prisma/seed.ts`. Treat them as
 - `lib/prisma.ts` throws if `DATABASE_URL` is missing
 - Because the homepage imports the Prisma-backed portfolio section, the app also needs database access when rendering `/`
 - Next.js 16 deprecates `middleware.ts` in favor of `proxy.ts`, but this project currently avoids proxy-based auth and protects the admin route inside app runtime code instead
+- With `cacheComponents: true`, request-time APIs like auth cookies and `searchParams` must live behind `<Suspense>` unless fully cached
 
 ## Roadmap Direction
 
 - Harden and refine `/admin` owner-only auth
 - Expand admin capabilities beyond portfolio management
+- Keep reducing unnecessary database reads on the free Neon tier
 - Keep the public site professional, minimal, and Spanish-first
 - Add English support later if needed

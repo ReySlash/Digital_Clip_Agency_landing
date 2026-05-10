@@ -1,16 +1,11 @@
 import Image from "next/image";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { prisma } from "@/lib/prisma";
+import { getPublishedPortfolioItems } from "@/lib/portfolio-data";
 import { siteData } from "@/lib/site-data";
 
 export async function PortfolioSection() {
-  const portfolioItems = await prisma.portfolioItem.findMany({
-    where: {
-      published: true,
-    },
-    orderBy: [{ featured: "desc" }, { sortOrder: "asc" }, { createdAt: "desc" }],
-  });
+  const portfolioItems = await getPublishedPortfolioItems();
 
   return (
     <section id="portafolio" className="mb-16 lg:mb-10">

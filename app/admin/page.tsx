@@ -1,9 +1,10 @@
 import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
+import { getAdminPortfolioItems } from "@/lib/portfolio-data";
 import PortfolioTable from "@/components/admin/portfolio-table";
 import CreateItemButton from "@/components/admin/create-item-button";
 import PortfolioModalWrapper from "@/components/admin/portfolio-modal-wrapper";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import LogoutButton from "@/components/admin/logout-button";
 
 export const metadata = {
@@ -11,23 +12,19 @@ export const metadata = {
   description: "Admin panel for managing Digital Clip Agency content",
 };
 
-async function getPortfolioItems() {
-  try {
-    const portfolioItems = await prisma.portfolioItem.findMany({
-      orderBy: [
-        { featured: "desc" },
-        { sortOrder: "asc" },
-        { createdAt: "desc" },
-      ],
-    });
-    return portfolioItems;
-  } catch (error) {
-    console.error("Error fetching portfolio items:", error);
-    return [];
-  }
+function AdminPageSkeleton() {
+  return (
+    <div className="min-h-screen bg-[#101841] text-white">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-6 py-8 lg:px-10 lg:py-10">
+        <div className="h-24 animate-pulse rounded-3xl border border-white/10 bg-white/5" />
+        <div className="h-40 animate-pulse rounded-3xl border border-white/10 bg-white/5" />
+        <div className="h-105 animate-pulse rounded-3xl border border-white/10 bg-white/5" />
+      </div>
+    </div>
+  );
 }
 
-async function AdminPage() {
+async function AdminContent() {
   const session = await auth();
 
   // Protect the actual admin screen while leaving /admin/login accessible.
@@ -35,7 +32,7 @@ async function AdminPage() {
     redirect("/admin/login?callbackUrl=/admin");
   }
 
-  const portfolioItems = await getPortfolioItems();
+  const portfolioItems = await getAdminPortfolioItems();
   const userName = session.user.name ?? session.user.email ?? "Admin";
   const userEmail = session.user.email ?? "";
   const userRole = (session.user as { role?: string }).role ?? "ADMIN";
@@ -118,4 +115,10 @@ async function AdminPage() {
   );
 }
 
-export default AdminPage;
+export default function AdminPage() {
+  return (
+    <Suspense fallback={<AdminPageSkeleton />}>
+      <AdminContent />
+    </Suspense>
+  );
+}
