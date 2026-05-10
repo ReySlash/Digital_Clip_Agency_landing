@@ -1,10 +1,7 @@
 import type { Session } from "next-auth";
-import type { UserRole } from "@prisma/client";
 
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-
-const PRIVILEGED_ROLES: UserRole[] = ["ADMIN", "DEV"];
 
 type RequireAdminSessionOptions = {
   onUnauthorized?: "throw" | "redirect";
@@ -16,7 +13,7 @@ export async function requireAdminSession(
 ): Promise<Session> {
   const session = await auth();
 
-  if (!session?.user || !PRIVILEGED_ROLES.includes(session.user.role)) {
+  if (!session?.user || session.user.role !== "ADMIN") {
     if (options.onUnauthorized === "redirect") {
       const loginPath = new URL(
         "/admin/login",

@@ -36,21 +36,6 @@ describe("requireAdminSession", () => {
     await expect(requireAdminSession()).resolves.toEqual(session);
   });
 
-  it("allows dev users", async () => {
-    const session = {
-      user: {
-        id: "dev-1",
-        email: "dev@example.com",
-        name: "Dev",
-        role: "DEV",
-      },
-    };
-
-    authMock.mockResolvedValue(session);
-
-    await expect(requireAdminSession()).resolves.toEqual(session);
-  });
-
   it("rejects missing sessions", async () => {
     authMock.mockResolvedValue(null);
 
