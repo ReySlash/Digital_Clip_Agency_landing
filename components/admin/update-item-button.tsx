@@ -10,10 +10,17 @@ type Props = {
 function UpdateItemButton(props: Props) {
   const { item } = props;
   const { openEdit } = usePortfolioModal();
+
   return (
-    <button onClick={() => openEdit(item)}>
+    <button
+      type="button"
+      onClick={() => openEdit(item)}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:border-[#57d9ff]/50 hover:bg-[#57d9ff]/10"
+      aria-label={`Editar ${item.title}`}
+      title="Editar proyecto"
+    >
       <Image
-        className="w-6 h-auto invert hover:scale-110 transition-transform duration-150"
+        className="h-auto w-5 invert transition-transform duration-150 hover:scale-110"
         src="/actions/editIcon.svg"
         alt=""
         width={100}

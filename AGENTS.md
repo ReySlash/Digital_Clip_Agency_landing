@@ -35,6 +35,7 @@ This version has breaking changes - APIs, conventions, and file structure may al
 ### Admin Area
 
 - An admin panel already exists at `/admin`
+- A dedicated login page exists at `/admin/login`
 - Current admin scope: manage portfolio items only
 - Supported actions:
   - create portfolio item
@@ -44,7 +45,8 @@ This version has breaking changes - APIs, conventions, and file structure may al
   - set featured flag
   - set sort order
 - Admin UI currently uses server actions plus a client modal context
-- Admin/auth protection is not implemented yet
+- Admin/auth protection is implemented with NextAuth/Auth.js credentials login
+- The admin dashboard includes a logout action and refreshed premium dark UI
 
 ## Brand Direction
 
@@ -98,7 +100,14 @@ app/
   not-found.tsx
   admin/
     layout.tsx
+    login/
+      page.tsx
     page.tsx
+
+  api/
+    auth/
+      [...nextauth]/
+        route.ts
 
 actions/
   admin/
@@ -121,6 +130,7 @@ components/
     copy-email-button.tsx
   admin/
     create-item-button.tsx
+    logout-button.tsx
     update-item-button.tsx
     remove-item-button.tsx
     portfolio-table.tsx
@@ -144,6 +154,11 @@ prisma/
 schemas/
   create-portfolio-item-schema.ts
   update-portfolio-item-schema.ts
+
+types/
+  next-auth.d.ts
+
+auth.ts
 ```
 
 ## Data And State Rules
@@ -152,6 +167,7 @@ schemas/
 - Portfolio items belong in PostgreSQL through Prisma
 - Published filtering for the public portfolio should remain enforced at the query level
 - Admin pages can query full portfolio data sets
+- Admin authentication validates credentials against the Prisma `User` table
 - Modal open/edit/create state is currently handled with `PortfolioModalProvider`
 - Validation for admin portfolio mutations should continue to live next to the actions workflow
 
@@ -162,14 +178,15 @@ schemas/
   - `PortfolioItem`
 - `PortfolioItem` is mapped to the `Projects` table
 - The app requires `DATABASE_URL`
+- Admin auth also requires `AUTH_SECRET` and `AUTH_TRUST_HOST`
 - The seed script creates local bootstrap users and sample portfolio items
-- Do not assume auth exists just because `User` exists in Prisma
+- The seeded users are now used by the credentials-based admin login
 
 ## Near-Term Priorities
 
 1. Protect `/admin` with simple owner-only authentication
 2. Keep improving portfolio management before expanding admin scope
-3. Polish responsive behavior and visual consistency across the landing page
+3. Polish responsive behavior and visual consistency across both landing and admin UI
 4. Refine metadata and SEO where useful
 5. Add multilingual support later only if there is a concrete need
 
@@ -180,3 +197,4 @@ schemas/
 - Preserve the established visual language already present in the implemented landing sections
 - Be careful when changing the portfolio section because it affects both homepage rendering and admin-managed content
 - If touching setup docs or local workflow, remember the repo currently uses `npx tsx prisma/seed.ts` for seeding and not a package script
+- For auth protection, prefer app runtime checks on protected admin routes instead of the deprecated `middleware.ts` path in Next.js 16

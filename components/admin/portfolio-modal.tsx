@@ -41,7 +41,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="fixed inset-0 z-50 m-auto max-h-[90vh] w-[90vw] max-w-xl overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden bg-[#101841] text-white p-4 rounded-lg backdrop:bg-black/70 backdrop:backdrop-blur-sm"
+      className="fixed inset-0 z-50 m-auto max-h-[90vh] w-[90vw] max-w-xl overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] text-white p-4 rounded-lg backdrop:bg-black/70 backdrop:backdrop-blur-sm"
     >
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-[#57d9ff]">{title}</h2>
@@ -77,7 +77,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
             type="text"
             name="title"
             defaultValue={item?.title || ""}
-            className="px-3 py-2 bg-slate-950 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
+            className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           />
         </label>
         <label className="flex flex-col gap-1">
@@ -85,7 +85,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           <select
             name="platform"
             defaultValue={item?.platform || "YouTube"}
-            className="px-3 py-2 bg-slate-950 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
+            className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           >
             {PLATFORMS.map((p) => (
               <option key={p} value={p}>
@@ -101,7 +101,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
             type="url"
             name="thumbnail"
             defaultValue={item?.thumbnail || ""}
-            className="px-3 py-2 bg-slate-950 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
+            className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           />
         </label>
 
@@ -111,7 +111,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
             type="url"
             name="href"
             defaultValue={item?.href || ""}
-            className="px-3 py-2 bg-slate-950 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
+            className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           />
         </label>
         <label className="flex flex-col gap-1">
@@ -120,7 +120,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
             name="description"
             defaultValue={item?.description || ""}
             rows={4}
-            className="px-3 py-2 bg-slate-950 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff] resize-none"
+            className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff] resize-none"
           />
         </label>
         <label className="flex flex-col gap-1">
@@ -129,7 +129,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
             type="number"
             name="sortOrder"
             defaultValue={item?.sortOrder || 0}
-            className="px-3 py-2 bg-slate-950 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
+            className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           />
         </label>
         <div className="flex items-center gap-6">
@@ -138,7 +138,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
               type="checkbox"
               name="featured"
               defaultChecked={item?.featured || false}
-              className="w-4 h-4 text-[#57d9ff] bg-slate-950 border-gray-700 rounded focus:ring-[#57d9ff] focus:ring-2"
+              className="w-4 h-4 text-[#57d9ff] bg-white/5 border-gray-700 rounded focus:ring-[#57d9ff] focus:ring-2"
             />
             <span className="text-sm font-medium text-gray-300">
               Marcar como destacado
@@ -149,7 +149,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
               type="checkbox"
               name="published"
               defaultChecked={item?.published || false}
-              className="w-4 h-4 text-[#57d9ff] bg-slate-950 border-gray-700 rounded focus:ring-[#57d9ff] focus:ring-2"
+              className="w-4 h-4 text-[#57d9ff] bg-white/5 border-gray-700 rounded focus:ring-[#57d9ff] focus:ring-2"
             />
             <span className="text-sm font-medium text-gray-300">
               Marcar como publicado
@@ -158,7 +158,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
         </div>
         <button
           type="submit"
-          className="self-end mt-4 px-6 py-2 bg-[#57d9ff] text-[#101841] rounded hover:bg-white transition-colors duration-150"
+          className="self-end mt-4 px-6 py-2 bg-[#57d9ff] text-[#101841] rounded-full hover:bg-white transition-colors duration-150"
         >
           {mode === "edit" ? "Actualizar" : "Crear"}
         </button>

@@ -9,23 +9,27 @@ type Props = {
 
 function RemoveItemButton({ itemId }: Props) {
   const handleClick = () => {
-    if (confirm("Are you sure you want to remove this item?")) {
+    if (confirm("¿Estás seguro de que quieres eliminar este proyecto?")) {
       handleRemoveItem(itemId);
     }
   };
 
   return (
-    <>
-      <button onClick={handleClick}>
-        <Image
-          className="w-6 h-auto invert hover:scale-110 transition-transform duration-150"
-          src="/actions/removeIcon.svg"
-          alt=""
-          width={100}
-          height={100}
-        />
-      </button>
-    </>
+    <button
+      type="button"
+      onClick={handleClick}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-red-400/20 bg-red-500/10 transition hover:border-red-400/40 hover:bg-red-500/20"
+      aria-label="Eliminar proyecto"
+      title="Eliminar proyecto"
+    >
+      <Image
+        className="h-auto w-5 invert transition-transform duration-150 hover:scale-110"
+        src="/actions/removeIcon.svg"
+        alt=""
+        width={100}
+        height={100}
+      />
+    </button>
   );
 }
 

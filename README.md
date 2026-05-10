@@ -29,13 +29,17 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 - Published and featured flags
 - Sort order support
 - Modal state handled with a client context provider
+- Credentials-based admin authentication with NextAuth/Auth.js
+- Dedicated login screen at `/admin/login`
+- Logout flow from the admin dashboard
+- Refreshed admin UI with premium dark gradients and status badges
 
 ## Current Status
 
 - Portfolio content is no longer placeholder-only; it comes from PostgreSQL through Prisma
-- The admin area exists, but it is not protected yet
-- Authentication is still planned work
-- Seed data includes sample users and portfolio items for local development
+- The admin area is protected with credentials-based authentication
+- Admin access is currently enforced on the main `/admin` page, while `/admin/login` stays public
+- Seed data includes bootstrap users and sample portfolio items for local development
 
 ## Tech Stack
 
@@ -55,8 +59,14 @@ app/
   page.tsx
   globals.css
   not-found.tsx
+  api/
+    auth/
+      [...nextauth]/
+        route.ts
   admin/
     layout.tsx
+    login/
+      page.tsx
     page.tsx
 
 actions/
@@ -80,6 +90,7 @@ components/
     copy-email-button.tsx
   admin/
     create-item-button.tsx
+    logout-button.tsx
     update-item-button.tsx
     remove-item-button.tsx
     portfolio-table.tsx
@@ -103,6 +114,12 @@ prisma/
 schemas/
   create-portfolio-item-schema.ts
   update-portfolio-item-schema.ts
+
+types/
+  next-auth.d.ts
+
+auth.ts
+models.md
 ```
 
 ## Data Flow
@@ -112,13 +129,17 @@ schemas/
 - `components/landing/portfolio-section.tsx` reads published portfolio items from Prisma
 - `app/admin/page.tsx` reads all portfolio items from Prisma for management
 - `actions/admin/portfolio-items-actions.ts` handles create, update, and delete server actions
+- `auth.ts` configures NextAuth/Auth.js credentials authentication against Prisma users
+- `app/admin/login/page.tsx` submits login credentials through `signIn()` and redirects back to `/admin`
 
 ## Environment Variables
 
-The app currently requires a PostgreSQL connection string:
+The app currently requires a PostgreSQL connection string plus auth configuration:
 
 ```bash
 DATABASE_URL="postgresql://user:password@localhost:5432/digital_clip_agency?schema=public"
+AUTH_SECRET="generated-secret"
+AUTH_TRUST_HOST=true
 ```
 
 Copy `.env.example` to `.env` and update it for your local database.
@@ -157,6 +178,8 @@ npm run dev
 
 Open `http://localhost:3000` for the public site and `http://localhost:3000/admin` for the admin panel.
 
+If you are not authenticated, `/admin` redirects to `/admin/login`.
+
 ## Verification
 
 Lint:
@@ -181,10 +204,10 @@ npm run build
 
 The seed script creates these users:
 
-- `admin@digitalclipagency.com`
-- `dev@digitalclipagency.com`
+- `admin@digitalclipagency.com` / `ChangeMe_Admin_123!`
+- `dev@digitalclipagency.com` / `ChangeMe_Dev_123!`
 
-The repo currently seeds predictable development passwords inside `prisma/seed.ts`. Treat them as local-only bootstrap credentials and replace them before adding real authentication.
+These are local bootstrap credentials defined in `prisma/seed.ts`. Treat them as development-only and replace them before using the project beyond local setup.
 
 ## Notes
 
@@ -193,10 +216,11 @@ The repo currently seeds predictable development passwords inside `prisma/seed.t
 - `PortfolioModalProvider` is mounted only in the admin layout
 - `lib/prisma.ts` throws if `DATABASE_URL` is missing
 - Because the homepage imports the Prisma-backed portfolio section, the app also needs database access when rendering `/`
+- Next.js 16 deprecates `middleware.ts` in favor of `proxy.ts`, but this project currently avoids proxy-based auth and protects the admin route inside app runtime code instead
 
 ## Roadmap Direction
 
-- Protect `/admin` with owner-only auth
+- Harden and refine `/admin` owner-only auth
 - Expand admin capabilities beyond portfolio management
 - Keep the public site professional, minimal, and Spanish-first
 - Add English support later if needed
