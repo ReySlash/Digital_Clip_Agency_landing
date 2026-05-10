@@ -1,4 +1,5 @@
 import { cacheLife, cacheTag } from "next/cache";
+import { PortfolioItem } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
 
@@ -28,6 +29,26 @@ export async function getPublishedPortfolioItemsSafe() {
   } catch (error) {
     console.error("Failed to load published portfolio items:", error);
     return [];
+  }
+}
+
+type PublishedPortfolioResult = {
+  status: "success" | "empty" | "error";
+  items: PortfolioItem[];
+};
+
+export async function getPublishedPortfolioSectionData(): Promise<PublishedPortfolioResult> {
+  try {
+    const items = await getPublishedPortfolioItems();
+
+    if (items.length === 0) {
+      return { status: "empty", items: [] };
+    }
+
+    return { status: "success", items };
+  } catch (error) {
+    console.error("Failed to load published portfolio items:", error);
+    return { status: "error", items: [] };
   }
 }
 

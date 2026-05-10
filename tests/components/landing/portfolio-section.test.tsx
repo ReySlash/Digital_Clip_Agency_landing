@@ -1,0 +1,101 @@
+/* eslint-disable @next/next/no-img-element */
+
+import { render, screen } from "@testing-library/react";
+import { vi } from "vitest";
+
+const { getPublishedPortfolioSectionDataMock } = vi.hoisted(() => ({
+  getPublishedPortfolioSectionDataMock: vi.fn(),
+}));
+
+vi.mock("@/lib/portfolio-data", () => ({
+  getPublishedPortfolioSectionData: getPublishedPortfolioSectionDataMock,
+}));
+
+vi.mock("@/components/shared/scroll-reveal", () => ({
+  ScrollReveal: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
+vi.mock("next/image", () => ({
+  default: (props: React.ComponentProps<"img">) => <img {...props} alt={props.alt ?? ""} />,
+}));
+
+import {
+  PortfolioSection,
+  PortfolioSectionContent,
+  PortfolioSectionLoading,
+} from "@/components/landing/portfolio-section";
+import { siteData } from "@/lib/site-data";
+
+describe("PortfolioSection", () => {
+  beforeEach(() => {
+    getPublishedPortfolioSectionDataMock.mockReset();
+  });
+
+  it("renders the section heading and loading fallback", () => {
+    render(<PortfolioSection />);
+
+    expect(screen.getByText("Portafolio")).toBeInTheDocument();
+    expect(screen.getByText(siteData.portfolio.title)).toBeInTheDocument();
+    expect(screen.getByText(siteData.portfolio.description)).toBeInTheDocument();
+  });
+
+  it("renders the loading skeleton cards", () => {
+    const { container } = render(<PortfolioSectionLoading />);
+
+    expect(container.querySelectorAll(".animate-pulse").length).toBeGreaterThan(0);
+  });
+
+  it("renders the empty state when no published items exist", async () => {
+    getPublishedPortfolioSectionDataMock.mockResolvedValue({
+      status: "empty",
+      items: [],
+    });
+
+    render(await PortfolioSectionContent());
+
+    expect(screen.getByText("Proyectos próximamente.")).toBeInTheDocument();
+  });
+
+  it("renders the error state when the portfolio cannot be loaded", async () => {
+    getPublishedPortfolioSectionDataMock.mockResolvedValue({
+      status: "error",
+      items: [],
+    });
+
+    render(await PortfolioSectionContent());
+
+    expect(
+      screen.getByText("No pudimos cargar el portafolio ahora mismo.")
+    ).toBeInTheDocument();
+  });
+
+  it("renders published portfolio cards when data is available", async () => {
+    getPublishedPortfolioSectionDataMock.mockResolvedValue({
+      status: "success",
+      items: [
+        {
+          id: "item-1",
+          title: "Proyecto 1",
+          platform: "YouTube",
+          thumbnail: "https://i.ytimg.com/vi/abc/hqdefault.jpg",
+          href: "https://www.youtube.com/watch?v=abc",
+          description: "Descripcion del proyecto",
+          published: true,
+          featured: true,
+          sortOrder: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+    });
+
+    render(await PortfolioSectionContent());
+
+    expect(screen.getByText("Proyecto 1")).toBeInTheDocument();
+    expect(screen.getByText("Descripcion del proyecto")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /proyecto 1/i })).toHaveAttribute(
+      "href",
+      "https://www.youtube.com/watch?v=abc"
+    );
+  });
+});
