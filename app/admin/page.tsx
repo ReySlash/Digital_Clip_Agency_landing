@@ -1,10 +1,9 @@
-import { auth } from "@/auth";
 import { getAdminPortfolioItems } from "@/lib/portfolio-data";
+import { requireAdminSession } from "@/lib/admin-auth";
 import PortfolioTable from "@/components/admin/portfolio-table";
 import CreateItemButton from "@/components/admin/create-item-button";
 import AdminFeedbackBanner from "@/components/admin/admin-feedback-banner";
 import PortfolioModalWrapper from "@/components/admin/portfolio-modal-wrapper";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import LogoutButton from "@/components/admin/logout-button";
 
@@ -26,17 +25,15 @@ function AdminPageSkeleton() {
 }
 
 async function AdminContent() {
-  const session = await auth();
-
-  // Protect the actual admin screen while leaving /admin/login accessible.
-  if (!session?.user) {
-    redirect("/admin/login?callbackUrl=/admin");
-  }
+  const session = await requireAdminSession({
+    onUnauthorized: "redirect",
+    callbackUrl: "/admin",
+  });
 
   const portfolioItems = await getAdminPortfolioItems();
-  const userName = session.user.name ?? session.user.email ?? "Admin";
-  const userEmail = session.user.email ?? "";
-  const userRole = (session.user as { role?: string }).role ?? "ADMIN";
+  const userName = session.user.name || session.user.email || "Admin";
+  const userEmail = session.user.email || "";
+  const userRole = session.user.role;
 
   return (
     <div className="min-h-screen bg-[#101841] text-white">
