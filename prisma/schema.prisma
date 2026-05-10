@@ -25,7 +25,6 @@ model User {
 model PortfolioItem {
   id          String   @id @default(cuid())
   title       String
-  slug        String   @unique
   platform    String
   thumbnail   String
   href        String

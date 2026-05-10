@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
         hostname: "i.ytimg.com",
         pathname: "/vi/**",
       },
+      {
+        protocol: "https",
+        hostname: "img.youtube.com",
+        pathname: "/vi/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.fna.fbcdn.net",
+        pathname: "/**",
+      },
     ],
   },
 };

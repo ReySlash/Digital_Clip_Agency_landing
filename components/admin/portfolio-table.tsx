@@ -1,12 +1,6 @@
-"use client";
-import type { PortfolioItem } from "@prisma/client";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
-
-type Props = {
-  initialPortfolioItems: PortfolioItem[];
-};
+import RemoveItemButton from "./remove-item-button";
+import { PortfolioItem } from "@prisma/client";
+import UpdateItemButton from "./update-item-button";
 
 const portfolioHeaders = [
   { key: "title", label: "Title" },
@@ -16,14 +10,12 @@ const portfolioHeaders = [
   { key: "url", label: "URL" },
 ];
 
-function PortfolioTable({ initialPortfolioItems }: Props) {
-  const [items, setItems] = useState(initialPortfolioItems);
+type Props = {
+  portfolioItems: PortfolioItem[];
+};
 
-  const handleRemoveItem = (itemId: string) => {
-    setItems((currentItems) =>
-      currentItems.filter((item) => item.id !== itemId),
-    );
-  };
+async function PortfolioTable(props: Props) {
+  const items = props.portfolioItems;
 
   return (
     <table className=" min-w-full mt-5 table-auto">
@@ -48,17 +40,17 @@ function PortfolioTable({ initialPortfolioItems }: Props) {
             key={item.id}
             className="odd:bg-[#57d9ff]/20 even:bg-[#57d9ff]/30 border-b text-left hover:bg-[#57d9ff]/50 transition-colors duration-150"
           >
-              <td className="px-4 py-2 text-sm text-gray-300">{item.title}</td>
-              <td className="px-4 py-2 text-sm text-gray-300">{item.platform}</td>
-              <td className="px-4 py-2 text-sm text-gray-300">
-                {item.description}
-              </td>
-              <td className="px-4 py-2 text-sm text-gray-300">
-                {item.thumbnail}
-              </td>
-              <td className="px-4 py-2 text-sm text-gray-300">
-                <a
-                  href={item.href}
+            <td className="px-4 py-2 text-sm text-gray-300">{item.title}</td>
+            <td className="px-4 py-2 text-sm text-gray-300">{item.platform}</td>
+            <td className="px-4 py-2 text-sm text-gray-300">
+              {item.description}
+            </td>
+            <td className="px-4 py-2 text-sm text-gray-300">
+              {item.thumbnail}
+            </td>
+            <td className="px-4 py-2 text-sm text-gray-300">
+              <a
+                href={item.href}
                 target="_blank"
                 rel="noreferrer"
                 className="text-blue-400 hover:underline"
@@ -67,33 +59,8 @@ function PortfolioTable({ initialPortfolioItems }: Props) {
               </a>
             </td>
             <td className="text-sm text-gray-300  flex justify-center items-center py-4 px-1 gap-1">
-              <Link href="">
-                <Image
-                  className="w-6 h-auto invert hover:scale-110 transition-transform duration-150"
-                  src="/actions/viewIcon.svg"
-                  alt=""
-                  width={100}
-                  height={100}
-                />
-              </Link>
-              <Link href="">
-                <Image
-                  className="w-6 h-auto invert hover:scale-110 transition-transform duration-150"
-                  src="/actions/editIcon.svg"
-                  alt=""
-                  width={100}
-                  height={100}
-                />
-              </Link>
-              <button onClick={() => handleRemoveItem(item.id)}>
-                <Image
-                  className="w-6 h-auto invert hover:scale-110 transition-transform duration-150"
-                  src="/actions/removeIcon.svg"
-                  alt=""
-                  width={100}
-                  height={100}
-                />
-              </button>
+              <UpdateItemButton item={item} />
+              <RemoveItemButton itemId={item.id} />
             </td>
           </tr>
         ))}

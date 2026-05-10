@@ -50,7 +50,6 @@ async function main() {
   const portfolioItems = [
     {
       title: "Como logre salir de Cuba sin pagar nada",
-      slug: "como-logre-salir-de-cuba-sin-pagar-nada",
       platform: "YouTube",
       thumbnail: "https://i.ytimg.com/vi/D8u3r_vhjJk/hqdefault.jpg",
       href: "https://www.youtube.com/watch?v=D8u3r_vhjJk",
@@ -62,7 +61,6 @@ async function main() {
     },
     {
       title: "Mi trabajo en Qatar salario realidad y lo dificil",
-      slug: "mi-trabajo-en-qatar-salario-realidad-y-lo-dificil",
       platform: "YouTube",
       thumbnail: "https://i.ytimg.com/vi/3GLKHEpMtpE/hqdefault.jpg",
       href: "https://www.youtube.com/watch?v=3GLKHEpMtpE",
@@ -74,7 +72,6 @@ async function main() {
     },
     {
       title: "Mi historia por que decidi irme de Cuba",
-      slug: "mi-historia-por-que-decidi-irme-de-cuba",
       platform: "YouTube",
       thumbnail: "https://i.ytimg.com/vi/GW6iqJYiv0Y/hqdefault.jpg",
       href: "https://www.youtube.com/watch?v=GW6iqJYiv0Y&t=117s",
@@ -87,10 +84,8 @@ async function main() {
   ];
 
   for (const portfolioItem of portfolioItems) {
-    await prisma.portfolioItem.upsert({
-      where: { slug: portfolioItem.slug },
-      update: portfolioItem,
-      create: portfolioItem,
+    await prisma.portfolioItem.create({
+      data: portfolioItem,
     });
   }
 }
