@@ -119,7 +119,6 @@ types/
   next-auth.d.ts
 
 auth.ts
-models.md
 ```
 
 ## Data Flow
