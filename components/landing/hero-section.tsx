@@ -6,7 +6,7 @@ export function HeroSection() {
   return (
     <section
       id="inicio"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-x-hidden overflow-y-visible bg-transparent px-4 sm:px-6 lg:min-h-[calc(100vh-50px)] lg:px-0"
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-x-hidden overflow-y-visible bg-transparent px-2 sm:px-6 lg:min-h-[calc(100vh-50px)] lg:px-0"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle_at_top_right,rgba(87,217,255,0.14),transparent_45%)]" />
       <div className="pointer-events-none absolute left-0 top-24 -z-10 h-72 w-72 rounded-full bg-[#3255ff]/12 blur-3xl" />
@@ -23,16 +23,16 @@ export function HeroSection() {
             <p className="max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
               {siteData.hero.description}
             </p>
-            <div className="grid gap-4 sm:max-w-md grid-cols-2">
+            <div className="grid gap-2 sm:gap-4 sm:max-w-md grid-cols-2">
               <a
                 href={siteData.hero.primaryCta.href}
-                className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#57d9ff] px-6 text-sm font-semibold text-[#101841] transition hover:bg-white"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#57d9ff] px-4 md:px-6 text-sm font-semibold text-[#101841] transition hover:bg-white"
               >
                 {siteData.hero.primaryCta.label}
               </a>
               <a
                 href={siteData.hero.secondaryCta.href}
-                className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white transition hover:border-[#57d9ff]/60 hover:bg-[#57d9ff]/10"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-4 md:px-6 text-sm font-semibold text-white transition hover:border-[#57d9ff]/60 hover:bg-[#57d9ff]/10"
               >
                 {siteData.hero.secondaryCta.label}
               </a>
