@@ -5,7 +5,7 @@ import { MobileNav } from "./mobile-nav";
 export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#101841]/80 backdrop-blur-sm">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-6 lg:px-8">
+      <div className="flex w-full max-w-7xl items-center justify-between gap-6 px-6 lg:px-8">
         <a href="#inicio" className="flex items-center text-white">
           <Image
             src="/brand/brand-logo.webp"

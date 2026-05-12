@@ -6,12 +6,12 @@ export function HeroSection() {
   return (
     <section
       id="inicio"
-      className="flex flex-col justify-center items-center relative overflow-hidden bg-transparent py-auto px-auto min-h-screen lg:min-h-[calc(100vh-50px)]"
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-x-hidden overflow-y-visible bg-transparent px-4 sm:px-6 lg:min-h-[calc(100vh-50px)] lg:px-0"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle_at_top_right,rgba(87,217,255,0.14),transparent_45%)]" />
       <div className="pointer-events-none absolute left-0 top-24 -z-10 h-72 w-72 rounded-full bg-[#3255ff]/12 blur-3xl" />
 
-      <div className="relative z-10 grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-[35%_65%] lg:gap-15">
+      <div className="relative z-10 grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-[35%_65%]">
         <ScrollReveal className="space-y-8 order-2 lg:order-1">
           <div className=" space-y-2 lg:space-y-5 flex flex-col items-center text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff]">
@@ -42,20 +42,20 @@ export function HeroSection() {
 
         <ScrollReveal
           delay={150}
-          className="order-1 lg:order-2 flex flex-col justify-center items-center lg:"
+          className="order-1 lg:order-2 flex flex-col justify-center items-center"
         >
-          <div className="flex w-full gap-2 max-w-3xl items-center justify-center overflow-visible">
-            <div className="relative z-20 -ml-10 w-[36%] max-w-41.25 rotate-2 sm:-ml-12 sm:max-w-48.75 lg:max-w-53.75">
+          <div className="lg:-ml-14 flex w-screen max-w-none items-center justify-center overflow-visible px-2 sm:w-full sm:max-w-3xl sm:px-0">
+            <div className="relative z-20 w-[36%] max-w-41.25 -translate-x-2 rotate-2 sm:w-[36%] sm:max-w-48.75 sm:-translate-x-6 lg:max-w-53.75">
               <Image
                 src="/videoProof2.jpg"
                 alt="Video Proof 2"
                 width={400}
                 height={711}
                 loading="eager"
-                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-95 backdrop-blur-xs"
+                className="h-auto w-full ml-2 sm:ml-5 rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200 scale-95 backdrop-blur-xs lg:ml-10"
               />
             </div>
-            <div className="relative z-30 w-[36%] max-w-45 sm:max-w-52.5 lg:max-w-57.5">
+            <div className="relative z-30 w-[36%] max-w-45 sm:w-[36%] sm:max-w-52.5 lg:max-w-57.5">
               <Image
                 src="/videoProof1.jpg"
                 alt="Video Proof 1"
@@ -65,14 +65,14 @@ export function HeroSection() {
                 className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-120"
               />
             </div>
-            <div className="relative z-10 -ml-8 w-[36%] max-w-41.25 -rotate-1 sm:-ml-1 sm:max-w-48.75 lg:max-w-53.75 ">
+            <div className="relative z-10 w-[36%] max-w-41.25 -translate-x-1 -rotate-1 sm:w-[36%] sm:max-w-48.75 sm:-translate-x-1 lg:max-w-53.75">
               <Image
                 src="/videoProof3.jpg"
                 alt="Video Proof 3"
                 width={400}
                 height={711}
                 loading="eager"
-                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-95 backdrop-blur-xs"
+                className="h-auto w-full lg:-ml-2 rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-95 backdrop-blur-xs"
               />
             </div>
           </div>
