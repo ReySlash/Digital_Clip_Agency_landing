@@ -20,9 +20,10 @@ async function getClientIp(): Promise<string> {
 
 export async function adminLoginAction(
   formData: FormData,
-  callbackUrl: string,
 ): Promise<void> {
   const ip = await getClientIp();
+  const callbackUrl =
+    (formData.get("callbackUrl") as string | null) ?? "/admin";
   const email =
     (formData.get("email") as string | null)?.toLowerCase() ?? "";
 
