@@ -223,11 +223,11 @@ auth.ts
 - Prefer clean web layout decisions over reproducing social-media poster compositions
 - Preserve the established visual language already present in the implemented landing sections
 - Be careful when changing the portfolio section because it affects both homepage rendering and admin-managed content
-- If touching setup docs or local workflow, remember the repo currently uses `npx tsx prisma/seed.ts` for seeding and not a package script
-- If touching deployment docs or config, document `npx prisma migrate deploy` as the production migration path
+- If touching setup docs or local workflow, remember the repo currently uses `pnpm exec tsx prisma/seed.ts` for seeding and not a package script
+- If touching deployment docs or config, document `pnpm exec prisma migrate deploy` as the production migration path
 - Do not document or automate production seeding; production should use committed migrations only
 - `AUTH_URL` must match the deployed origin exactly or login redirects can break
 - For auth protection, prefer app runtime checks on protected admin routes instead of the deprecated `middleware.ts` path in Next.js 16
 - With `cacheComponents: true`, do not await request-time APIs like auth, cookies, headers, or `searchParams` directly at the route root without a Suspense boundary
 - Auth.js sign-in success and failure redirects rely on thrown redirect control flow, so route-level wrappers must not swallow those errors
-- `npm run test`, `npm run test:watch`, and `npm run test:coverage` are available for the current test suite
+- `pnpm test`, `pnpm test:watch`, and `pnpm test:coverage` are available for the current test suite

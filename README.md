@@ -204,25 +204,25 @@ Copy `.env.example` to `.env` and update it for your local database.
 Install dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 Generate the Prisma client:
 
 ```bash
-npx prisma generate
+pnpm exec prisma generate
 ```
 
 Apply migrations:
 
 ```bash
-npx prisma migrate dev
+pnpm exec prisma migrate dev
 ```
 
 Seed the database:
 
 ```bash
-npx tsx prisma/seed.ts
+pnpm exec tsx prisma/seed.ts
 ```
 
 The seed script will stop unless `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` are set. This avoids shipping reusable default admin credentials in the repository.
@@ -230,7 +230,7 @@ The seed script will stop unless `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD` ar
 Run the dev server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open `http://localhost:3000` for the public site and `http://localhost:3000/admin` for the admin panel.
@@ -260,35 +260,37 @@ Do not set local-only seed variables in production unless you explicitly need th
 Apply committed Prisma migrations in production:
 
 ```bash
-npx prisma migrate deploy
+pnpm exec prisma migrate deploy
 ```
 
-Do not run `npx tsx prisma/seed.ts` in production. The seed script is intentionally blocked when `NODE_ENV === "production"`.
+Do not run `pnpm exec tsx prisma/seed.ts` in production. The seed script is intentionally blocked when `NODE_ENV === "production"`.
 
 ### Build And Start
 
 Build the application:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 Start the production server:
 
 ```bash
-npm run start
+pnpm start
 ```
 
 On managed platforms, use their standard Next.js build and start flow while still ensuring migrations run before the app serves traffic.
 
+If you deploy on Vercel, `pnpm-lock.yaml` will make Vercel auto-detect `pnpm` for installs. If you want Vercel to honor the exact `packageManager` version from `package.json`, set `ENABLE_EXPERIMENTAL_COREPACK=1` in the project environment settings.
+
 ### Pre-Deploy Checklist
 
-- `npm run typecheck`
-- `npm run test`
-- `npm run build`
+- `pnpm typecheck`
+- `pnpm test`
+- `pnpm build`
 - Confirm `DATABASE_URL`, `AUTH_SECRET`, and `AUTH_URL` are set in the target environment
 - Confirm all Prisma migrations are committed
-- Confirm production deployment will run `npx prisma migrate deploy`
+- Confirm production deployment will run `pnpm exec prisma migrate deploy`
 - Confirm no deployment step runs `prisma/seed.ts`
 
 ### Post-Deploy Checklist
@@ -305,31 +307,31 @@ On managed platforms, use their standard Next.js build and start flow while stil
 Lint:
 
 ```bash
-npm run lint
+pnpm lint
 ```
 
 Type check:
 
 ```bash
-npm run typecheck
+pnpm typecheck
 ```
 
 Tests:
 
 ```bash
-npm run test
+pnpm test
 ```
 
 Watch mode:
 
 ```bash
-npm run test:watch
+pnpm test:watch
 ```
 
 Production build:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 ## Seeded Admin Account
