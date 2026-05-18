@@ -7,7 +7,7 @@ export function Footer() {
         <p>© 2026 Digital Clip Agency. Edición estratégica para creadores.</p>
         <div className="flex flex-wrap items-center gap-4">
           <a
-            className="transition hover:text-white"
+            className="break-all transition hover:text-white"
             href={`mailto:${siteData.agency.email}`}
           >
             {siteData.agency.email}

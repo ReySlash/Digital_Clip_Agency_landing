@@ -11,15 +11,15 @@ export function HeroSection() {
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle_at_top_right,rgba(87,217,255,0.14),transparent_45%)]" />
       <div className="pointer-events-none absolute left-0 top-24 -z-10 h-72 w-72 rounded-full bg-[#3255ff]/12 blur-3xl" />
 
-      <div className="relative z-10 grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-[35%_65%]">
-        <ScrollReveal className="space-y-8 order-2 lg:order-1">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 lg:gap-0 lg:grid-cols-[35%_65%]">
+        <ScrollReveal className="order-2 flex flex-col justify-center space-y-8 lg:order-1">
           <div className=" space-y-2 lg:space-y-5 flex flex-col items-center text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff]">
+            <h1 className="text-xs font-semibold uppercase tracking-[0.35em] text-[#57d9ff]">
               {siteData.hero.eyebrow}
-            </p>
-            <h1 className="max-w-4xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-5xl">
-              {siteData.hero.title}
             </h1>
+            <h2 className="max-w-4xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-5xl">
+              {siteData.hero.title}
+            </h2>
             <p className="max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
               {siteData.hero.description}
             </p>
@@ -42,37 +42,37 @@ export function HeroSection() {
 
         <ScrollReveal
           delay={150}
-          className="order-1 lg:order-2 flex flex-col justify-center items-center"
+          className="order-1 flex flex-col items-center justify-center lg:order-2"
         >
-          <div className="lg:-ml-14 flex w-screen max-w-none items-center justify-center overflow-visible px-2 sm:w-full sm:max-w-3xl sm:px-0">
-            <div className="relative z-20 w-[36%] max-w-41.25 -translate-x-2 rotate-2 sm:w-[36%] sm:max-w-48.75 sm:-translate-x-6 lg:max-w-53.75">
+          <div className="flex w-[97vw] max-w-120 items-center justify-center px-2 sm:w-[78vw] sm:max-w-136 sm:px-0 lg:w-[50vw] lg:max-w-208">
+            <div className="relative z-20 -mr-3 w-[31%] rotate-2 sm:-mr-5 lg:-mr-7">
               <Image
                 src="/videoProof2.jpg"
-                alt="Video Proof 2"
+                alt="Imagen de Reel de instagram con más de 50000 likes y 900 comentarios"
                 width={400}
                 height={711}
                 loading="eager"
-                className="h-auto w-full ml-2 sm:ml-5 rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200 scale-95 backdrop-blur-xs lg:ml-10"
+                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200 backdrop-blur-xs"
               />
             </div>
-            <div className="relative z-30 w-[36%] max-w-45 sm:w-[36%] sm:max-w-52.5 lg:max-w-57.5">
+            <div className="relative z-30 w-[38%]">
               <Image
                 src="/videoProof1.jpg"
-                alt="Video Proof 1"
+                alt="Imagen de Reel de instagram con más de 140000 likes y 16000 comentarios"
                 width={400}
                 height={711}
                 loading="eager"
-                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-120"
+                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200"
               />
             </div>
-            <div className="relative z-10 w-[36%] max-w-41.25 -translate-x-1 -rotate-1 sm:w-[36%] sm:max-w-48.75 sm:-translate-x-1 lg:max-w-53.75">
+            <div className="relative z-10 -ml-3 w-[31%] -rotate-1 sm:-ml-5 lg:-ml-7">
               <Image
                 src="/videoProof3.jpg"
-                alt="Video Proof 3"
+                alt="Imagen de Reel de instagram con más de 35000 likes y 1500 comentarios"
                 width={400}
                 height={711}
                 loading="eager"
-                className="h-auto w-full lg:-ml-2 rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200  scale-95 backdrop-blur-xs"
+                className="h-auto w-full rounded-2xl border border-white/10 object-cover shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)] brightness-200 backdrop-blur-xs"
               />
             </div>
           </div>

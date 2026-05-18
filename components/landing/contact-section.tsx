@@ -8,7 +8,7 @@ export function ContactSection() {
     <section id="contacto" className="py-10">
       <ScrollReveal>
         <div className="mx-auto grid w-full max-w-7xl gap-10 rounded-4xl border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] p-8 shadow-xl shadow-[#13215a]/35 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:p-10">
-          <div className="space-y-8">
+          <div className="min-w-0 space-y-8">
             <SectionHeading
               eyebrow="Contacto"
               title={siteData.contact.title}
@@ -20,7 +20,7 @@ export function ContactSection() {
                 Email
               </p>
               <a
-                className="text-2xl font-semibold tracking-tight text-white sm:text-3xl"
+                className="break-all text-2xl font-semibold tracking-tight text-white sm:text-3xl"
                 href={`mailto:${siteData.agency.email}`}
               >
                 {siteData.agency.email}
@@ -29,23 +29,23 @@ export function ContactSection() {
           </div>
 
           <div className="flex flex-col gap-4 sm:flex-row lg:flex-col">
-            <ScrollReveal delay={100}>
+            <ScrollReveal delay={100} className="w-full sm:min-w-0 sm:flex-1 lg:w-full">
               <a
                 href={`mailto:${siteData.agency.email}`}
-                className="inline-flex min-h-12 min-w-full items-center justify-center rounded-full bg-[#57d9ff] px-6 text-sm font-semibold text-[#101841] transition hover:bg-white"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#57d9ff] px-6 text-sm font-semibold text-[#101841] transition hover:bg-white"
               >
                 {siteData.contact.ctaLabel}
               </a>
             </ScrollReveal>
-            <ScrollReveal delay={200}>
+            <ScrollReveal delay={200} className="w-full sm:min-w-0 sm:flex-1 lg:w-full">
               <CopyEmailButton email={siteData.agency.email} />
             </ScrollReveal>
-            <ScrollReveal delay={300}>
+            <ScrollReveal delay={300} className="w-full sm:min-w-0 sm:flex-1 lg:w-full">
               <a
                 href={siteData.agency.instagram}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex min-h-12 items-center  min-w-full justify-center rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white transition hover:border-[#57d9ff]/60 hover:bg-[#57d9ff]/10"
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-white transition hover:border-[#57d9ff]/60 hover:bg-[#57d9ff]/10"
               >
                 Instagram
               </a>

@@ -7,7 +7,7 @@ export const siteData = {
     platforms: ["YouTube", "Instagram", "TikTok"],
   },
   hero: {
-    eyebrow: "Edición estratégica para creadores",
+    eyebrow: "Edición profesional para creadores de contenido",
     title: "Edita menos, crea más.",
     description:
       "Editamos tus videos para aumentar retención y views en YouTube, Instagram y TikTok.",
