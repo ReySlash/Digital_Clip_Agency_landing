@@ -2,7 +2,11 @@
 
 import { usePortfolioModal } from "@/contexts/portfolio-modal-context";
 
-export default function AdminFeedbackBanner() {
+type Props = {
+  closeLabel: string;
+};
+
+export default function AdminFeedbackBanner({ closeLabel }: Props) {
   const { adminFeedback, clearAdminFeedback } = usePortfolioModal();
 
   if (!adminFeedback) {
@@ -27,7 +31,7 @@ export default function AdminFeedbackBanner() {
         onClick={clearAdminFeedback}
         className="shrink-0 rounded-full border border-current/20 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition hover:bg-white/10"
       >
-        Cerrar
+        {closeLabel}
       </button>
     </div>
   );

@@ -6,16 +6,17 @@ Portfolio website for a video editing agency built with Next.js 16, React 19, Ty
 
 This repository currently contains two connected areas:
 
-- A public Spanish-first landing page at `/`
+- A public Spanish-first landing page served at `/{lang}` (with `/` redirecting to the preferred locale)
 - An internal admin panel at `/admin` for managing portfolio items
 
-The public site keeps most marketing copy in `lib/site-data.ts`, while the portfolio grid is already backed by the database and only renders published items.
+Localized public and admin copy is dictionary-driven (`lib/dictionaries.ts`, `lib/admin-dictionaries.ts`), while the portfolio grid is backed by the database and only renders published items.
 
 ## Current Features
 
 ### Public Site
 
 - Sticky navigation with smooth scrolling
+- Locale switcher (ES/EN) with locale-prefixed routing
 - Sections for hero, services, portfolio, about, and contact
 - Copy-to-clipboard email button
 - Instagram and `mailto:` contact CTAs
@@ -26,6 +27,7 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 ### Admin
 
 - Portfolio items table rendered from Prisma data
+- Admin language switcher (ES/EN)
 - Create, edit, and delete flows for portfolio items
 - Published and featured flags
 - Sort order support
@@ -37,6 +39,7 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 - Refreshed admin UI with premium dark gradients and status badges
 - Portfolio management data is cached and invalidated immediately after admin writes
 - Inline success and error feedback for admin mutations
+- Shared locale preference cookie with public and not-found flows
 
 ### Testing
 
@@ -70,6 +73,9 @@ The public site keeps most marketing copy in `lib/site-data.ts`, while the portf
 app/
   layout.tsx
   page.tsx
+  [lang]/
+    layout.tsx
+    page.tsx
   globals.css
   not-found.tsx
   api/
@@ -115,13 +121,15 @@ contexts/
   portfolio-modal-context.tsx
 
 lib/
+  dictionaries.ts
+  admin-dictionaries.ts
+  i18n.ts
+  admin-i18n.ts
   admin-auth.ts
   auth-logic.ts
   login-abuse-protection.ts
-  navigation.ts
   portfolio-data.ts
   prisma.ts
-  site-data.ts
   zod-utils.ts
 
 prisma/
@@ -161,8 +169,10 @@ Current test coverage includes:
 
 ## Data Flow
 
-- `lib/site-data.ts` stores hardcoded marketing content for most landing sections
-- `lib/navigation.ts` stores same-page navigation links
+- `lib/dictionaries.ts` stores localized public copy, metadata, navigation labels, and not-found copy
+- `lib/admin-dictionaries.ts` stores localized admin copy
+- `lib/i18n.ts` centralizes locale/cookie resolution for route redirects and not-found behavior
+- `lib/admin-i18n.ts` maps admin locale resolution to shared i18n helpers
 - `lib/portfolio-data.ts` contains cached Prisma reads for public and admin portfolio data
 - `components/landing/portfolio-section.tsx` reads published portfolio items through the cached data layer
 - `app/admin/page.tsx` reads admin portfolio data through the cached data layer
@@ -172,6 +182,7 @@ Current test coverage includes:
 - `app/admin/login/page.tsx` submits login credentials through a server action wrapper so Auth.js redirects can propagate correctly
 - `lib/login-abuse-protection.ts` tracks failed login attempts in memory using an IP-plus-email key
 - `/admin` and `/admin/login` wrap request-time auth/searchParams access in `<Suspense>` so the route shell can still prerender
+- Locale preference is persisted in a shared cookie (`dca_locale`) for landing, admin, and not-found
 
 ## Caching Strategy
 
@@ -345,6 +356,7 @@ The seed script creates one admin user using `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PAS
 - Same-page section navigation uses plain anchor links, not `next/link`
 - `ScrollReveal` is the main client-side motion utility
 - `PortfolioModalProvider` is mounted only in the admin layout
+- `app/layout.tsx` includes `data-scroll-behavior="smooth"` on `<html>` to align with Next.js smooth-scroll route-transition behavior
 - `lib/prisma.ts` throws if `DATABASE_URL` is missing
 - Because the homepage imports the Prisma-backed portfolio section, the app also needs database access when rendering `/`
 - The project currently trusts the host directly in `auth.ts`, so `AUTH_TRUST_HOST` is not required in the environment at this time

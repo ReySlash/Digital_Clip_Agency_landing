@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { getAdminDictionary } from "@/lib/admin-dictionaries";
+
 const { createMock, updateMock } = vi.hoisted(() => ({
   createMock: vi.fn(),
   updateMock: vi.fn(),
@@ -40,9 +42,15 @@ describe("PortfolioModal", () => {
     const onClose = vi.fn();
     const onSuccess = vi.fn();
     createMock.mockResolvedValue({ success: true });
+    const dictionary = getAdminDictionary("es");
 
     render(
-      <PortfolioModal mode="create" onClose={onClose} onSuccess={onSuccess} />
+      <PortfolioModal
+        mode="create"
+        dictionary={dictionary.modal}
+        onClose={onClose}
+        onSuccess={onSuccess}
+      />
     );
 
     expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
@@ -76,10 +84,12 @@ describe("PortfolioModal", () => {
     const onClose = vi.fn();
     const onSuccess = vi.fn();
     updateMock.mockResolvedValue({ success: true });
+    const dictionary = getAdminDictionary("es");
 
     render(
       <PortfolioModal
         mode="edit"
+        dictionary={dictionary.modal}
         item={{
           id: "item-1",
           title: "Proyecto 1",
@@ -124,9 +134,15 @@ describe("PortfolioModal", () => {
 
   it("closes when the close button is clicked", () => {
     const onClose = vi.fn();
+    const dictionary = getAdminDictionary("es");
 
     render(
-      <PortfolioModal mode="create" onClose={onClose} onSuccess={vi.fn()} />
+      <PortfolioModal
+        mode="create"
+        dictionary={dictionary.modal}
+        onClose={onClose}
+        onSuccess={vi.fn()}
+      />
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Cerrar", hidden: true }));
@@ -142,9 +158,15 @@ describe("PortfolioModal", () => {
         thumbnail: ["Debes ingresar una URL valida."],
       },
     });
+    const dictionary = getAdminDictionary("es");
 
     render(
-      <PortfolioModal mode="create" onClose={vi.fn()} onSuccess={vi.fn()} />
+      <PortfolioModal
+        mode="create"
+        dictionary={dictionary.modal}
+        onClose={vi.fn()}
+        onSuccess={vi.fn()}
+      />
     );
 
     fillCreateForm();
@@ -166,9 +188,15 @@ describe("PortfolioModal", () => {
 
   it("shows a generic form error when the action throws", async () => {
     createMock.mockRejectedValue(new Error("network"));
+    const dictionary = getAdminDictionary("es");
 
     render(
-      <PortfolioModal mode="create" onClose={vi.fn()} onSuccess={vi.fn()} />
+      <PortfolioModal
+        mode="create"
+        dictionary={dictionary.modal}
+        onClose={vi.fn()}
+        onSuccess={vi.fn()}
+      />
     );
 
     fillCreateForm();

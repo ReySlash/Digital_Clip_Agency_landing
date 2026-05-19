@@ -6,6 +6,7 @@ import {
   handleCreateItem,
   handleUpdateItem,
 } from "@/actions/admin/portfolio-items-actions";
+import type { AdminDictionary } from "@/lib/admin-dictionaries";
 
 type ActionResult =
   | { success: true }
@@ -14,13 +15,14 @@ type ActionResult =
 type Props = {
   mode: "edit" | "create";
   item?: PortfolioItem;
+  dictionary: AdminDictionary["modal"];
   onClose: () => void;
   onSuccess: () => void;
 };
 
 const PLATFORMS = ["YouTube", "Instagram", "TikTok"];
 
-function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
+function PortfolioModal({ mode, item, dictionary, onClose, onSuccess }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
@@ -38,12 +40,11 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
     };
   }, []);
 
-  const title = mode === "edit" ? "Editar elemento" : "Crear nuevo elemento";
-  const submitLabel = mode === "edit" ? "Actualizar" : "Crear";
+  const title = mode === "edit" ? dictionary.titleEdit : dictionary.titleCreate;
+  const submitLabel =
+    mode === "edit" ? dictionary.submitEdit : dictionary.submitCreate;
   const successLabel =
-    mode === "edit"
-      ? "Proyecto actualizado correctamente."
-      : "Proyecto creado correctamente.";
+    mode === "edit" ? dictionary.successEdit : dictionary.successCreate;
 
   function getFieldError(fieldName: string) {
     return fieldErrors[fieldName]?.[0] ?? null;
@@ -67,9 +68,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
 
       if (!result.success) {
         setFieldErrors(result.errors ?? {});
-        setFormError(
-          "Revisa los campos marcados e inténtalo de nuevo.",
-        );
+        setFormError(dictionary.formErrorValidation);
         return;
       }
 
@@ -81,9 +80,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
       }, 1200);
     } catch (error) {
       console.error("Error submitting portfolio modal:", error);
-      setFormError(
-        "Ocurrió un error inesperado. Intenta nuevamente en unos segundos.",
-      );
+      setFormError(dictionary.formErrorGeneric);
     } finally {
       setIsSubmitting(false);
     }
@@ -101,7 +98,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           type="button"
           onClick={onClose}
           className="text-gray-400 hover:text-white transition-colors"
-          aria-label="Cerrar"
+          aria-label={dictionary.closeAriaLabel}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -145,7 +142,9 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           <input type="hidden" name="id" value={item.id} />
         )}
         <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-300">Título</span>
+          <span className="text-sm font-medium text-gray-300">
+            {dictionary.fields.title}
+          </span>
           <input
             type="text"
             name="title"
@@ -159,7 +158,9 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           ) : null}
         </label>
         <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-300">Plataforma</span>
+          <span className="text-sm font-medium text-gray-300">
+            {dictionary.fields.platform}
+          </span>
           <select
             name="platform"
             required
@@ -179,7 +180,9 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-300">Miniatura</span>
+          <span className="text-sm font-medium text-gray-300">
+            {dictionary.fields.thumbnail}
+          </span>
           <input
             type="url"
             name="thumbnail"
@@ -194,7 +197,9 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-300">URL</span>
+          <span className="text-sm font-medium text-gray-300">
+            {dictionary.fields.url}
+          </span>
           <input
             type="url"
             name="href"
@@ -208,7 +213,9 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           ) : null}
         </label>
         <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-300">Descripción</span>
+          <span className="text-sm font-medium text-gray-300">
+            {dictionary.fields.description}
+          </span>
           <textarea
             name="description"
             required
@@ -222,7 +229,9 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           ) : null}
         </label>
         <label className="flex flex-col gap-1">
-          <span className="text-sm font-medium text-gray-300">Orden</span>
+          <span className="text-sm font-medium text-gray-300">
+            {dictionary.fields.sortOrder}
+          </span>
           <input
             type="number"
             name="sortOrder"
@@ -244,7 +253,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
               className="w-4 h-4 text-[#57d9ff] bg-white/5 border-gray-700 rounded focus:ring-[#57d9ff] focus:ring-2"
             />
             <span className="text-sm font-medium text-gray-300">
-              Marcar como destacado
+              {dictionary.fields.featured}
             </span>
           </label>
           <label className="flex items-center gap-2">
@@ -255,7 +264,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
               className="w-4 h-4 text-[#57d9ff] bg-white/5 border-gray-700 rounded focus:ring-[#57d9ff] focus:ring-2"
             />
             <span className="text-sm font-medium text-gray-300">
-              Marcar como publicado
+              {dictionary.fields.published}
             </span>
           </label>
         </div>
@@ -264,7 +273,7 @@ function PortfolioModal({ mode, item, onClose, onSuccess }: Props) {
           disabled={isSubmitting}
           className="self-end mt-4 px-6 py-2 bg-[#57d9ff] text-[#101841] rounded-full hover:bg-white transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {isSubmitting ? "Guardando..." : submitLabel}
+          {isSubmitting ? dictionary.saving : submitLabel}
         </button>
       </form>
     </dialog>

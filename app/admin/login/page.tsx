@@ -2,6 +2,10 @@ import { Suspense } from "react";
 import { adminLoginAction } from "@/actions/admin/login-action";
 import { LoginPageShell } from "@/components/admin/login-page-shell";
 import { SubmitButton } from "@/components/admin/submit-button";
+import { cookies, headers } from "next/headers";
+
+import { getAdminDictionary } from "@/lib/admin-dictionaries";
+import { resolveAdminLocale, ADMIN_LOCALE_COOKIE } from "@/lib/admin-i18n";
 
 type LoginPageProps = {
   searchParams: Promise<{
@@ -11,8 +15,14 @@ type LoginPageProps = {
 };
 
 function LoginPageSkeleton() {
+  const dictionary = getAdminDictionary("es");
   return (
-    <LoginPageShell>
+    <LoginPageShell
+      eyebrow={dictionary.login.eyebrow}
+      title={dictionary.login.title}
+      description={dictionary.login.description}
+      backToSiteLabel={dictionary.login.backToSite}
+    >
       <div className="space-y-5">
         <div className="space-y-2">
           <div className="h-4 w-16 animate-pulse rounded bg-white/10" />
@@ -29,18 +39,31 @@ function LoginPageSkeleton() {
 }
 
 async function LoginPageContent({ searchParams }: LoginPageProps) {
+  const cookieStore = await cookies();
+  const headerStore = await headers();
+  const locale = resolveAdminLocale({
+    cookieValue: cookieStore.get(ADMIN_LOCALE_COOKIE)?.value,
+    acceptLanguage: headerStore.get("accept-language"),
+  });
+  const dictionary = getAdminDictionary(locale);
+
   const params = await searchParams;
   const callbackUrl = params.callbackUrl ?? "/admin";
   const showError = params.error === "CredentialsSignin";
   const showRateLimited = params.error === "RateLimited";
 
   return (
-    <LoginPageShell>
+    <LoginPageShell
+      eyebrow={dictionary.login.eyebrow}
+      title={dictionary.login.title}
+      description={dictionary.login.description}
+      backToSiteLabel={dictionary.login.backToSite}
+    >
       <form action={adminLoginAction} className="space-y-5">
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm text-white/80">
-            Email
+            {dictionary.login.emailLabel}
           </label>
           <input
             id="email"
@@ -49,13 +72,13 @@ async function LoginPageContent({ searchParams }: LoginPageProps) {
             required
             autoComplete="email"
             className="w-full rounded-xl border border-white/10 bg-[#0a102c] px-4 py-3 text-sm outline-none transition focus:border-[#57d9ff]"
-            placeholder="admin@digitalclipagency.com"
+            placeholder={dictionary.login.emailPlaceholder}
           />
         </div>
 
         <div className="space-y-2">
           <label htmlFor="password" className="text-sm text-white/80">
-            Contraseña
+            {dictionary.login.passwordLabel}
           </label>
           <input
             id="password"
@@ -64,24 +87,26 @@ async function LoginPageContent({ searchParams }: LoginPageProps) {
             required
             autoComplete="current-password"
             className="w-full rounded-xl border border-white/10 bg-[#0a102c] px-4 py-3 text-sm outline-none transition focus:border-[#57d9ff]"
-            placeholder="••••••••"
+            placeholder={dictionary.login.passwordPlaceholder}
           />
         </div>
 
         {showError ? (
           <p className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-            Credenciales inválidas. Verifica tu email y contraseña.
+            {dictionary.login.invalidCredentials}
           </p>
         ) : null}
 
         {showRateLimited ? (
           <p className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-            Demasiados intentos fallidos. Espera unos minutos antes de volver a
-            intentar.
+            {dictionary.login.rateLimited}
           </p>
         ) : null}
 
-        <SubmitButton />
+        <SubmitButton
+          idleLabel={dictionary.login.submitIdle}
+          pendingLabel={dictionary.login.submitPending}
+        />
       </form>
     </LoginPageShell>
   );

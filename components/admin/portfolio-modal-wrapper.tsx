@@ -4,8 +4,13 @@ import { usePortfolioModal } from "@/contexts/portfolio-modal-context";
 import PortfolioModal from "./portfolio-modal";
 
 import { useRouter } from "next/navigation";
+import type { AdminDictionary } from "@/lib/admin-dictionaries";
 
-export default function PortfolioModalWrapper() {
+type Props = {
+  dictionary: AdminDictionary["modal"];
+};
+
+export default function PortfolioModalWrapper({ dictionary }: Props) {
   const { modalState, closeModal } = usePortfolioModal();
   const router = useRouter();
 
@@ -17,6 +22,7 @@ export default function PortfolioModalWrapper() {
     <PortfolioModal
       mode={modalState.mode}
       item={modalState.item ?? undefined}
+      dictionary={dictionary}
       onClose={closeModal}
       onSuccess={() => router.refresh()}
     />

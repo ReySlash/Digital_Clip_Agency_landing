@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { getAdminDictionary } from "@/lib/admin-dictionaries";
+
 const { clearAdminFeedbackMock, usePortfolioModalMock } = vi.hoisted(() => ({
   clearAdminFeedbackMock: vi.fn(),
   usePortfolioModalMock: vi.fn(),
@@ -24,7 +26,10 @@ describe("AdminFeedbackBanner", () => {
       clearAdminFeedback: clearAdminFeedbackMock,
     });
 
-    const { container } = render(<AdminFeedbackBanner />);
+    const dictionary = getAdminDictionary("es");
+    const { container } = render(
+      <AdminFeedbackBanner closeLabel={dictionary.feedbackBanner.closeLabel} />
+    );
 
     expect(container).toBeEmptyDOMElement();
   });
@@ -38,7 +43,8 @@ describe("AdminFeedbackBanner", () => {
       clearAdminFeedback: clearAdminFeedbackMock,
     });
 
-    render(<AdminFeedbackBanner />);
+    const dictionary = getAdminDictionary("es");
+    render(<AdminFeedbackBanner closeLabel={dictionary.feedbackBanner.closeLabel} />);
 
     expect(screen.getByRole("status")).toHaveTextContent(
       "Proyecto eliminado correctamente."
@@ -59,7 +65,8 @@ describe("AdminFeedbackBanner", () => {
       clearAdminFeedback: clearAdminFeedbackMock,
     });
 
-    render(<AdminFeedbackBanner />);
+    const dictionary = getAdminDictionary("es");
+    render(<AdminFeedbackBanner closeLabel={dictionary.feedbackBanner.closeLabel} />);
 
     expect(screen.getByRole("alert")).toHaveTextContent(
       "No se pudo eliminar el proyecto. Intenta nuevamente en unos segundos."

@@ -10,6 +10,7 @@ vi.mock("next-auth/react", () => ({
 }));
 
 import LogoutButton from "@/components/admin/logout-button";
+import { getAdminDictionary } from "@/lib/admin-dictionaries";
 
 describe("LogoutButton", () => {
   beforeEach(() => {
@@ -18,8 +19,14 @@ describe("LogoutButton", () => {
 
   it("calls signOut after confirmation", () => {
     vi.spyOn(window, "confirm").mockReturnValue(true);
+    const dictionary = getAdminDictionary("es");
 
-    render(<LogoutButton />);
+    render(
+      <LogoutButton
+        label={dictionary.logout.label}
+        confirmText={dictionary.logout.confirm}
+      />
+    );
     fireEvent.click(screen.getByRole("button", { name: /cerrar sesión/i }));
 
     expect(signOutMock).toHaveBeenCalledWith({
@@ -30,8 +37,14 @@ describe("LogoutButton", () => {
 
   it("does nothing when confirmation is cancelled", () => {
     vi.spyOn(window, "confirm").mockReturnValue(false);
+    const dictionary = getAdminDictionary("es");
 
-    render(<LogoutButton />);
+    render(
+      <LogoutButton
+        label={dictionary.logout.label}
+        confirmText={dictionary.logout.confirm}
+      />
+    );
     fireEvent.click(screen.getByRole("button", { name: /cerrar sesión/i }));
 
     expect(signOutMock).not.toHaveBeenCalled();

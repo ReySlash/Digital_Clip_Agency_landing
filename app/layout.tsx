@@ -12,17 +12,8 @@ export const metadata: Metadata = {
     default: "Digital Clip Agency",
     template: "%s | Digital Clip Agency",
   },
-  description:
-    "Agencia de edición de video para creadores de contenido en YouTube, Instagram y TikTok.",
+  description: "Digital Clip Agency",
   applicationName: "Digital Clip Agency",
-  keywords: [
-    "edición de video",
-    "agencia de contenido",
-    "YouTube",
-    "Instagram",
-    "TikTok",
-    "creadores de contenido",
-  ],
 };
 
 export default function RootLayout({
@@ -33,6 +24,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} h-full antialiased`}
     >
       <body className="min-h-full overflow-x-clip">{children}</body>

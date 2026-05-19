@@ -1,27 +1,28 @@
 import RemoveItemButton from "./remove-item-button";
 import { PortfolioItem } from "@prisma/client";
 import UpdateItemButton from "./update-item-button";
-
-const portfolioHeaders = [
-  { key: "title", label: "Proyecto" },
-  { key: "platform", label: "Plataforma" },
-  { key: "status", label: "Estado" },
-  { key: "description", label: "Descripción" },
-  { key: "url", label: "Enlace" },
-];
+import type { AdminDictionary } from "@/lib/admin-dictionaries";
 
 type Props = {
   portfolioItems: PortfolioItem[];
+  dictionary: AdminDictionary["portfolioTable"];
 };
 
 async function PortfolioTable(props: Props) {
-  const items = props.portfolioItems;
+  const { portfolioItems: items, dictionary } = props;
+
+  const portfolioHeaders = [
+    { key: "title", label: dictionary.headers.project },
+    { key: "platform", label: dictionary.headers.platform },
+    { key: "status", label: dictionary.headers.status },
+    { key: "description", label: dictionary.headers.description },
+    { key: "url", label: dictionary.headers.link },
+  ];
 
   if (items.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-white/10 bg-[#081128] px-6 py-12 text-center text-sm text-white/55">
-        Todavía no hay proyectos cargados. Crea el primero para empezar a
-        construir el portafolio.
+        {dictionary.emptyState}
       </div>
     );
   }
@@ -41,7 +42,7 @@ async function PortfolioTable(props: Props) {
                 </th>
               ))}
               <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-[0.25em] text-white">
-                Acciones
+                {dictionary.headers.actions}
               </th>
             </tr>
           </thead>
@@ -73,7 +74,9 @@ async function PortfolioTable(props: Props) {
                            : "border border-white/20 bg-white/10 text-white/70"
                        }`}
                     >
-                      {item.published ? "Publicado" : "Borrador"}
+                      {item.published
+                        ? dictionary.badges.published
+                        : dictionary.badges.draft}
                     </span>
                     <span
                        className={`inline-flex min-w-28 items-center justify-center rounded-full px-3 py-1 text-center text-[11px] font-semibold uppercase tracking-[0.2em] ${
@@ -82,7 +85,9 @@ async function PortfolioTable(props: Props) {
                            : "border border-white/10 bg-white/10 text-white/70"
                        }`}
                     >
-                      {item.featured ? "Destacado" : "Normal"}
+                      {item.featured
+                        ? dictionary.badges.featured
+                        : dictionary.badges.normal}
                     </span>
                   </div>
                 </td>
@@ -101,8 +106,19 @@ async function PortfolioTable(props: Props) {
                 </td>
                 <td className="px-5 py-5 align-top">
                   <div className="flex items-center gap-2">
-                    <UpdateItemButton item={item} />
-                    <RemoveItemButton itemId={item.id} />
+                    <UpdateItemButton
+                      item={item}
+                      ariaLabelPrefix={dictionary.update.ariaLabelPrefix}
+                      titleLabel={dictionary.update.title}
+                    />
+                    <RemoveItemButton
+                      itemId={item.id}
+                      ariaLabel={dictionary.remove.ariaLabel}
+                      titleLabel={dictionary.remove.title}
+                      confirmText={dictionary.remove.confirm}
+                      successMessage={dictionary.remove.success}
+                      errorMessage={dictionary.remove.error}
+                    />
                   </div>
                 </td>
               </tr>

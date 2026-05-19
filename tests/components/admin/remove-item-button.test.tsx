@@ -3,6 +3,8 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { getAdminDictionary } from "@/lib/admin-dictionaries";
+
 const { handleRemoveItemMock, refreshMock, setAdminFeedbackMock } = vi.hoisted(() => ({
   handleRemoveItemMock: vi.fn(),
   refreshMock: vi.fn(),
@@ -41,8 +43,18 @@ describe("RemoveItemButton", () => {
   it("shows success feedback and refreshes after confirmation", async () => {
     vi.spyOn(window, "confirm").mockReturnValue(true);
     handleRemoveItemMock.mockResolvedValue(undefined);
+    const dictionary = getAdminDictionary("es");
 
-    render(<RemoveItemButton itemId="item-1" />);
+    render(
+      <RemoveItemButton
+        itemId="item-1"
+        ariaLabel={dictionary.portfolioTable.remove.ariaLabel}
+        titleLabel={dictionary.portfolioTable.remove.title}
+        confirmText={dictionary.portfolioTable.remove.confirm}
+        successMessage={dictionary.portfolioTable.remove.success}
+        errorMessage={dictionary.portfolioTable.remove.error}
+      />
+    );
 
     fireEvent.click(screen.getByRole("button", { name: /eliminar proyecto/i }));
 
@@ -58,8 +70,18 @@ describe("RemoveItemButton", () => {
 
   it("does nothing when confirmation is cancelled", () => {
     vi.spyOn(window, "confirm").mockReturnValue(false);
+    const dictionary = getAdminDictionary("es");
 
-    render(<RemoveItemButton itemId="item-1" />);
+    render(
+      <RemoveItemButton
+        itemId="item-1"
+        ariaLabel={dictionary.portfolioTable.remove.ariaLabel}
+        titleLabel={dictionary.portfolioTable.remove.title}
+        confirmText={dictionary.portfolioTable.remove.confirm}
+        successMessage={dictionary.portfolioTable.remove.success}
+        errorMessage={dictionary.portfolioTable.remove.error}
+      />
+    );
 
     fireEvent.click(screen.getByRole("button", { name: /eliminar proyecto/i }));
 
@@ -71,8 +93,18 @@ describe("RemoveItemButton", () => {
   it("shows inline error feedback when removal fails", async () => {
     vi.spyOn(window, "confirm").mockReturnValue(true);
     handleRemoveItemMock.mockRejectedValue(new Error("delete failed"));
+    const dictionary = getAdminDictionary("es");
 
-    render(<RemoveItemButton itemId="item-1" />);
+    render(
+      <RemoveItemButton
+        itemId="item-1"
+        ariaLabel={dictionary.portfolioTable.remove.ariaLabel}
+        titleLabel={dictionary.portfolioTable.remove.title}
+        confirmText={dictionary.portfolioTable.remove.confirm}
+        successMessage={dictionary.portfolioTable.remove.success}
+        errorMessage={dictionary.portfolioTable.remove.error}
+      />
+    );
 
     fireEvent.click(screen.getByRole("button", { name: /eliminar proyecto/i }));
 

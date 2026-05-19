@@ -18,6 +18,7 @@ vi.mock("next/image", () => ({
 }));
 
 import UpdateItemButton from "@/components/admin/update-item-button";
+import { getAdminDictionary } from "@/lib/admin-dictionaries";
 
 describe("UpdateItemButton", () => {
   beforeEach(() => {
@@ -25,6 +26,7 @@ describe("UpdateItemButton", () => {
   });
 
   it("opens the edit modal with the current item", () => {
+    const dictionary = getAdminDictionary("es");
     const item = {
       id: "item-1",
       title: "Proyecto 1",
@@ -39,7 +41,13 @@ describe("UpdateItemButton", () => {
       updatedAt: new Date(),
     };
 
-    render(<UpdateItemButton item={item} />);
+    render(
+      <UpdateItemButton
+        item={item}
+        ariaLabelPrefix={dictionary.portfolioTable.update.ariaLabelPrefix}
+        titleLabel={dictionary.portfolioTable.update.title}
+      />
+    );
 
     fireEvent.click(screen.getByRole("button", { name: /editar proyecto 1/i }));
 

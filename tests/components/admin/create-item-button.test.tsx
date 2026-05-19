@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { getAdminDictionary } from "@/lib/admin-dictionaries";
+
 const { openCreateMock } = vi.hoisted(() => ({
   openCreateMock: vi.fn(),
 }));
@@ -19,7 +21,8 @@ describe("CreateItemButton", () => {
   });
 
   it("opens the create modal when clicked", () => {
-    render(<CreateItemButton />);
+    const dictionary = getAdminDictionary("es");
+    render(<CreateItemButton label={dictionary.admin.createButton} />);
 
     fireEvent.click(screen.getByRole("button", { name: /nuevo proyecto/i }));
 

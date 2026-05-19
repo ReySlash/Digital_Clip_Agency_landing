@@ -23,7 +23,8 @@ This version has breaking changes - APIs, conventions, and file structure may al
   - `mailto:` CTA
   - copy-to-clipboard email button
   - Instagram link
-- Most landing copy is hardcoded in `lib/site-data.ts`
+- Landing and admin copy is dictionary-driven from `lib/dictionaries.ts` and `lib/admin-dictionaries.ts`
+- Public locale routes are served under `/{lang}` with `/` redirecting to the preferred locale
 
 ### Portfolio Data
 
@@ -52,6 +53,7 @@ This version has breaking changes - APIs, conventions, and file structure may al
 - The admin dashboard includes a logout action and refreshed premium dark UI
 - Admin mutations show inline success/error feedback instead of browser alerts
 - The admin page and login page use Suspense boundaries around request-time auth/searchParams access to satisfy Next.js 16 cache requirements
+- Admin language selection uses the same shared locale cookie used by public and not-found flows
 
 ## Brand Direction
 
@@ -82,12 +84,11 @@ This version has breaking changes - APIs, conventions, and file structure may al
 
 ## Architecture Rules
 
-- Keep `app/page.tsx` as the route entry, not a giant page file
+- Keep `app/page.tsx` as the locale-redirect entry route, not a giant page file
 - Keep landing sections in `components/landing/`
 - Keep reusable shared UI in `components/shared/`
 - Keep admin-specific UI in `components/admin/`
-- Keep marketing content in `lib/site-data.ts` when it is static
-- Keep navigation data in `lib/navigation.ts`
+- Keep localized marketing content in dictionaries (`lib/dictionaries.ts`, `lib/admin-dictionaries.ts`)
 - Use Server Components by default
 - Use Client Components only for browser interactivity
   - examples: mobile menu, copy-email button, modal state
@@ -102,6 +103,9 @@ This version has breaking changes - APIs, conventions, and file structure may al
 app/
   layout.tsx
   page.tsx
+  [lang]/
+    layout.tsx
+    page.tsx
   globals.css
   not-found.tsx
   admin/
@@ -148,13 +152,15 @@ contexts/
   portfolio-modal-context.tsx
 
 lib/
-  navigation.ts
+  dictionaries.ts
+  admin-dictionaries.ts
+  i18n.ts
+  admin-i18n.ts
   admin-auth.ts
   auth-logic.ts
   login-abuse-protection.ts
   portfolio-data.ts
   prisma.ts
-  site-data.ts
   zod-utils.ts
 
 prisma/
@@ -181,7 +187,7 @@ auth.ts
 
 ## Data And State Rules
 
-- Static marketing copy belongs in `lib/site-data.ts`
+- Localized marketing copy belongs in dictionaries (`lib/dictionaries.ts`, `lib/admin-dictionaries.ts`)
 - Portfolio items belong in PostgreSQL through Prisma
 - Published filtering for the public portfolio should remain enforced at the query level
 - Admin pages can query full portfolio data sets
@@ -208,6 +214,7 @@ auth.ts
 - Cache invalidation for portfolio mutations is handled with `updateTag`
 - Login abuse protection is intentionally in-memory and scoped to a single app instance
 - Vitest + Testing Library are configured for local automated testing
+- Locale preference is stored in a shared cookie (`dca_locale`) for landing, admin, and not-found
 
 ## Near-Term Priorities
 
@@ -231,3 +238,4 @@ auth.ts
 - With `cacheComponents: true`, do not await request-time APIs like auth, cookies, headers, or `searchParams` directly at the route root without a Suspense boundary
 - Auth.js sign-in success and failure redirects rely on thrown redirect control flow, so route-level wrappers must not swallow those errors
 - `pnpm test`, `pnpm test:watch`, and `pnpm test:coverage` are available for the current test suite
+- Keep `html { scroll-behavior: smooth; }` paired with `<html data-scroll-behavior="smooth">` in `app/layout.tsx` to avoid Next.js route-transition warnings

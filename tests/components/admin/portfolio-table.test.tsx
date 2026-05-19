@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 
+import { getAdminDictionary } from "@/lib/admin-dictionaries";
+
 vi.mock("@/components/admin/update-item-button", () => ({
   default: () => <button type="button">Editar</button>,
 }));
@@ -13,7 +15,13 @@ import PortfolioTable from "@/components/admin/portfolio-table";
 
 describe("PortfolioTable", () => {
   it("renders the empty state with no items", async () => {
-    render(await PortfolioTable({ portfolioItems: [] }));
+    const dictionary = getAdminDictionary("es");
+    render(
+      await PortfolioTable({
+        portfolioItems: [],
+        dictionary: dictionary.portfolioTable,
+      })
+    );
 
     expect(
       screen.getByText(/todavía no hay proyectos cargados/i)
@@ -21,6 +29,7 @@ describe("PortfolioTable", () => {
   });
 
   it("renders portfolio items with badges and actions", async () => {
+    const dictionary = getAdminDictionary("es");
     render(
       await PortfolioTable({
         portfolioItems: [
@@ -38,6 +47,7 @@ describe("PortfolioTable", () => {
             updatedAt: new Date(),
           },
         ],
+        dictionary: dictionary.portfolioTable,
       })
     );
 

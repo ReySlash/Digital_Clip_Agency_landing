@@ -4,9 +4,11 @@ import { useState } from "react";
 
 type CopyEmailButtonProps = {
   email: string;
+  copyLabel: string;
+  copiedLabel: string;
 };
 
-export function CopyEmailButton({ email }: CopyEmailButtonProps) {
+export function CopyEmailButton({ email, copyLabel, copiedLabel }: CopyEmailButtonProps) {
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
@@ -25,7 +27,7 @@ export function CopyEmailButton({ email }: CopyEmailButtonProps) {
       className="inline-flex min-h-12 w-full items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 text-sm font-medium text-white transition hover:border-[#57d9ff]/60 hover:bg-[#57d9ff]/10"
       aria-live="polite"
     >
-      {copied ? "Email copiado" : "Copiar email"}
+      {copied ? copiedLabel : copyLabel}
     </button>
   );
 }

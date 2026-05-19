@@ -1,22 +1,30 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { siteNavigation } from "@/lib/navigation";
-export function MobileNav() {
+import { LanguageSwitcher } from "@/components/shared/language-switcher";
+import type { SiteDictionary } from "@/lib/dictionaries";
+import type { Locale } from "@/lib/i18n";
+
+type MobileNavProps = {
+  dictionary: SiteDictionary;
+  locale: Locale;
+};
+
+export function MobileNav({ dictionary, locale }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="md:hidden">
       <button
         type="button"
-        aria-label="Abrir menú"
+        aria-label={dictionary.mobileNav.openMenu}
         aria-expanded={isOpen}
         onClick={() => setIsOpen(true)}
         className="inline-flex h-9 w-9 items-center justify-center rounded-xl transition hover:scale-110 hover:bg-[#57d9ff]/10"
       >
         <Image
           src="/hamburger.svg"
-          alt="Abrir menú"
+          alt={dictionary.mobileNav.openMenu}
           width={36}
           height={36}
           className="invert"
@@ -29,7 +37,7 @@ export function MobileNav() {
       >
         <button
           type="button"
-          aria-label="Cerrar menú"
+          aria-label={dictionary.mobileNav.closeMenu}
           onClick={() => setIsOpen(false)}
           className="absolute inset-0 bg-black/60"
         />
@@ -39,16 +47,16 @@ export function MobileNav() {
           }`}
         >
           <div className="flex items-center justify-between">
-            <p className="text-lg font-semibold text-white">Menú</p>
+            <p className="text-lg font-semibold text-white">{dictionary.mobileNav.title}</p>
             <button
               type="button"
-              aria-label="Cerrar menú"
+              aria-label={dictionary.mobileNav.closeMenu}
               onClick={() => setIsOpen(false)}
               className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-white transition hover:scale-110"
             >
               <Image
                 src="/close.svg"
-                alt="Cerrar menú"
+                alt={dictionary.mobileNav.closeMenu}
                 width={28}
                 height={28}
                 className="invert"
@@ -57,7 +65,7 @@ export function MobileNav() {
           </div>
           <nav className="mt-8">
             <ul className="space-y-4">
-              {siteNavigation.map((item) => (
+              {dictionary.navigation.map((item) => (
                 <li key={item.href}>
                   <a
                     href={item.href}
@@ -70,6 +78,14 @@ export function MobileNav() {
               ))}
             </ul>
           </nav>
+          <div className="mt-8">
+            <LanguageSwitcher
+              currentLocale={locale}
+              ariaLabel={dictionary.languageSwitcher.toggleLabel}
+              size="comfortable"
+              fullWidth
+            />
+          </div>
         </div>
       </div>
     </div>

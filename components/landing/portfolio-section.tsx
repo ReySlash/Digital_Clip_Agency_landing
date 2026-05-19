@@ -4,17 +4,27 @@ import Image from "next/image";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { getPublishedPortfolioSectionData } from "@/lib/portfolio-data";
-import { siteData } from "@/lib/site-data";
+import { sectionAnchors, type SiteDictionary } from "@/lib/dictionaries";
 
-function PortfolioSectionShell({ children }: { children: React.ReactNode }) {
+type PortfolioSectionProps = {
+  dictionary: SiteDictionary;
+};
+
+function PortfolioSectionShell({
+  children,
+  dictionary,
+}: {
+  children: React.ReactNode;
+  dictionary: SiteDictionary;
+}) {
   return (
-    <section id="portafolio" className="mb-16 lg:mb-10">
+    <section id={sectionAnchors.portfolio} className="mb-16 lg:mb-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-12">
         <ScrollReveal>
           <SectionHeading
-            eyebrow="Portafolio"
-            title={siteData.portfolio.title}
-            description={siteData.portfolio.description}
+            eyebrow={dictionary.portfolio.eyebrow}
+            title={dictionary.portfolio.title}
+            description={dictionary.portfolio.description}
           />
         </ScrollReveal>
 
@@ -75,14 +85,14 @@ export function PortfolioSectionLoading() {
   );
 }
 
-export async function PortfolioSectionContent() {
+export async function PortfolioSectionContent({ dictionary }: PortfolioSectionProps) {
   const result = await getPublishedPortfolioSectionData();
 
   if (result.status === "error") {
     return (
       <PortfolioSectionMessage
-        title="No pudimos cargar el portafolio ahora mismo."
-        description="El resto del sitio sigue disponible. Intenta nuevamente en unos minutos para ver los proyectos publicados."
+        title={dictionary.portfolio.errorTitle}
+        description={dictionary.portfolio.errorDescription}
         tone="error"
       />
     );
@@ -91,8 +101,8 @@ export async function PortfolioSectionContent() {
   if (result.status === "empty") {
     return (
       <PortfolioSectionMessage
-        title="Proyectos próximamente."
-        description="Estamos preparando una selección de trabajos para mostrar el estilo, la claridad narrativa y el nivel de edición de la agencia."
+        title={dictionary.portfolio.emptyTitle}
+        description={dictionary.portfolio.emptyDescription}
       />
     );
   }
@@ -139,11 +149,11 @@ export async function PortfolioSectionContent() {
   );
 }
 
-export function PortfolioSection() {
+export function PortfolioSection({ dictionary }: PortfolioSectionProps) {
   return (
-    <PortfolioSectionShell>
+    <PortfolioSectionShell dictionary={dictionary}>
       <Suspense fallback={<PortfolioSectionLoading />}>
-        <PortfolioSectionContent />
+        <PortfolioSectionContent dictionary={dictionary} />
       </Suspense>
     </PortfolioSectionShell>
   );

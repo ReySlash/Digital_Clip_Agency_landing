@@ -2,7 +2,12 @@
 
 import { useFormStatus } from "react-dom";
 
-export function SubmitButton() {
+type Props = {
+  idleLabel: string;
+  pendingLabel: string;
+};
+
+export function SubmitButton({ idleLabel, pendingLabel }: Props) {
   const { pending } = useFormStatus();
 
   return (
@@ -14,10 +19,10 @@ export function SubmitButton() {
       {pending ? (
         <>
           <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#101841]/30 border-t-[#101841]" />
-          Iniciando sesión...
+          {pendingLabel}
         </>
       ) : (
-        "Entrar al panel"
+        idleLabel
       )}
     </button>
   );

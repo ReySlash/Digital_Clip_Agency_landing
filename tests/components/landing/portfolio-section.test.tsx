@@ -24,7 +24,10 @@ import {
   PortfolioSectionContent,
   PortfolioSectionLoading,
 } from "@/components/landing/portfolio-section";
-import { siteData } from "@/lib/site-data";
+import { getDictionary } from "@/lib/dictionaries";
+
+const dictionary = getDictionary("es");
+const englishDictionary = getDictionary("en");
 
 describe("PortfolioSection", () => {
   beforeEach(() => {
@@ -32,11 +35,11 @@ describe("PortfolioSection", () => {
   });
 
   it("renders the section heading and loading fallback", () => {
-    render(<PortfolioSection />);
+    render(<PortfolioSection dictionary={dictionary} />);
 
     expect(screen.getByText("Portafolio")).toBeInTheDocument();
-    expect(screen.getByText(siteData.portfolio.title)).toBeInTheDocument();
-    expect(screen.getByText(siteData.portfolio.description)).toBeInTheDocument();
+    expect(screen.getByText(dictionary.portfolio.title)).toBeInTheDocument();
+    expect(screen.getByText(dictionary.portfolio.description)).toBeInTheDocument();
   });
 
   it("renders the loading skeleton cards", () => {
@@ -51,7 +54,7 @@ describe("PortfolioSection", () => {
       items: [],
     });
 
-    render(await PortfolioSectionContent());
+    render(await PortfolioSectionContent({ dictionary }));
 
     expect(screen.getByText("Proyectos próximamente.")).toBeInTheDocument();
   });
@@ -62,7 +65,7 @@ describe("PortfolioSection", () => {
       items: [],
     });
 
-    render(await PortfolioSectionContent());
+    render(await PortfolioSectionContent({ dictionary }));
 
     expect(
       screen.getByText("No pudimos cargar el portafolio ahora mismo.")
@@ -89,7 +92,7 @@ describe("PortfolioSection", () => {
       ],
     });
 
-    render(await PortfolioSectionContent());
+    render(await PortfolioSectionContent({ dictionary }));
 
     expect(screen.getByText("Proyecto 1")).toBeInTheDocument();
     expect(screen.getByText("Descripcion del proyecto")).toBeInTheDocument();
@@ -97,5 +100,31 @@ describe("PortfolioSection", () => {
       "href",
       "https://www.youtube.com/watch?v=abc"
     );
+  });
+
+  it("keeps database portfolio text on english pages as a fallback", async () => {
+    getPublishedPortfolioSectionDataMock.mockResolvedValue({
+      status: "success",
+      items: [
+        {
+          id: "item-2",
+          title: "Proyecto en español",
+          platform: "Instagram",
+          thumbnail: "https://example.com/thumb.jpg",
+          href: "https://instagram.com/reel/abc",
+          description: "Descripción en español desde la base de datos.",
+          published: true,
+          featured: false,
+          sortOrder: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+    });
+
+    render(await PortfolioSectionContent({ dictionary: englishDictionary }));
+
+    expect(screen.getByText("Proyecto en español")).toBeInTheDocument();
+    expect(screen.getByText("Descripción en español desde la base de datos.")).toBeInTheDocument();
   });
 });

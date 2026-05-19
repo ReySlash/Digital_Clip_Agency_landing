@@ -1,22 +1,27 @@
 import Image from "next/image";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { siteData } from "@/lib/site-data";
+import type { SiteDictionary } from "@/lib/dictionaries";
+import { sectionAnchors } from "@/lib/dictionaries";
 
-export function ServicesSection() {
+type ServicesSectionProps = {
+  dictionary: SiteDictionary;
+};
+
+export function ServicesSection({ dictionary }: ServicesSectionProps) {
   return (
-    <section id="servicios" className="min-h-[calc(100vh-50px)] my-16 lg:my-0">
+    <section id={sectionAnchors.services} className="min-h-[calc(100vh-50px)] my-16 lg:my-0">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-12 ">
         <ScrollReveal>
           <SectionHeading
-            eyebrow="Servicios"
-            title={siteData.services.title}
-            description={siteData.services.description}
+            eyebrow={dictionary.services.eyebrow}
+            title={dictionary.services.title}
+            description={dictionary.services.description}
           />
         </ScrollReveal>
 
         <div className="grid auto-rows-fr gap-6 grid-cols-1 md:grid-cols-3">
-          {siteData.services.items.map((service, index) => (
+          {dictionary.services.items.map((service, index) => (
             <ScrollReveal key={service.title} delay={index * 100}>
               <article className="flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-linear-to-br from-[#0c1338] via-[#13215a] to-[#1d4ed8] px-6 py-8 shadow-[0_24px_60px_rgba(0,200,255,0.18)] transition-all duration-300 ease-out hover:-translate-y-2 hover:border-cyan-300/40 hover:shadow-[0_30px_80px_rgba(0,200,255,0.28)]">
                 <div className="flex justify-center">
