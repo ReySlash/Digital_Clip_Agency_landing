@@ -24,8 +24,11 @@ describe("PortfolioModal", () => {
   });
 
   function fillCreateForm() {
-    fireEvent.change(screen.getByLabelText("Título"), {
+    fireEvent.change(screen.getByLabelText("Título (ES)"), {
       target: { value: "Proyecto nuevo" },
+    });
+    fireEvent.change(screen.getByLabelText("Título (EN)"), {
+      target: { value: "New project" },
     });
     fireEvent.change(screen.getByLabelText("Miniatura"), {
       target: { value: "https://i.ytimg.com/vi/abc/hqdefault.jpg" },
@@ -33,8 +36,11 @@ describe("PortfolioModal", () => {
     fireEvent.change(screen.getByLabelText("URL"), {
       target: { value: "https://www.youtube.com/watch?v=abc" },
     });
-    fireEvent.change(screen.getByLabelText("Descripción"), {
+    fireEvent.change(screen.getByLabelText("Descripción (ES)"), {
       target: { value: "Descripcion valida" },
+    });
+    fireEvent.change(screen.getByLabelText("Descripción (EN)"), {
+      target: { value: "Valid description" },
     });
   }
 
@@ -92,11 +98,13 @@ describe("PortfolioModal", () => {
         dictionary={dictionary.modal}
         item={{
           id: "item-1",
-          title: "Proyecto 1",
+          titleES: "Proyecto 1",
+          titleEN: "Project 1",
           platform: "YouTube",
           thumbnail: "https://i.ytimg.com/vi/abc/hqdefault.jpg",
           href: "https://www.youtube.com/watch?v=abc",
-          description: "Descripcion valida",
+          descriptionES: "Descripcion valida",
+          descriptionEN: "Valid description",
           published: true,
           featured: false,
           sortOrder: 1,
@@ -154,7 +162,7 @@ describe("PortfolioModal", () => {
     createMock.mockResolvedValue({
       success: false,
       errors: {
-        title: ["El titulo es obligatorio."],
+        titleES: ["El titulo en español es obligatorio."],
         thumbnail: ["Debes ingresar una URL valida."],
       },
     });
@@ -180,7 +188,9 @@ describe("PortfolioModal", () => {
     expect(
       await screen.findByText("Revisa los campos marcados e inténtalo de nuevo.")
     ).toBeInTheDocument();
-    expect(screen.getByText("El titulo es obligatorio.")).toBeInTheDocument();
+    expect(
+      screen.getByText("El titulo en español es obligatorio.")
+    ).toBeInTheDocument();
     expect(
       screen.getByText("Debes ingresar una URL valida.")
     ).toBeInTheDocument();

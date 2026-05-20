@@ -4,11 +4,13 @@ describe("updatePortfolioItemSchema", () => {
   it("accepts a valid update payload", () => {
     const parsed = updatePortfolioItemSchema.parse({
       id: "item-1",
-      title: "Proyecto actualizado",
+      titleES: "Proyecto actualizado",
+      titleEN: "Updated project",
       platform: "Instagram",
       thumbnail: "https://i.ytimg.com/vi/abc/hqdefault.jpg",
       href: "https://www.instagram.com/reel/abc",
-      description: "Descripcion valida",
+      descriptionES: "Descripcion valida",
+      descriptionEN: "Valid description",
       published: true,
       featured: true,
       sortOrder: 1,
@@ -22,11 +24,13 @@ describe("updatePortfolioItemSchema", () => {
     expect(() =>
       updatePortfolioItemSchema.parse({
         id: "",
-        title: "Proyecto actualizado",
+        titleES: "Proyecto actualizado",
+        titleEN: "Updated project",
         platform: "Instagram",
         thumbnail: "https://i.ytimg.com/vi/abc/hqdefault.jpg",
         href: "https://www.instagram.com/reel/abc",
-        description: "Descripcion valida",
+        descriptionES: "Descripcion valida",
+        descriptionEN: "Valid description",
       })
     ).toThrow();
   });

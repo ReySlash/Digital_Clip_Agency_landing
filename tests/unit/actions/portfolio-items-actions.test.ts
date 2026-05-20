@@ -97,7 +97,12 @@ describe("portfolio item actions", () => {
 
   it("creates an item and expires all portfolio tags", async () => {
     const formData = new FormData();
-    const validated = { title: "Proyecto" };
+    const validated = {
+      titleES: "Proyecto",
+      titleEN: "Project",
+      descriptionES: "Descripcion",
+      descriptionEN: "Description",
+    };
 
     validateCreateFormDataMock.mockResolvedValue(validated);
     createMock.mockResolvedValue({});
@@ -111,7 +116,7 @@ describe("portfolio item actions", () => {
 
   it("updates an item and expires all portfolio tags", async () => {
     const formData = new FormData();
-    const validated = { id: "item-1", title: "Proyecto" };
+    const validated = { id: "item-1", titleES: "Proyecto", titleEN: "Project" };
 
     validateUpdateFormDataMock.mockResolvedValue(validated);
     updateMock.mockResolvedValue({});
@@ -119,7 +124,7 @@ describe("portfolio item actions", () => {
     await expect(handleUpdateItem(formData)).resolves.toEqual({ success: true });
     expect(updateMock).toHaveBeenCalledWith({
       where: { id: "item-1" },
-      data: { title: "Proyecto" },
+      data: { titleES: "Proyecto", titleEN: "Project" },
     });
     expect(updateTagMock).toHaveBeenCalledTimes(3);
   });

@@ -143,18 +143,34 @@ function PortfolioModal({ mode, item, dictionary, onClose, onSuccess }: Props) {
         )}
         <label className="flex flex-col gap-1">
           <span className="text-sm font-medium text-gray-300">
-            {dictionary.fields.title}
+            {dictionary.fields.titleES}
           </span>
           <input
             type="text"
-            name="title"
+            name="titleES"
             required
-            defaultValue={item?.title || ""}
-            aria-invalid={Boolean(getFieldError("title"))}
+            defaultValue={item?.titleES || ""}
+            aria-invalid={Boolean(getFieldError("titleES"))}
             className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
           />
-          {getFieldError("title") ? (
-            <span className="text-xs text-red-200">{getFieldError("title")}</span>
+          {getFieldError("titleES") ? (
+            <span className="text-xs text-red-200">{getFieldError("titleES")}</span>
+          ) : null}
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-sm font-medium text-gray-300">
+            {dictionary.fields.titleEN}
+          </span>
+          <input
+            type="text"
+            name="titleEN"
+            required
+            defaultValue={item?.titleEN || ""}
+            aria-invalid={Boolean(getFieldError("titleEN"))}
+            className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff]"
+          />
+          {getFieldError("titleEN") ? (
+            <span className="text-xs text-red-200">{getFieldError("titleEN")}</span>
           ) : null}
         </label>
         <label className="flex flex-col gap-1">
@@ -214,18 +230,34 @@ function PortfolioModal({ mode, item, dictionary, onClose, onSuccess }: Props) {
         </label>
         <label className="flex flex-col gap-1">
           <span className="text-sm font-medium text-gray-300">
-            {dictionary.fields.description}
+            {dictionary.fields.descriptionES}
           </span>
           <textarea
-            name="description"
+            name="descriptionES"
             required
-            defaultValue={item?.description || ""}
+            defaultValue={item?.descriptionES || ""}
             rows={4}
-            aria-invalid={Boolean(getFieldError("description"))}
+            aria-invalid={Boolean(getFieldError("descriptionES"))}
             className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff] resize-none"
           />
-          {getFieldError("description") ? (
-            <span className="text-xs text-red-200">{getFieldError("description")}</span>
+          {getFieldError("descriptionES") ? (
+            <span className="text-xs text-red-200">{getFieldError("descriptionES")}</span>
+          ) : null}
+        </label>
+        <label className="flex flex-col gap-1">
+          <span className="text-sm font-medium text-gray-300">
+            {dictionary.fields.descriptionEN}
+          </span>
+          <textarea
+            name="descriptionEN"
+            required
+            defaultValue={item?.descriptionEN || ""}
+            rows={4}
+            aria-invalid={Boolean(getFieldError("descriptionEN"))}
+            className="px-3 py-2 bg-white/5 border border-slate-700 rounded focus:outline-none focus:ring-2 focus:ring-[#57d9ff] resize-none"
+          />
+          {getFieldError("descriptionEN") ? (
+            <span className="text-xs text-red-200">{getFieldError("descriptionEN")}</span>
           ) : null}
         </label>
         <label className="flex flex-col gap-1">

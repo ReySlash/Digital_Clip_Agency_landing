@@ -4,11 +4,13 @@ import updatePortfolioItemSchema from "@/schemas/update-portfolio-item-schema";
 
 export async function validateCreateFormData(formData: FormData) {
   const rawData = {
-    title: formData.get("title")?.toString() ?? "",
+    titleES: formData.get("titleES")?.toString() ?? "",
+    titleEN: formData.get("titleEN")?.toString() ?? "",
     platform: formData.get("platform")?.toString() ?? "",
     thumbnail: formData.get("thumbnail")?.toString() ?? "",
     href: formData.get("href")?.toString() ?? "",
-    description: formData.get("description")?.toString() ?? "",
+    descriptionES: formData.get("descriptionES")?.toString() ?? "",
+    descriptionEN: formData.get("descriptionEN")?.toString() ?? "",
     published: formData.get("published") === "on",
     featured: formData.get("featured") === "on",
     sortOrder: parseInt(formData.get("sortOrder") as string, 10) || 0,
@@ -20,11 +22,13 @@ export async function validateCreateFormData(formData: FormData) {
 export async function validateUpdateFormData(formData: FormData) {
   const rawData = {
     id: formData.get("id")?.toString() ?? "",
-    title: formData.get("title")?.toString() ?? "",
+    titleES: formData.get("titleES")?.toString() ?? "",
+    titleEN: formData.get("titleEN")?.toString() ?? "",
     platform: formData.get("platform")?.toString() ?? "",
     thumbnail: formData.get("thumbnail")?.toString() ?? "",
     href: formData.get("href")?.toString() ?? "",
-    description: formData.get("description")?.toString() ?? "",
+    descriptionES: formData.get("descriptionES")?.toString() ?? "",
+    descriptionEN: formData.get("descriptionEN")?.toString() ?? "",
     published: formData.get("published") === "on",
     featured: formData.get("featured") === "on",
     sortOrder: parseInt(formData.get("sortOrder") as string, 10) || 0,

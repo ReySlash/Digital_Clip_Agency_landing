@@ -23,11 +23,13 @@ model User {
 }
 model PortfolioItem {
   id          String   @id @default(cuid())
-  title       String
+  titleES       String
+  titleEN       String
   platform    String
   thumbnail   String
   href        String
-  description String
+  descriptionES String
+  descriptionEN String
   published   Boolean  @default(false)
   featured    Boolean  @default(false)
   sortOrder   Int      @default(0)

@@ -35,11 +35,13 @@ describe("PortfolioTable", () => {
         portfolioItems: [
           {
             id: "item-1",
-            title: "Proyecto 1",
+            titleES: "Proyecto 1",
+            titleEN: "Project 1",
             platform: "YouTube",
             thumbnail: "https://i.ytimg.com/vi/abc/hqdefault.jpg",
             href: "https://www.youtube.com/watch?v=abc",
-            description: "Descripcion del proyecto",
+            descriptionES: "Descripcion del proyecto",
+            descriptionEN: "Project description",
             published: true,
             featured: true,
             sortOrder: 1,
@@ -52,6 +54,7 @@ describe("PortfolioTable", () => {
     );
 
     expect(screen.getByText("Proyecto 1")).toBeInTheDocument();
+    expect(screen.getByText("Project 1")).toBeInTheDocument();
     expect(screen.getByText("Publicado")).toBeInTheDocument();
     expect(screen.getByText("Destacado")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /youtube/i })).toHaveAttribute(

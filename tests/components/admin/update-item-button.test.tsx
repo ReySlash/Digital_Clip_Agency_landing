@@ -29,11 +29,13 @@ describe("UpdateItemButton", () => {
     const dictionary = getAdminDictionary("es");
     const item = {
       id: "item-1",
-      title: "Proyecto 1",
+      titleES: "Proyecto 1",
+      titleEN: "Project 1",
       platform: "YouTube",
       thumbnail: "https://i.ytimg.com/vi/abc/hqdefault.jpg",
       href: "https://www.youtube.com/watch?v=abc",
-      description: "Descripcion valida",
+      descriptionES: "Descripcion valida",
+      descriptionEN: "Valid description",
       published: true,
       featured: false,
       sortOrder: 1,

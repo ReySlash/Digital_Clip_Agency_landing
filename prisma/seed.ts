@@ -49,34 +49,43 @@ async function main() {
 
   const portfolioItems = [
     {
-      title: "Como logre salir de Cuba sin pagar nada",
+      titleES: "Como logre salir de Cuba sin pagar nada",
+      titleEN: "How I managed to leave Cuba without paying anything",
       platform: "YouTube",
       thumbnail: "https://i.ytimg.com/vi/D8u3r_vhjJk/hqdefault.jpg",
       href: "https://www.youtube.com/watch?v=D8u3r_vhjJk",
-      description:
+      descriptionES:
         "Historia personal contada con edicion enfocada en claridad narrativa, ritmo visual y retencion en formato largo.",
+      descriptionEN:
+        "Personal story edited with a focus on narrative clarity, visual rhythm, and retention for long-form content.",
       featured: true,
       published: true,
       sortOrder: 1,
     },
     {
-      title: "Mi trabajo en Qatar salario realidad y lo dificil",
+      titleES: "Mi trabajo en Qatar salario realidad y lo dificil",
+      titleEN: "My work in Qatar: salary, reality, and the hard part",
       platform: "YouTube",
       thumbnail: "https://i.ytimg.com/vi/3GLKHEpMtpE/hqdefault.jpg",
       href: "https://www.youtube.com/watch?v=3GLKHEpMtpE",
-      description:
+      descriptionES:
         "Video testimonial con estructura directa, cortes limpios y edicion pensada para sostener interes durante toda la historia.",
+      descriptionEN:
+        "Testimonial video with direct structure, clean cuts, and editing designed to sustain interest through the full story.",
       featured: true,
       published: true,
       sortOrder: 2,
     },
     {
-      title: "Mi historia por que decidi irme de Cuba",
+      titleES: "Mi historia por que decidi irme de Cuba",
+      titleEN: "My story: why I decided to leave Cuba",
       platform: "YouTube",
       thumbnail: "https://i.ytimg.com/vi/GW6iqJYiv0Y/hqdefault.jpg",
       href: "https://www.youtube.com/watch?v=GW6iqJYiv0Y&t=117s",
-      description:
+      descriptionES:
         "Relato personal editado para reforzar emocion, continuidad visual y conexion con la audiencia desde el inicio.",
+      descriptionEN:
+        "Personal narrative edited to reinforce emotion, visual continuity, and audience connection from the start.",
       featured: false,
       published: true,
       sortOrder: 3,

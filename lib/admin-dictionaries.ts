@@ -80,11 +80,13 @@ export type AdminDictionary = {
     successCreate: string;
     successEdit: string;
     fields: {
-      title: string;
+      titleES: string;
+      titleEN: string;
       platform: string;
       thumbnail: string;
       url: string;
-      description: string;
+      descriptionES: string;
+      descriptionEN: string;
       sortOrder: string;
       featured: string;
       published: string;
@@ -180,11 +182,13 @@ const dictionaries: Record<Locale, AdminDictionary> = {
       successCreate: "Proyecto creado correctamente.",
       successEdit: "Proyecto actualizado correctamente.",
       fields: {
-        title: "Título",
+        titleES: "Título (ES)",
+        titleEN: "Título (EN)",
         platform: "Plataforma",
         thumbnail: "Miniatura",
         url: "URL",
-        description: "Descripción",
+        descriptionES: "Descripción (ES)",
+        descriptionEN: "Descripción (EN)",
         sortOrder: "Orden",
         featured: "Marcar como destacado",
         published: "Marcar como publicado",
@@ -275,11 +279,13 @@ const dictionaries: Record<Locale, AdminDictionary> = {
       successCreate: "Project created successfully.",
       successEdit: "Project updated successfully.",
       fields: {
-        title: "Title",
+        titleES: "Title (ES)",
+        titleEN: "Title (EN)",
         platform: "Platform",
         thumbnail: "Thumbnail",
         url: "URL",
-        description: "Description",
+        descriptionES: "Description (ES)",
+        descriptionEN: "Description (EN)",
         sortOrder: "Order",
         featured: "Mark as featured",
         published: "Mark as published",

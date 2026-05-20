@@ -6,11 +6,13 @@ import {
 function createValidFormData() {
   const formData = new FormData();
 
-  formData.set("title", "Proyecto test");
+  formData.set("titleES", "Proyecto test");
+  formData.set("titleEN", "Test project");
   formData.set("platform", "YouTube");
   formData.set("thumbnail", "https://i.ytimg.com/vi/abc/hqdefault.jpg");
   formData.set("href", "https://www.youtube.com/watch?v=abc");
-  formData.set("description", "Descripcion valida");
+  formData.set("descriptionES", "Descripcion valida");
+  formData.set("descriptionEN", "Valid description");
 
   return formData;
 }

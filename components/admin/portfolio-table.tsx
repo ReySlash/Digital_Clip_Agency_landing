@@ -55,8 +55,9 @@ async function PortfolioTable(props: Props) {
                 <td className="px-5 py-5 align-top">
                   <div className="space-y-2">
                     <p className="text-sm font-semibold text-white">
-                      {item.title}
+                      {item.titleES}
                     </p>
+                    <p className="text-xs text-white/60">{item.titleEN}</p>
                     <p className="break-all text-xs text-white/45">
                       {item.thumbnail}
                     </p>
@@ -92,7 +93,8 @@ async function PortfolioTable(props: Props) {
                   </div>
                 </td>
                 <td className="max-w-xl px-5 py-5 align-top text-sm leading-6 text-white/65">
-                  {item.description}
+                  <p>{item.descriptionES}</p>
+                  <p className="mt-2 text-white/50">{item.descriptionEN}</p>
                 </td>
                 <td className="px-5 py-5 align-top text-sm">
                   <a

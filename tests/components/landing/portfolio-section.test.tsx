@@ -6,9 +6,15 @@ import { vi } from "vitest";
 const { getPublishedPortfolioSectionDataMock } = vi.hoisted(() => ({
   getPublishedPortfolioSectionDataMock: vi.fn(),
 }));
+const { cookiesMock } = vi.hoisted(() => ({
+  cookiesMock: vi.fn(),
+}));
 
 vi.mock("@/lib/portfolio-data", () => ({
   getPublishedPortfolioSectionData: getPublishedPortfolioSectionDataMock,
+}));
+vi.mock("next/headers", () => ({
+  cookies: cookiesMock,
 }));
 
 vi.mock("@/components/shared/scroll-reveal", () => ({
@@ -32,6 +38,10 @@ const englishDictionary = getDictionary("en");
 describe("PortfolioSection", () => {
   beforeEach(() => {
     getPublishedPortfolioSectionDataMock.mockReset();
+    cookiesMock.mockReset();
+    cookiesMock.mockResolvedValue({
+      get: () => ({ value: "es" }),
+    });
   });
 
   it("renders the section heading and loading fallback", () => {
@@ -78,11 +88,13 @@ describe("PortfolioSection", () => {
       items: [
         {
           id: "item-1",
-          title: "Proyecto 1",
+          titleES: "Proyecto 1",
+          titleEN: "Project 1",
           platform: "YouTube",
           thumbnail: "https://i.ytimg.com/vi/abc/hqdefault.jpg",
           href: "https://www.youtube.com/watch?v=abc",
-          description: "Descripcion del proyecto",
+          descriptionES: "Descripcion del proyecto",
+          descriptionEN: "Project description",
           published: true,
           featured: true,
           sortOrder: 1,
@@ -102,17 +114,23 @@ describe("PortfolioSection", () => {
     );
   });
 
-  it("keeps database portfolio text on english pages as a fallback", async () => {
+  it("renders english portfolio text when locale cookie is en", async () => {
+    cookiesMock.mockResolvedValue({
+      get: () => ({ value: "en" }),
+    });
+
     getPublishedPortfolioSectionDataMock.mockResolvedValue({
       status: "success",
       items: [
         {
           id: "item-2",
-          title: "Proyecto en español",
+          titleES: "Proyecto en español",
+          titleEN: "Project in english",
           platform: "Instagram",
           thumbnail: "https://example.com/thumb.jpg",
           href: "https://instagram.com/reel/abc",
-          description: "Descripción en español desde la base de datos.",
+          descriptionES: "Descripción en español desde la base de datos.",
+          descriptionEN: "English description from the database.",
           published: true,
           featured: false,
           sortOrder: 2,
@@ -124,7 +142,7 @@ describe("PortfolioSection", () => {
 
     render(await PortfolioSectionContent({ dictionary: englishDictionary }));
 
-    expect(screen.getByText("Proyecto en español")).toBeInTheDocument();
-    expect(screen.getByText("Descripción en español desde la base de datos.")).toBeInTheDocument();
+    expect(screen.getByText("Project in english")).toBeInTheDocument();
+    expect(screen.getByText("English description from the database.")).toBeInTheDocument();
   });
 });
