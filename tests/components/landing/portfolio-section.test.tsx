@@ -6,15 +6,9 @@ import { vi } from "vitest";
 const { getPublishedPortfolioSectionDataMock } = vi.hoisted(() => ({
   getPublishedPortfolioSectionDataMock: vi.fn(),
 }));
-const { cookiesMock } = vi.hoisted(() => ({
-  cookiesMock: vi.fn(),
-}));
 
 vi.mock("@/lib/portfolio-data", () => ({
   getPublishedPortfolioSectionData: getPublishedPortfolioSectionDataMock,
-}));
-vi.mock("next/headers", () => ({
-  cookies: cookiesMock,
 }));
 
 vi.mock("@/components/shared/scroll-reveal", () => ({
@@ -38,14 +32,10 @@ const englishDictionary = getDictionary("en");
 describe("PortfolioSection", () => {
   beforeEach(() => {
     getPublishedPortfolioSectionDataMock.mockReset();
-    cookiesMock.mockReset();
-    cookiesMock.mockResolvedValue({
-      get: () => ({ value: "es" }),
-    });
   });
 
   it("renders the section heading and loading fallback", () => {
-    render(<PortfolioSection dictionary={dictionary} />);
+    render(<PortfolioSection dictionary={dictionary} locale="es" />);
 
     expect(screen.getByText("Portafolio")).toBeInTheDocument();
     expect(screen.getByText(dictionary.portfolio.title)).toBeInTheDocument();
@@ -64,7 +54,7 @@ describe("PortfolioSection", () => {
       items: [],
     });
 
-    render(await PortfolioSectionContent({ dictionary }));
+    render(await PortfolioSectionContent({ dictionary, locale: "es" }));
 
     expect(screen.getByText("Proyectos próximamente.")).toBeInTheDocument();
   });
@@ -75,7 +65,7 @@ describe("PortfolioSection", () => {
       items: [],
     });
 
-    render(await PortfolioSectionContent({ dictionary }));
+    render(await PortfolioSectionContent({ dictionary, locale: "es" }));
 
     expect(
       screen.getByText("No pudimos cargar el portafolio ahora mismo.")
@@ -104,7 +94,7 @@ describe("PortfolioSection", () => {
       ],
     });
 
-    render(await PortfolioSectionContent({ dictionary }));
+    render(await PortfolioSectionContent({ dictionary, locale: "es" }));
 
     expect(screen.getByText("Proyecto 1")).toBeInTheDocument();
     expect(screen.getByText("Descripcion del proyecto")).toBeInTheDocument();
@@ -114,11 +104,7 @@ describe("PortfolioSection", () => {
     );
   });
 
-  it("renders english portfolio text when locale cookie is en", async () => {
-    cookiesMock.mockResolvedValue({
-      get: () => ({ value: "en" }),
-    });
-
+  it("renders english portfolio text when locale is en", async () => {
     getPublishedPortfolioSectionDataMock.mockResolvedValue({
       status: "success",
       items: [
@@ -140,7 +126,7 @@ describe("PortfolioSection", () => {
       ],
     });
 
-    render(await PortfolioSectionContent({ dictionary: englishDictionary }));
+    render(await PortfolioSectionContent({ dictionary: englishDictionary, locale: "en" }));
 
     expect(screen.getByText("Project in english")).toBeInTheDocument();
     expect(screen.getByText("English description from the database.")).toBeInTheDocument();

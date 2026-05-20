@@ -29,7 +29,7 @@ export default async function HomePage({ params }: LangPageProps) {
       <main className="flex flex-col px-2 md:px-10 lg:px-20">
         <HeroSection dictionary={dictionary} />
         <ServicesSection dictionary={dictionary} />
-        <PortfolioSection dictionary={dictionary} />
+        <PortfolioSection dictionary={dictionary} locale={lang} />
         <AboutSection dictionary={dictionary} />
         <ContactSection dictionary={dictionary} />
       </main>

@@ -1,22 +1,21 @@
 import Image from "next/image";
-import { cookies } from "next/headers";
 
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { getPublishedPortfolioSectionData } from "@/lib/portfolio-data";
 import type { SiteDictionary } from "@/lib/dictionaries";
+import type { Locale } from "@/lib/i18n";
 
 import { PortfolioSectionMessage } from "./portfolio-section-message";
 
 type PortfolioSectionContentProps = {
   dictionary: SiteDictionary;
+  locale: Locale;
 };
 
 export async function PortfolioSectionContent({
   dictionary,
+  locale,
 }: PortfolioSectionContentProps) {
-  const cookieStore = await cookies();
-  const language = cookieStore.get("dca_locale")?.value || "es";
-
   const result = await getPublishedPortfolioSectionData();
   if (result.status === "error") {
     return (
@@ -52,7 +51,7 @@ export async function PortfolioSectionContent({
                 <Image
                   src={portfolioItem.thumbnail}
                   alt={
-                    language === "es"
+                    locale === "es"
                       ? portfolioItem.titleES
                       : portfolioItem.titleEN
                   }
@@ -68,12 +67,12 @@ export async function PortfolioSectionContent({
                 </span>
                 <div className="space-y-2">
                   <h3 className="text-2xl font-semibold tracking-tight text-white">
-                    {language === "es"
+                    {locale === "es"
                       ? portfolioItem.titleES
                       : portfolioItem.titleEN}
                   </h3>
                   <p className="text-base leading-7 text-slate-300">
-                    {language === "es"
+                    {locale === "es"
                       ? portfolioItem.descriptionES
                       : portfolioItem.descriptionEN}
                   </p>
