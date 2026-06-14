@@ -25,6 +25,17 @@ export function Footer({ dictionary }: FooterProps) {
             {dictionary.footer.instagramLabel}
           </a>
         </div>
+        <p>
+          Website by:{" "}
+          <a
+            className="transition hover:text-white"
+            href="https://www.linkedin.com/in/reynaldo-carmenate-arias-03b5102b5"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Reynaldo Carmenate Arias
+          </a>
+        </p>
       </div>
     </footer>
   );
