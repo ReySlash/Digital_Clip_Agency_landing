@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { adminLoginAction } from "@/actions/admin/login-action";
 import { LoginPageShell } from "@/components/admin/login-page-shell";
@@ -6,6 +7,13 @@ import { cookies, headers } from "next/headers";
 
 import { getAdminDictionary } from "@/lib/admin-dictionaries";
 import { resolveAdminLocale, ADMIN_LOCALE_COOKIE } from "@/lib/admin-i18n";
+import { getNoIndexRobots } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "Admin Login - Digital Clip Agency",
+  description: "Admin login for Digital Clip Agency",
+  robots: getNoIndexRobots(),
+};
 
 type LoginPageProps = {
   searchParams: Promise<{

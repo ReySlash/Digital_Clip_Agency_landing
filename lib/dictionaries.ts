@@ -106,7 +106,7 @@ const baseAgencyData = {
 const dictionaries: Record<Locale, SiteDictionary> = {
   es: {
     metadata: {
-      title: "Digital Clip Agency",
+      title: "Edición de video para creadores",
       description:
         "Agencia de edición de video para creadores de contenido en YouTube, Instagram y TikTok.",
       keywords: [
@@ -222,7 +222,7 @@ const dictionaries: Record<Locale, SiteDictionary> = {
   },
   en: {
     metadata: {
-      title: "Digital Clip Agency",
+      title: "Video editing for content creators",
       description:
         "Video editing agency for content creators on YouTube, Instagram, and TikTok.",
       keywords: [

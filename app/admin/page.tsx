@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getAdminPortfolioItems } from "@/lib/portfolio-data";
 import { requireAdminSession } from "@/lib/admin-auth";
 import PortfolioTable from "@/components/admin/portfolio-table";
@@ -11,11 +12,13 @@ import { cookies, headers } from "next/headers";
 import { getAdminDictionary } from "@/lib/admin-dictionaries";
 import { resolveAdminLocale, ADMIN_LOCALE_COOKIE } from "@/lib/admin-i18n";
 import AdminLanguageSwitcher from "@/components/admin/admin-language-switcher";
+import { getNoIndexRobots } from "@/lib/seo";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Admin Panel - Digital Clip Agency",
   description: "Admin panel for managing Digital Clip Agency content",
-} as const;
+  robots: getNoIndexRobots(),
+};
 
 function AdminPageSkeleton() {
   return (

@@ -201,12 +201,15 @@ The app runtime requires a PostgreSQL connection string plus auth configuration.
 DATABASE_URL="postgresql://user:password@localhost:5432/digital_clip_agency?schema=public"
 AUTH_SECRET="replace-with-output-from-npx-auth-secret"
 AUTH_URL="http://localhost:3000"
+SITE_URL="http://localhost:3000"
 SEED_ADMIN_EMAIL="owner@example.com"
 SEED_ADMIN_PASSWORD="replace-with-a-strong-password"
 SEED_ADMIN_NAME="Digital Clip Admin"
 ```
 
 Copy `.env.example` to `.env` and update it for your local database.
+
+`SITE_URL` is used for canonical URLs, sitemap generation, robots metadata, and social share image URLs.
 
 `AUTH_URL` must match the exact app origin in each environment so login redirects resolve correctly.
 
@@ -262,6 +265,7 @@ Set these in your deployment platform:
 DATABASE_URL="postgresql://user:password@host:5432/digital_clip_agency?schema=public"
 AUTH_SECRET="replace-with-output-from-npx-auth-secret"
 AUTH_URL="https://your-domain.com"
+SITE_URL="https://your-domain.com"
 ```
 
 Do not set local-only seed variables in production unless you explicitly need them for a one-off local workflow.
@@ -348,6 +352,8 @@ pnpm build
 ## Seeded Admin Account
 
 The seed script creates one admin user using `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, and optional `SEED_ADMIN_NAME` from your local environment. No default login credentials are committed to the repo. Seeding is blocked in production via `NODE_ENV` so it cannot be triggered accidentally on a deployed environment.
+
+`SITE_URL` should match the public app origin for canonical metadata and sitemap correctness.
 
 `AUTH_URL` should match the app origin so login redirects resolve correctly in local and deployed environments.
 

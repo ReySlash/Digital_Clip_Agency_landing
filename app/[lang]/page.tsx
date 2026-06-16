@@ -9,6 +9,7 @@ import { Footer } from "@/components/shared/footer";
 import { Navbar } from "@/components/shared/navbar";
 import { getDictionary } from "@/lib/dictionaries";
 import { hasLocale } from "@/lib/i18n";
+import { buildHomeJsonLd, serializeJsonLd } from "@/lib/seo";
 
 type LangPageProps = {
   params: Promise<{ lang: string }>;
@@ -22,9 +23,14 @@ export default async function HomePage({ params }: LangPageProps) {
   }
 
   const dictionary = getDictionary(lang);
+  const jsonLd = buildHomeJsonLd(lang, dictionary);
 
   return (
     <div className="min-h-screen bg-[#101841] text-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
+      />
       <Navbar dictionary={dictionary} locale={lang} />
       <main className="flex flex-col px-2 md:px-10 lg:px-20">
         <HeroSection dictionary={dictionary} />

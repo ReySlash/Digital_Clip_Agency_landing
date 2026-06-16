@@ -63,3 +63,24 @@ export async function getAdminPortfolioItems() {
     orderBy: portfolioOrder,
   });
 }
+
+export async function getLatestPublishedPortfolioUpdate() {
+  "use cache";
+
+  cacheLife("max");
+  cacheTag("portfolio", "portfolio-public");
+
+  const latestItem = await prisma.portfolioItem.findFirst({
+    where: {
+      published: true,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+    select: {
+      updatedAt: true,
+    },
+  });
+
+  return latestItem?.updatedAt ?? null;
+}

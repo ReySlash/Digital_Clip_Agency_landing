@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { getDictionary } from "@/lib/dictionaries";
 import { hasLocale, locales } from "@/lib/i18n";
+import { buildLocaleMetadata } from "@/lib/seo";
 
 type LangLayoutProps = {
   children: React.ReactNode;
@@ -22,22 +23,7 @@ export async function generateMetadata({ params }: LangLayoutProps): Promise<Met
 
   const dictionary = getDictionary(lang);
 
-  return {
-    title: {
-      default: dictionary.metadata.title,
-      template: `%s | ${dictionary.agency.name}`,
-    },
-    description: dictionary.metadata.description,
-    applicationName: dictionary.agency.name,
-    keywords: dictionary.metadata.keywords,
-    alternates: {
-      canonical: `/${lang}`,
-      languages: {
-        es: "/es",
-        en: "/en",
-      },
-    },
-  };
+  return buildLocaleMetadata(lang, dictionary);
 }
 
 export default async function LangLayout({ children, params }: LangLayoutProps) {
